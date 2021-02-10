@@ -9,6 +9,6 @@ public class Main {
         cfg.setTitle("tiledTest");
         cfg.setWindowedMode(800, 800);
 
-        new Lwjgl3Application(new TiledTest(), cfg);
+        new Lwjgl3Application(new RoboRally(), cfg);
     }
 }
