@@ -36,6 +36,10 @@ public class mapTests {
      */
     @Test
     public void testIfPlayerTouchedFlag(){
+        game.myPlayer.moveRight();
+        for(int i = 0; i < 4; i++){
+            game.myPlayer.moveUp();
+        }
         assertTrue(game.checkWin());
     }
 }
