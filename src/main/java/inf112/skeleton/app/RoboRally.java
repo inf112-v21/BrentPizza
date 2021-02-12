@@ -23,7 +23,6 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
     TiledMapRenderer tiledMapRenderer;
     SpriteBatch sb;
     Texture texture1;
-    Texture texture2;
     Player myPlayer;
     int gameOverIf100 = 0;
     boolean gameOver = false;
@@ -41,7 +40,6 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
         Gdx.input.setInputProcessor(this);
         sb = new SpriteBatch();
         texture1 = new Texture(Gdx.files.internal("robot2.png"));
-        texture2 = new Texture(Gdx.files.internal("robot3.png"));
 
         myPlayer = new Player(1, new Sprite(texture1));
     }
@@ -117,6 +115,7 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
     }
     @Override
     public boolean scrolled(int amount) {
+        camera.zoom += amount * 0.2f;
         return false;
     }
 
@@ -126,10 +125,7 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
         Float flagX = Float.parseFloat(winLayer.getObjects().get("Flag1").getProperties().get("x").toString());
         Float flagY = Float.parseFloat(winLayer.getObjects().get("Flag1").getProperties().get("y").toString());
         Vector2 playerLoc = myPlayer.getLocation();
-        if(playerLoc.x == flagX & playerLoc.y == flagY){
-            return true;
-        }
-        return false;
+        return playerLoc.x == flagX & playerLoc.y == flagY;
     }
     /**
      * Checks if player is inside map.
@@ -156,9 +152,6 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
         if(playerLoc.x > mapPixelWidth || playerLoc.y > mapPixelHeight) {
             return false;
         }
-        else if(playerLoc.x < 0 || playerLoc.y < 0){
-            return false;
-        }
-        return true;
+        else return !(playerLoc.x < 0) && !(playerLoc.y < 0);
     }
 }
