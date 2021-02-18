@@ -18,6 +18,13 @@
       <kotlin.version>1.4.30</kotlin.version>
   </properties>
 
+    <repositories>
+        <repository>
+            <id>clojars</id>
+            <url>http://clojars.org/repo/</url>
+        </repository>
+    </repositories>
+
   <dependencies>
     <!-- https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx -->
     <dependency>
@@ -56,6 +63,21 @@
           <version>${kotlin.version}</version>
           <scope>test</scope>
       </dependency>
+
+      <dependency>
+          <groupId>kryonet</groupId>
+          <artifactId>kryonet</artifactId>
+          <version>2.21</version>
+      </dependency>
+
+      <dependency>
+          <groupId>com.esotericsoftware.kryo</groupId>
+          <artifactId>kryo</artifactId>
+          <version>2.24.0</version>
+      </dependency>
+
+
+
   </dependencies>
 
   <build>

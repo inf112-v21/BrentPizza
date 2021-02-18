@@ -16,16 +16,23 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.esotericsoftware.kryonet.Client;
+
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class RoboRally extends ApplicationAdapter implements InputProcessor {
     TiledMap tiledMap;
     OrthographicCamera camera;
     TiledMapRenderer tiledMapRenderer;
     SpriteBatch sb;
-    Texture texture1;
+
     Player myPlayer;
     int gameOverIf100 = 0;
     boolean gameOver = false;
+    private NetworkClient client;
+    ArrayList<Player> players;
+    private Integer nrOfPlayers;
 
     @Override
     public void create () {
@@ -39,9 +46,28 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         Gdx.input.setInputProcessor(this);
         sb = new SpriteBatch();
-        texture1 = new Texture(Gdx.files.internal("robot2.png"));
 
-        myPlayer = new Player(1, new Sprite(texture1));
+        try{
+            client = new NetworkClient(this);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+        while(nrOfPlayers == null){
+            try{
+                Thread.sleep(1000);
+            }catch (Exception e){
+                System.out.println(e);
+            }
+        }
+        players = new ArrayList<>();
+        for (int i = 1; i <= nrOfPlayers; i++) {
+            Player playerToAdd = new Player(i, new Sprite(new Texture(Gdx.files.internal("robot" + i + ".png"))));
+            this.players.add(playerToAdd);
+        }
+        System.out.println(client.getId());
+        myPlayer = players.get(client.getId()-1);
+
     }
     @Override
     public void render () {
@@ -54,8 +80,10 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
 
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
-        //draw player
-        myPlayer.getSprite().draw(sb);
+        //draw players
+        for (Player player: players) {
+            player.getSprite().draw(sb);
+        }
         //This is not the right way, but the MVP way
         if(gameOver){
             if(gameOverIf100 == 100){
@@ -94,9 +122,9 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
         //Checks if player is inside map
         checkOutOfBounds();
 
+        client.sendCords(myPlayer.getLocation());
         if(checkWin()){
-            System.out.println("Player " + myPlayer.getID() + " won");
-            gameOver = true;
+            client.sendWin();
         }
         return false;
     }
@@ -154,4 +182,19 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
         }
         else return !(playerLoc.x < 0) && !(playerLoc.y < 0);
     }
+
+    public void movePlayer(float x, float y, int id){
+        players.get(id-1).getSprite().setX(x);
+        players.get(id-1).getSprite().setY(y);
+    }
+
+    public void setNrOfPlayers(Integer nr){
+        this.nrOfPlayers = nr;
+    }
+    public void gameOver(int id){
+        System.out.println("Player with ID " + id + " has won");
+        gameOver = true;
+    }
+
+
 }
