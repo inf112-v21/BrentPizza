@@ -110,6 +110,7 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
     }
     @Override
     public boolean keyUp(int keycode) {
+        /**
         if(keycode == Input.Keys.LEFT)
             myPlayer.moveLeft();
         if(keycode == Input.Keys.RIGHT)
@@ -118,11 +119,26 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
             myPlayer.moveUp();
         if(keycode == Input.Keys.DOWN)
             myPlayer.moveDown();
+         */
+        if(keycode == Input.Keys.UP)
+            myPlayer.moveForward();
+        if (keycode == Input.Keys.SPACE)
+            myPlayer.rotatePlayer(-90);
 
         //Checks if player is inside map
         checkOutOfBounds();
 
+<<<<<<< HEAD
         client.sendCords(myPlayer.getLocation());
+=======
+        // ends game if player exits map
+        if(!checkOutOfBounds()){
+            System.out.println("Player " + myPlayer.getID() + " fell and died");
+            gameOver = true;
+        }
+
+        //ends game if player steps on flag
+>>>>>>> 6bb2f4164da30c2d026c39eb0c358b0601ae5781
         if(checkWin()){
             client.sendWin();
         }
@@ -150,8 +166,8 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
     public boolean checkWin(){
         int index = tiledMap.getLayers().getIndex("flag");
         MapLayer winLayer = tiledMap.getLayers().get(index);
-        Float flagX = Float.parseFloat(winLayer.getObjects().get("Flag1").getProperties().get("x").toString());
-        Float flagY = Float.parseFloat(winLayer.getObjects().get("Flag1").getProperties().get("y").toString());
+        float flagX = Float.parseFloat(winLayer.getObjects().get("Flag1").getProperties().get("x").toString());
+        float flagY = Float.parseFloat(winLayer.getObjects().get("Flag1").getProperties().get("y").toString());
         Vector2 playerLoc = myPlayer.getLocation();
         return playerLoc.x == flagX & playerLoc.y == flagY;
     }
