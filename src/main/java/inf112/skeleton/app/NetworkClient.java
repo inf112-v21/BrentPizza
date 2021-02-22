@@ -10,7 +10,7 @@ import com.esotericsoftware.kryonet.Listener;
 
 public class NetworkClient  {
     static Client client;
-    static int udpPort = 55403, tcpPort = 55404;
+    static int udpPort = 7979, tcpPort = 7878;
     static String ip = "localhost";
     public int id;
     public int nrOfPlayers;

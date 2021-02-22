@@ -128,9 +128,8 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
         //Checks if player is inside map
         checkOutOfBounds();
 
-<<<<<<< HEAD
         client.sendCords(myPlayer.getLocation());
-=======
+
         // ends game if player exits map
         if(!checkOutOfBounds()){
             System.out.println("Player " + myPlayer.getID() + " fell and died");
@@ -138,7 +137,7 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
         }
 
         //ends game if player steps on flag
->>>>>>> 6bb2f4164da30c2d026c39eb0c358b0601ae5781
+
         if(checkWin()){
             client.sendWin();
         }
