@@ -7,10 +7,10 @@ import java.io.IOException;
 public class ServerConnect {
 
     static Server server;
-    static int udpPort = 7969, tcpPort = 7878;
 
-    public ServerConnect(int nrOfPlayers) throws IOException {
-        Integer nrOfPlayers1 = nrOfPlayers;
+    public ServerConnect(int nrOfPlayers, int udpPort, int tcpPort) throws IOException {
+
+
         server = new Server();
 
         server.bind(tcpPort, udpPort);
