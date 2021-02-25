@@ -7,6 +7,12 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * For each test the application will run and open,
+ * to let the tests run correctly just close the window
+ * by pressing on the X in the top right corner.
+ */
+
 public class mapTests {
 
     private RoboRally game;
@@ -18,7 +24,7 @@ public class mapTests {
         new Lwjgl3Application(game, cfg);
     }
     /**
-     * Test if map exist ?
+     * Test if map exist.
      */
     @Test
     public void testMap(){
