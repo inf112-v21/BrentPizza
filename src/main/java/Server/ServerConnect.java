@@ -2,6 +2,7 @@ package Server;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Server;
 import inf112.skeleton.app.Player;
 
@@ -19,12 +20,13 @@ public class ServerConnect {
         server.bind(tcpPort, udpPort);
 
         //register packets that will be sent over the network
-        server.getKryo().register(Packet.class);
-        server.getKryo().register(FirstConnect.class);
-        server.getKryo().register(WinPacket.class);
-        server.getKryo().register(Player.class);
-        server.getKryo().register(Sprite.class);
-        server.getKryo().register(Vector2.class);
+        Kryo serverKryo = server.getKryo();
+        serverKryo.register(Packet.class);
+        serverKryo.register(FirstConnect.class);
+        serverKryo.register(WinPacket.class);
+        serverKryo.register(Player.class);
+        serverKryo.register(Sprite.class);
+        serverKryo.register(Vector2.class);
 
         server.start();
         System.out.println("Server is up and running");

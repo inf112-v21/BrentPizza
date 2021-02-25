@@ -5,6 +5,7 @@ import Server.Packet;
 import Server.WinPacket;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -20,9 +21,10 @@ public class NetworkClient  {
         client = new Client();
 
         //register classes
-        client.getKryo().register(Packet.class);
-        client.getKryo().register(FirstConnect.class);
-        client.getKryo().register(WinPacket.class);
+        Kryo clientKryo = client.getKryo();
+        clientKryo.register(Packet.class);
+        clientKryo.register(FirstConnect.class);
+        clientKryo.register(WinPacket.class);
 
 
         client.start();
