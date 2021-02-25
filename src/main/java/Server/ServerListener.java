@@ -21,18 +21,18 @@ public class ServerListener extends Listener {
         FirstConnect initialConnect = new FirstConnect();
         initialConnect.id = c.getID();
         initialConnect.nrOfPlayers = nrOfPlayers;
-        server.sendToUDP(c.getID(), initialConnect);
+        server.sendToTCP(c.getID(), initialConnect);
 
     }
     public void received (Connection c, Object p){
         if(p instanceof Packet){
             Packet packet = (Packet) p;
             System.out.println("Player " + packet.playerThatMovedID + " moved");
-            server.sendToAllExceptUDP(c.getID(), packet);
+            server.sendToAllExceptTCP(c.getID(), packet);
         }
         if(p instanceof WinPacket){
             WinPacket win = (WinPacket) p;
-            server.sendToAllUDP(win);
+            server.sendToAllTCP(win);
 
         }
     }

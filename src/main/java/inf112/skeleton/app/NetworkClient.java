@@ -3,6 +3,7 @@ package inf112.skeleton.app;
 import Server.FirstConnect;
 import Server.Packet;
 import Server.WinPacket;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -43,7 +44,7 @@ public class NetworkClient  {
                 if(p instanceof Packet){
                     Packet packet = (Packet) p;
                     System.out.println("Player " + packet.playerThatMovedID + " moved");
-                    roboRally.movePlayer(packet.x, packet.y, packet.playerThatMovedID);
+                    roboRally.changePlayer(packet.x, packet.y, packet.playerThatMovedID, packet.rotation);
                 }
                 if(p instanceof WinPacket){
                     WinPacket win = (WinPacket) p;
@@ -60,16 +61,17 @@ public class NetworkClient  {
         return this.id;
     }
 
-    public void sendCords(Vector2 v){
+    public void sendPlayer(Player player){
         Packet p = new Packet();
-        p.playerThatMovedID = this.id;
-        p.x = v.x;
-        p.y = v.y;
-        client.sendUDP(p);
+        p.rotation = player.getRotation();
+        p.x = player.getX();
+        p.y = player.getY();
+        p.playerThatMovedID = player.getID();
+        client.sendTCP(p);
     }
     public void sendWin(){
         WinPacket win = new WinPacket();
         win.ID = this.id;
-        client.sendUDP(win);
+        client.sendTCP(win);
     }
 }

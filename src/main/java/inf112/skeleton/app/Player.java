@@ -62,4 +62,23 @@ public class Player{
         playerSprite.rotate(x);
         System.out.println(playerSprite.getRotation());
     }
+    public void setRoation(float x){
+        playerSprite.setRotation(x);
+    }
+    public float getRotation(){
+        return playerSprite.getRotation();
+    }
+    public void setX(float x){
+        playerSprite.setX(x);
+    }
+    public void setY(float y){
+        playerSprite.setY(y);
+    }
+    public float getX(){
+        return playerSprite.getX();
+    }
+    public float getY(){
+        return playerSprite.getY();
+    }
+
 }

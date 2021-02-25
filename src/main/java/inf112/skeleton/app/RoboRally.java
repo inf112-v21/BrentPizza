@@ -32,7 +32,7 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
     int gameOverIf100 = 0;
     boolean gameOver = false;
     private NetworkClient client;
-    ArrayList<Player> players;
+    private ArrayList<Player> players;
     private Integer nrOfPlayers;
 
     @Override
@@ -164,7 +164,7 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
         //Checks if player is inside map
         checkOutOfBounds();
 
-        client.sendCords(myPlayer.getLocation());
+        client.sendPlayer(myPlayer);
 
         // ends game if player exits map
         if(!checkOutOfBounds()){
@@ -234,10 +234,15 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
         else return !(playerLoc.x < 0) && !(playerLoc.y < 0);
     }
 
-    public void movePlayer(float x, float y, int id){
-        players.get(id-1).getSprite().setX(x);
-        players.get(id-1).getSprite().setY(y);
+    public void changePlayer(float x, float y, int id, float rotation){
+        Player curPlayer = players.get(id-1);
+        curPlayer.setX(x);
+        curPlayer.setY(y);
+        curPlayer.setRoation(rotation);
+        players.set(id-1, curPlayer);
     }
+
+
 
     public void setNrOfPlayers(Integer nr){
         this.nrOfPlayers = nr;

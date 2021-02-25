@@ -17,13 +17,13 @@ public class ServerStart {
         Scanner in = new Scanner(System.in);
         System.out.println("Please choose number of Players:");
         nrOfPlayers = in.nextInt();
-        System.out.println("Please define TCP port:");
+        /**System.out.println("Please define TCP port:");
         int tcpPort = in.nextInt();
         System.out.println("Please define UDP port");
         int udpPort = in.nextInt();
-
+        **/
         //make sure nrOfPlayers is not null
-        ServerConnect connection = new ServerConnect(nrOfPlayers, udpPort, tcpPort);
+        ServerConnect connection = new ServerConnect(nrOfPlayers, 7979, 7878);
 
 
     }
