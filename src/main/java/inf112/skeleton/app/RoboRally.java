@@ -17,6 +17,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Client;
+import inf112.skeleton.app.Cards.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -60,6 +61,7 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
                 System.out.println(e);
             }
         }
+
         players = new ArrayList<>();
         for (int i = 1; i <= nrOfPlayers; i++) {
             Player playerToAdd = new Player(i, new Sprite(new Texture(Gdx.files.internal("robot" + i + ".png"))));
@@ -67,6 +69,7 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
         }
         System.out.println(client.getId());
         myPlayer = players.get(client.getId()-1);
+
 
     }
     @Override
@@ -120,6 +123,39 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
         if(keycode == Input.Keys.DOWN)
             myPlayer.moveDown();
          */
+        if(keycode == Input.Keys.NUM_1){
+            MoveOneCard card = new MoveOneCard();
+            card.action(myPlayer);
+        }
+        if(keycode == Input.Keys.NUM_2){
+            MoveTwoCard card = new MoveTwoCard();
+            card.action(myPlayer);
+        }
+        if(keycode == Input.Keys.NUM_3){
+            MoveThreeCard card = new MoveThreeCard();
+            card.action(myPlayer);
+        }
+        if(keycode == Input.Keys.NUM_4){
+            TurnLeftCard card = new TurnLeftCard();
+            card.action(myPlayer);
+        }
+        if(keycode == Input.Keys.NUM_5){
+            TurnRightCard card = new TurnRightCard();
+            card.action(myPlayer);
+        }
+        if(keycode == Input.Keys.NUM_6){
+            ArrayList<Card> cards = new ArrayList<>();
+            cards.add(new MoveOneCard());
+            cards.add(new MoveTwoCard());
+            cards.add(new MoveThreeCard());
+            cards.add(new TurnLeftCard());
+
+
+            for (Card card: cards) {
+                card.action(myPlayer);
+            }
+        }
+
         if(keycode == Input.Keys.UP)
             myPlayer.moveForward();
         if (keycode == Input.Keys.SPACE)
