@@ -43,7 +43,7 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
         camera = new OrthographicCamera();
         camera.setToOrtho(false,w,h);
         camera.update();
-        tiledMap = new TmxMapLoader().load("emptyMap.tmx");
+        tiledMap = new TmxMapLoader().load("src/main/Resources/emptyMap.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         Gdx.input.setInputProcessor(this);
         sb = new SpriteBatch();
@@ -64,7 +64,7 @@ public class RoboRally extends ApplicationAdapter implements InputProcessor {
 
         players = new ArrayList<>();
         for (int i = 1; i <= nrOfPlayers; i++) {
-            Player playerToAdd = new Player(i, new Sprite(new Texture(Gdx.files.internal("robot" + i + ".png"))));
+            Player playerToAdd = new Player(i, new Sprite(new Texture(Gdx.files.internal("src/main/Resources/robot" + i + ".png"))));
             this.players.add(playerToAdd);
         }
         System.out.println(client.getId());

@@ -7,12 +7,9 @@ public class Player{
     private int id;
     private Sprite playerSprite;
 
-    private int direction;
-
     public Player(int id, Sprite sprite) {
         this.id = id;
         this.playerSprite = sprite;
-        this.direction = 3;
     }
 
     public int getID() {
@@ -47,25 +44,22 @@ public class Player{
     }
 
     public void moveForward() {
-        if (direction == 1) {
+        if (Math.abs(playerSprite.getRotation()%360) == 180) {
             moveUp();
         }
-        if (direction == 2) {
+        if (Math.abs(playerSprite.getRotation()%360) == 270) {
             moveRight();
         }
-        if (direction == 3) {
+        if (Math.abs(playerSprite.getRotation()%360) == 0) {
             moveDown();
         }
-        if (direction == 4) {
+        if (Math.abs(playerSprite.getRotation()%360) == 90) {
             moveLeft();
         }
     }
 
     public void rotatePlayer (float x){
-            playerSprite.rotate(x);
-            direction++;
-            if(direction > 4){
-                direction = 1;
-            }
-        }
+        playerSprite.rotate(x);
+        System.out.println(playerSprite.getRotation());
+    }
 }
