@@ -17,7 +17,7 @@ public class NetworkClient  {
     public int id;
     public int nrOfPlayers;
 
-    public NetworkClient(RoboRally roboRally) throws Exception{
+    public NetworkClient(BoardLogic boardLogic) throws Exception{
         client = new Client();
 
         //register classes
@@ -41,16 +41,16 @@ public class NetworkClient  {
                     id = con.id;
                     System.out.println("I am now id: " + id);
                     nrOfPlayers = con.nrOfPlayers;
-                    roboRally.setNrOfPlayers(con.nrOfPlayers);
+                    boardLogic.setNrOfPlayers(con.nrOfPlayers);
                 }
                 if(p instanceof Packet){
                     Packet packet = (Packet) p;
                     System.out.println("Player " + packet.playerThatMovedID + " moved");
-                    roboRally.changePlayer(packet.x, packet.y, packet.playerThatMovedID, packet.rotation);
+                    boardLogic.changePlayer(packet.x, packet.y, packet.playerThatMovedID, packet.rotation);
                 }
                 if(p instanceof WinPacket){
                     WinPacket win = (WinPacket) p;
-                    roboRally.gameOver(win.ID);
+                    boardLogic.gameOver(win.ID);
                 }
             }
             public void disconnected(Connection c){
