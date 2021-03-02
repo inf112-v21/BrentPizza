@@ -1,7 +1,5 @@
-package Server;
+package inf112.skeleton.app.Packets;
 
-
-import inf112.skeleton.app.Player;
 
 public class Packet {
 

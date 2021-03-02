@@ -1,8 +1,11 @@
-package Server;
+package inf112.skeleton.app.Server;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import inf112.skeleton.app.Packets.FirstConnectPacket;
+import inf112.skeleton.app.Packets.Packet;
+import inf112.skeleton.app.Packets.WinPacket;
 
 
 public class ServerListener extends Listener {
@@ -18,7 +21,7 @@ public class ServerListener extends Listener {
 
     public void connected(Connection c){
         System.out.println("Client: " + c.getID() + " Just connected");
-        FirstConnect initialConnect = new FirstConnect();
+        FirstConnectPacket initialConnect = new FirstConnectPacket();
         initialConnect.id = c.getID();
         initialConnect.nrOfPlayers = nrOfPlayers;
         server.sendToTCP(c.getID(), initialConnect);

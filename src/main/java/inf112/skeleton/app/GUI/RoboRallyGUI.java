@@ -1,4 +1,4 @@
-package inf112.skeleton.app;
+package inf112.skeleton.app.GUI;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -9,6 +9,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import inf112.skeleton.app.GameLogic.BoardLogic;
+import inf112.skeleton.app.GameLogic.InputProcess;
+import inf112.skeleton.app.GameLogic.Player;
 
 
 public class RoboRallyGUI extends ApplicationAdapter {
@@ -20,6 +23,7 @@ public class RoboRallyGUI extends ApplicationAdapter {
     BoardLogic boardLogic;
     Player myPlayer;
     int gameOverIf100 = 0;
+    private int timer;
 
 
     @Override
@@ -58,6 +62,7 @@ public class RoboRallyGUI extends ApplicationAdapter {
     }
     @Override
     public void render () {
+
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

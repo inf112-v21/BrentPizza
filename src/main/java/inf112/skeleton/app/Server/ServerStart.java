@@ -1,9 +1,4 @@
-package Server;
-
-import com.badlogic.gdx.math.Vector2;
-import com.esotericsoftware.kryonet.Connection;
-import com.esotericsoftware.kryonet.Listener;
-import com.esotericsoftware.kryonet.Server;
+package inf112.skeleton.app.Server;
 
 import java.util.Scanner;
 

@@ -1,14 +1,14 @@
-package inf112.skeleton.app;
+package inf112.skeleton.app.Network;
 
-import Server.FirstConnect;
-import Server.Packet;
-import Server.WinPacket;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.app.Packets.FirstConnectPacket;
+import inf112.skeleton.app.Packets.Packet;
+import inf112.skeleton.app.Packets.WinPacket;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import inf112.skeleton.app.GameLogic.BoardLogic;
+import inf112.skeleton.app.GameLogic.Player;
 
 public class NetworkClient  {
     static Client client;
@@ -23,7 +23,7 @@ public class NetworkClient  {
         //register classes
         Kryo clientKryo = client.getKryo();
         clientKryo.register(Packet.class);
-        clientKryo.register(FirstConnect.class);
+        clientKryo.register(FirstConnectPacket.class);
         clientKryo.register(WinPacket.class);
 
 
@@ -36,8 +36,8 @@ public class NetworkClient  {
 
         client.addListener(new Listener(){
             public void received(Connection c, Object p){
-                if(p instanceof FirstConnect){
-                    FirstConnect con = (FirstConnect) p;
+                if(p instanceof FirstConnectPacket){
+                    FirstConnectPacket con = (FirstConnectPacket) p;
                     id = con.id;
                     System.out.println("I am now id: " + id);
                     nrOfPlayers = con.nrOfPlayers;

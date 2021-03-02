@@ -3,6 +3,7 @@ package inf112.skeleton.app;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.app.GUI.RoboRallyGUI;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;

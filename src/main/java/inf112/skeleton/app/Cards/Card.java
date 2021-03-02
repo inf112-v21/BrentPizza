@@ -1,6 +1,6 @@
 package inf112.skeleton.app.Cards;
 
-import inf112.skeleton.app.Player;
+import inf112.skeleton.app.GameLogic.Player;
 
 public class Card {
     int cost;

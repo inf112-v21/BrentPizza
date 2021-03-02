@@ -1,13 +1,13 @@
-package inf112.skeleton.app;
+package inf112.skeleton.app.GameLogic;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.app.Network.NetworkClient;
 
 import java.util.ArrayList;
 
