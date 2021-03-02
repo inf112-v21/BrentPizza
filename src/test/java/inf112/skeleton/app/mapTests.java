@@ -15,12 +15,12 @@ import org.junit.Test;
 
 public class mapTests {
 
-    private RoboRally game;
+    private RoboRallyGUI game;
 
     @Before
     public void setUp(){
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
-        game = new RoboRally();
+        game = new RoboRallyGUI();
         new Lwjgl3Application(game, cfg);
     }
     /**

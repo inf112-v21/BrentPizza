@@ -1,10 +1,6 @@
 package inf112.skeleton.app;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -12,154 +8,53 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
-import com.esotericsoftware.kryonet.Client;
-import inf112.skeleton.app.Cards.*;
 
 import java.util.ArrayList;
 
-public class BoardLogic implements InputProcessor {
+public class BoardLogic {
 
+    private NetworkClient networkClient;
+
+    private TiledMap tiledMap;
     ArrayList<Player> players;
-    NetworkClient networkClient;
     Player myPlayer;
-    Integer nrOfPlayers;
-    RoboRally roboRally;
-    TiledMap tiledMap;
-    OrthographicCamera camera;
+    Boolean gameOver = false;
+    private Integer nrOfPlayers;
 
 
-    public BoardLogic(TiledMap tiledMap, OrthographicCamera camera, NetworkClient networkClient) throws Exception {
-        this.roboRally = new RoboRally();
-        this.networkClient = networkClient;
+
+    public BoardLogic(TiledMap tiledMap) throws InterruptedException {
+
         this.tiledMap = tiledMap;
-        this.camera = camera;
 
-    }
+        try{
+            this.networkClient = new NetworkClient(this);
+        }catch (Exception e){
+            System.out.println(e);
+        }
 
-    public void Initialize() throws InterruptedException {
-        if(nrOfPlayers == null){
+        while(nrOfPlayers == null){
             Thread.sleep(1000);
+        }
+        players = new ArrayList<>();
+        for (int i = 1; i <= nrOfPlayers; i++) {
+            Player playerToAdd = new Player(i, new Sprite(new Texture(Gdx.files.internal("src/main/Resources/robot" + i + ".png"))));
+            this.players.add(playerToAdd);
         }
         myPlayer = players.get(networkClient.getId()-1);
 
+
+
     }
 
-    public boolean checkWin(){
-        int index = tiledMap.getLayers().getIndex("flag");
-        MapLayer winLayer = tiledMap.getLayers().get(index);
-        float flagX = Float.parseFloat(winLayer.getObjects().get("Flag1").getProperties().get("x").toString());
-        float flagY = Float.parseFloat(winLayer.getObjects().get("Flag1").getProperties().get("y").toString());
-        Vector2 playerLoc = myPlayer.getLocation();
-        return playerLoc.x == flagX & playerLoc.y == flagY;
-    }
 
-    @Override
-    public boolean keyDown(int i) {
-        return false;
-    }
+    /**
+     * Checks if player is inside map.
+     *
+     * Returns true if player is inside map.
+     * Returns false if player is outside map.
+     */
 
-    @Override
-    public boolean keyUp(int keycode) {
-        /**
-         if(keycode == Input.Keys.LEFT)
-         myPlayer.moveLeft();
-         if(keycode == Input.Keys.RIGHT)
-         myPlayer.moveRight();
-         if(keycode == Input.Keys.UP)
-         myPlayer.moveUp();
-         if(keycode == Input.Keys.DOWN)
-         myPlayer.moveDown();
-         */
-        if(keycode == Input.Keys.NUM_1){
-            MoveOneCard card = new MoveOneCard();
-            card.action(myPlayer);
-        }
-        if(keycode == Input.Keys.NUM_2){
-            MoveTwoCard card = new MoveTwoCard();
-            card.action(myPlayer);
-        }
-        if(keycode == Input.Keys.NUM_3){
-            MoveThreeCard card = new MoveThreeCard();
-            card.action(myPlayer);
-        }
-        if(keycode == Input.Keys.NUM_4){
-            TurnLeftCard card = new TurnLeftCard();
-            card.action(myPlayer);
-        }
-        if(keycode == Input.Keys.NUM_5){
-            TurnRightCard card = new TurnRightCard();
-            card.action(myPlayer);
-        }
-        if(keycode == Input.Keys.NUM_6){
-            ArrayList<Card> cards = new ArrayList<>();
-            cards.add(new MoveOneCard());
-            cards.add(new MoveTwoCard());
-            cards.add(new MoveThreeCard());
-            cards.add(new TurnLeftCard());
-
-
-            for (Card card: cards) {
-                card.action(myPlayer);
-            }
-        }
-
-        if(keycode == Input.Keys.UP)
-
-            if (keycode == Input.Keys.SPACE)
-                myPlayer.rotatePlayer(-90);
-
-        //Checks if player is inside map
-        checkOutOfBounds();
-
-        networkClient.sendPlayer(myPlayer);
-        roboRally.updatePlayers(players);
-
-        // ends game if player exits map
-        if(!checkOutOfBounds()){
-            System.out.println("Player " + myPlayer.getID() + " fell and died");
-            roboRally.setGameOver();
-        }
-
-        //ends game if player steps on flag
-
-        if(checkWin()){
-            networkClient.sendWin();
-        }
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char c) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int i, int i1, int i2, int i3) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int i, int i1, int i2, int i3) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        float x = Gdx.input.getDeltaX();
-        float y = Gdx.input.getDeltaY();
-        camera.translate(-x,y);
-        return true;
-    }
-
-    @Override
-    public boolean mouseMoved(int i, int i1) {
-        return false;
-    }
-
-    public boolean scrolled(int amount) {
-        camera.zoom += amount * 0.2f;
-        return false;
-    }
 
     public boolean checkOutOfBounds() {
 
@@ -182,29 +77,50 @@ public class BoardLogic implements InputProcessor {
         }
         else return !(playerLoc.x < 0) && !(playerLoc.y < 0);
     }
+
+    public boolean checkWin(){
+        int index = tiledMap.getLayers().getIndex("flag");
+        MapLayer winLayer = tiledMap.getLayers().get(index);
+        float flagX = Float.parseFloat(winLayer.getObjects().get("Flag1").getProperties().get("x").toString());
+        float flagY = Float.parseFloat(winLayer.getObjects().get("Flag1").getProperties().get("y").toString());
+        Vector2 playerLoc = myPlayer.getLocation();
+        return playerLoc.x == flagX & playerLoc.y == flagY;
+    }
+
     public void changePlayer(float x, float y, int id, float rotation){
         Player curPlayer = players.get(id-1);
         curPlayer.setX(x);
         curPlayer.setY(y);
         curPlayer.setRoation(rotation);
         players.set(id-1, curPlayer);
-        roboRally.updatePlayers(players);
-    }
-
-    public void setNrOfPlayers(Integer nrOfPlayers) {
-        this.nrOfPlayers = nrOfPlayers;
     }
 
     public void gameOver(int id){
-        System.out.println("Player with id " + id + " has won!");
-        roboRally.setGameOver();
+        System.out.println("Player with ID " + id + " has won");
+        gameOver = true;
     }
 
-    public Integer getNrOfPlayers(){
-        return this.nrOfPlayers;
+    public Boolean getGameOver(){
+        return this.gameOver;
     }
 
-    public void setPlayers(ArrayList<Player> players){
-        this.players = players;
+
+    public void setNrOfPlayers(Integer nr){
+        this.nrOfPlayers = nr;
+    }
+    public ArrayList<Player> getPlayers(){
+        return this.players;
+    }
+    public Player getMyPlayer(){
+        return this.myPlayer;
+    }
+    public void setGameOver(Boolean gameOverValue){
+        this.gameOver = gameOverValue;
+    }
+    public void sendWin(){
+        networkClient.sendWin();
+    }
+    public void sendPlayer(Player player){
+        networkClient.sendPlayer(player);
     }
 }

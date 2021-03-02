@@ -13,12 +13,12 @@ import static org.junit.Assert.assertEquals;
  */
 public class movementTests {
 
-    public RoboRally game;
+    public RoboRallyGUI game;
 
     @Before
     public void setUp(){
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
-        game = new RoboRally();
+        game = new RoboRallyGUI();
         new Lwjgl3Application(game, cfg);
 
         game.myPlayer.getSprite().setX(500);
