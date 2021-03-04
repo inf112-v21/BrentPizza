@@ -77,3 +77,9 @@ To achieve this, we have conducted the following user stories.
 **Work tasks:** Loop through the players hand and call the actions that are described by each card.  
 
 **Demand:** Move the robot according to the chosen cards. 
+
+
+## Justifications
+In this section we want to raise awereness towards some decisions that have been taken during our development. We decided to use servers to enable multiplayer option rather then P2P due to the following reasons. P2P makes every player open a portal in their networks through the WWW. A server however sets burden of opening ports on the server rather then the players making the server option more end user friendly. 
+
+The way our RobotGUI is set up is not optimal. We should use more stages rather then extending game the way we do it now. We want to use stages in the future to enable menu screen, pausing oppurtunities. These are quite hard to do at this moment due to the way the code is now. 
