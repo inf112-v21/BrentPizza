@@ -1,5 +1,6 @@
 package inf112.skeleton.app.Network;
 
+import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.GameLogic.IBoardLogic;
 import inf112.skeleton.app.GameLogic.IPlayer;
 import inf112.skeleton.app.Packets.FirstConnectPacket;
@@ -10,7 +11,7 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
-public class NetworkClient  {
+public class NetworkClient implements INetworkClient {
     static Client client;
     static int udpPort = 7979, tcpPort = 7878;
     static String ip = "localhost";
@@ -59,18 +60,22 @@ public class NetworkClient  {
         });
 
     }
+    @Override
     public int getId(){
         return this.id;
     }
 
+    @Override
     public void sendPlayer(IPlayer player){
         Packet p = new Packet();
         p.rotation = player.getRotation();
-        p.x = player.getX();
-        p.y = player.getY();
+        Vector2 playerLoc = player.getLocation();
+        p.x = playerLoc.x;
+        p.y = playerLoc.y;
         p.playerThatMovedID = player.getID();
         client.sendTCP(p);
     }
+    @Override
     public void sendWin(){
         WinPacket win = new WinPacket();
         win.ID = this.id;

@@ -31,38 +31,18 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public void moveUp() {
-        playerSprite.translate(0, 150);
-    }
-
-    @Override
-    public void moveDown() {
-        playerSprite.translate(0, -150);
-    }
-
-    @Override
-    public void moveLeft() {
-        playerSprite.translate(-150, 0);
-    }
-
-    @Override
-    public void moveRight() {
-        playerSprite.translate(150, 0);
-    }
-
-    @Override
     public void moveForward() {
         if (Math.abs(playerSprite.getRotation()%360) == 180) {
-            moveUp();
+            playerSprite.translate(0, 150);
         }
         if (Math.abs(playerSprite.getRotation()%360) == 270) {
-            moveRight();
+            playerSprite.translate(150, 0);
         }
         if (Math.abs(playerSprite.getRotation()%360) == 0) {
-            moveDown();
+            playerSprite.translate(0, -150);
         }
         if (Math.abs(playerSprite.getRotation()%360) == 90) {
-            moveLeft();
+            playerSprite.translate(-150, 0);
         }
     }
 
@@ -86,14 +66,6 @@ public class Player implements IPlayer {
     @Override
     public void setY(float y){
         playerSprite.setY(y);
-    }
-    @Override
-    public float getX(){
-        return playerSprite.getX();
-    }
-    @Override
-    public float getY(){
-        return playerSprite.getY();
     }
 
 }

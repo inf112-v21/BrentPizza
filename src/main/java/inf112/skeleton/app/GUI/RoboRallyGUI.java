@@ -56,13 +56,13 @@ public class RoboRallyGUI extends Game {
             }
         }
 
-        InputProcess inputProcess = new InputProcess(camera, boardLogic.getMyPlayer(), boardLogic);
+        IInputProcess IInputProcess = new InputProcess(camera, boardLogic.getMyPlayer(), boardLogic);
 
 
         hud = new Hud(sbHud, boardLogic);
 
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(inputProcess);
+        inputMultiplexer.addProcessor(IInputProcess);
         inputMultiplexer.addProcessor(hud.getStage());
         Gdx.input.setInputProcessor(inputMultiplexer);
 

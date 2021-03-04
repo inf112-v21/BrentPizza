@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.skeleton.app.Cards.Card;
 import inf112.skeleton.app.Cards.CardGenerator;
+import inf112.skeleton.app.Cards.ICardGenerator;
 import inf112.skeleton.app.Cards.NullCard;
 import inf112.skeleton.app.GUI.Hud;
 
@@ -23,7 +24,7 @@ public class HudLogic implements IHudLogic {
     Button readyButton;
     ArrayList<Card> programCards;
     NullCard nullCard;
-    CardGenerator cardGenerator;
+    ICardGenerator ICardGenerator;
     HashMap<Button, Card> buttonToCard;
     Integer programCounter = 0;
     Hud hud;
@@ -33,8 +34,8 @@ public class HudLogic implements IHudLogic {
         nullCard = new NullCard();
 
         programCards = new ArrayList<>();
-        cardGenerator = new CardGenerator();
-        hand = cardGenerator.getRandomHand();
+        ICardGenerator = new CardGenerator();
+        hand = ICardGenerator.getRandomHand();
         handButtonList = new ArrayList<>();
         programImageList = new ArrayList<>();
         readyButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/ready.png"))));
@@ -87,7 +88,7 @@ public class HudLogic implements IHudLogic {
 
     @Override
     public void updateHand(){
-        hand = cardGenerator.getRandomHand();
+        hand = ICardGenerator.getRandomHand();
     }
 
     @Override

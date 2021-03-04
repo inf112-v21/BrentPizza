@@ -3,8 +3,9 @@ package inf112.skeleton.app.Cards;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class CardGenerator {
+public class CardGenerator implements ICardGenerator {
 
+    @Override
     public Card getRandomCard(){
         ArrayList<Card> card = new ArrayList<>();
         card.add(new MoveOneCard());
@@ -17,6 +18,7 @@ public class CardGenerator {
 
     }
 
+    @Override
     public ArrayList<Card> getRandomHand(){
         ArrayList<Card> hand = new ArrayList<>();
         for (int i = 0; i < 9; i++) {

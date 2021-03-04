@@ -4,11 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import inf112.skeleton.app.Cards.*;
 
-import java.util.ArrayList;
-
-public class InputProcess implements InputProcessor {
+public class InputProcess implements IInputProcess {
 
     private OrthographicCamera camera;
     private IPlayer myPlayer;
@@ -27,56 +24,10 @@ public class InputProcess implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-        /**
-         if(keycode == Input.Keys.LEFT)
-         myPlayer.moveLeft();
-         if(keycode == Input.Keys.RIGHT)
-         myPlayer.moveRight();
-         if(keycode == Input.Keys.UP)
-         myPlayer.moveUp();
-         if(keycode == Input.Keys.DOWN)
-         myPlayer.moveDown();
-         **/
-        if(keycode == Input.Keys.NUM_1){
-            MoveOneCard card = new MoveOneCard();
-            card.action(myPlayer);
-        }
-        if(keycode == Input.Keys.NUM_2){
-            MoveTwoCard card = new MoveTwoCard();
-            card.action(myPlayer);
-        }
-        if(keycode == Input.Keys.NUM_3){
-            MoveThreeCard card = new MoveThreeCard();
-            card.action(myPlayer);
-        }
-        if(keycode == Input.Keys.NUM_4){
-            TurnLeftCard card = new TurnLeftCard();
-            card.action(myPlayer);
-        }
-        if(keycode == Input.Keys.NUM_5){
-            TurnRightCard card = new TurnRightCard();
-            card.action(myPlayer);
-        }
-        if(keycode == Input.Keys.NUM_6){
-            ArrayList<Card> cards = new ArrayList<>();
-            cards.add(new MoveOneCard());
-            cards.add(new MoveTwoCard());
-            cards.add(new MoveThreeCard());
-            cards.add(new TurnLeftCard());
-
-
-            for (Card card: cards) {
-                card.action(myPlayer);
-            }
-        }
-
         if(keycode == Input.Keys.UP)
             myPlayer.moveForward();
         if (keycode == Input.Keys.SPACE)
             myPlayer.rotatePlayer(-90);
-
-        //Checks if player is inside map
-        //checkOutOfBounds();
 
         logic.sendPlayer(myPlayer);
 

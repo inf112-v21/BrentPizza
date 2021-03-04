@@ -141,9 +141,9 @@ public class BoardLogic implements IBoardLogic {
         for (Card card: cardArrayList) {
             card.action(myPlayer);
             checkWin();
-            if(checkOutOfBounds()){
+            if(!checkOutOfBounds()){
                 System.out.println("Player fell and died");
-                System.exit(1);
+                setGameOver(true);
             }
         }
         sendPlayer(myPlayer);
