@@ -1,14 +1,26 @@
 # INF112 Project BrentPizza 
-The appliction conists of three files. Main, Player and RoboRally. In the player class we find the information and functions related to the player character.
-For example their location and the ability to move around the map. The RoboRally class is the main class of the application where the map is generated and 
-important functions as win condidtions are checked. 
 
-In order to play the game the Main file must be run. From therein use the keypads to move the robot towards the flag to "win" the game. 
+# RoboRally :robot: :pizza:
+
+## How to run the program
+
+The program is built using Maven. To run the game, run  main.java in the master branch. When main file is run, the game will ask for amount of players. 
+2 is recommended, however 4 is maximum. To determine the robots action, choose 5 cards from the 9 options that are given and press the ready button. 
+
+Recommended screen resolution: 1920x1080
+
+To play **Multiplayer:** 
+
+To play multiplayer run the **main1.java** after running **main.java**. Robot movement is identical to single player, the game state will be updated after the ready button is pressed. 
+
+
+# How to do manual testing
 
 
 To check the tests, please run the text file and then close the application by pressing on the X in the top right corner. 
 To look around the map, you can use the mouse courser to drag yourself around to view the map. 
 
 ## Known bugs
-For the player to be able to watch the game being won, there has been installed a delay. This will not be a part of the final product, however it is here
-due to its information value. This enbales however the player enable the win condition several times before the applictions shuts down. 
+- For the game to work properly the generated window can't be altered. Otherwise when you choose cards you will not get the intended card.
+- For the player to be able to watch the game being won, there has been installed a delay. This will not be a part of the final product, however it is here
+due to its information value. This enbales however the player enable the win condition several times before the applictions shuts down.
