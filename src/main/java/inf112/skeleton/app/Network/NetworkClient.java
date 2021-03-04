@@ -1,5 +1,7 @@
 package inf112.skeleton.app.Network;
 
+import inf112.skeleton.app.GameLogic.IBoardLogic;
+import inf112.skeleton.app.GameLogic.IPlayer;
 import inf112.skeleton.app.Packets.FirstConnectPacket;
 import inf112.skeleton.app.Packets.Packet;
 import inf112.skeleton.app.Packets.WinPacket;
@@ -7,8 +9,6 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-import inf112.skeleton.app.GameLogic.BoardLogic;
-import inf112.skeleton.app.GameLogic.Player;
 
 public class NetworkClient  {
     static Client client;
@@ -17,7 +17,7 @@ public class NetworkClient  {
     public int id;
     public int nrOfPlayers;
 
-    public NetworkClient(BoardLogic boardLogic) throws Exception{
+    public NetworkClient(IBoardLogic boardLogic) throws Exception{
         client = new Client();
 
         //register classes
@@ -63,7 +63,7 @@ public class NetworkClient  {
         return this.id;
     }
 
-    public void sendPlayer(Player player){
+    public void sendPlayer(IPlayer player){
         Packet p = new Packet();
         p.rotation = player.getRotation();
         p.x = player.getX();

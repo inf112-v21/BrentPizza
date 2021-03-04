@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import inf112.skeleton.app.GUI.RoboRallyGUI;
+import inf112.skeleton.app.GameLogic.BoardLogic;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,6 +18,7 @@ import org.junit.Test;
 public class mapTests {
 
     private RoboRallyGUI game;
+    private BoardLogic boardLogic;
 
     @Before
     public void setUp(){
@@ -29,7 +31,7 @@ public class mapTests {
      */
     @Test
     public void testMap(){
-        assertNotNull(game.tiledMap);
+        assertNotNull(boardLogic.tiledMap);
     }
     /**
      * Test If player is inside map.
@@ -43,9 +45,9 @@ public class mapTests {
      */
     @Test
     public void testIfPlayerTouchedFlag(){
-        game.myPlayer.moveRight();
+        //game.myPlayer.moveRight();
         for(int i = 0; i < 4; i++){
-            game.myPlayer.moveUp();
+            //game.myPlayer.moveUp();
         }
         //assertTrue(game.checkWin());
     }

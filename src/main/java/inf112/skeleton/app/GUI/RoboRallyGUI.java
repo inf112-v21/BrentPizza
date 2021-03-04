@@ -1,7 +1,8 @@
 package inf112.skeleton.app.GUI;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,36 +10,36 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import inf112.skeleton.app.GameLogic.BoardLogic;
-import inf112.skeleton.app.GameLogic.InputProcess;
-import inf112.skeleton.app.GameLogic.Player;
+import inf112.skeleton.app.GameLogic.*;
 
 
-public class RoboRallyGUI extends ApplicationAdapter {
+public class RoboRallyGUI extends Game {
+
     TiledMap tiledMap;
     OrthographicCamera camera;
     TiledMapRenderer tiledMapRenderer;
     SpriteBatch sb;
+    SpriteBatch sbHud;
 
-    BoardLogic boardLogic;
-    Player myPlayer;
+    IBoardLogic boardLogic;
     int gameOverIf100 = 0;
-    private int timer;
 
+
+    Hud hud;
 
     @Override
-    public void create () {
+    public void create() {
+
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false,w,h);
+        camera.setToOrtho(false, w, h);
         camera.update();
         tiledMap = new TmxMapLoader().load("src/main/Resources/emptyMap.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         sb = new SpriteBatch();
-
-
+        sbHud = new SpriteBatch();
 
         try {
             boardLogic = new BoardLogic(tiledMap);
@@ -47,7 +48,7 @@ public class RoboRallyGUI extends ApplicationAdapter {
         }
 
 
-        while (boardLogic.getPlayers() == null){
+        while (boardLogic.getPlayers() == null) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -56,12 +57,20 @@ public class RoboRallyGUI extends ApplicationAdapter {
         }
 
         InputProcess inputProcess = new InputProcess(camera, boardLogic.getMyPlayer(), boardLogic);
-        Gdx.input.setInputProcessor(inputProcess);
+
+
+        hud = new Hud(sbHud, boardLogic);
+
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(inputProcess);
+        inputMultiplexer.addProcessor(hud.getStage());
+        Gdx.input.setInputProcessor(inputMultiplexer);
 
 
     }
+
     @Override
-    public void render () {
+    public void render() {
 
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -71,19 +80,25 @@ public class RoboRallyGUI extends ApplicationAdapter {
         tiledMapRenderer.render();
 
         sb.setProjectionMatrix(camera.combined);
+
+
+        sbHud.setProjectionMatrix(hud.getStage().getCamera().combined);
+
         sb.begin();
         //draw players
-        for (Player player: boardLogic.getPlayers()) {
+        for (IPlayer player : boardLogic.getPlayers()) {
             player.getSprite().draw(sb);
         }
+
         //This is not the right way, but the MVP way
-        if(boardLogic.getGameOver()){
-            if(gameOverIf100 == 100){
+        if (boardLogic.getGameOver()) {
+            if (gameOverIf100 == 100) {
                 System.exit(1);
             }
-            gameOverIf100 +=1;
+            gameOverIf100 += 1;
         }
-        sb.end();
-    }
 
+        sb.end();
+        hud.getStage().draw();
+    }
 }

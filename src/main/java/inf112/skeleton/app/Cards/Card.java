@@ -1,16 +1,18 @@
 package inf112.skeleton.app.Cards;
 
-import inf112.skeleton.app.GameLogic.Player;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import inf112.skeleton.app.GameLogic.IPlayer;
 
 public class Card {
-    int cost;
-    String type;
-    public Card(){
-        this.cost = 150;
-        type= "MoveOne";
+
+    TextureRegionDrawable textureRegionDrawable;
+
+
+    public void action(IPlayer player) {
     }
 
-    public void action(Player player) {
+    public TextureRegionDrawable getTextureRegionDrawable(){
+        return this.textureRegionDrawable;
     }
 
 }

@@ -7,17 +7,18 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.app.Cards.Card;
 import inf112.skeleton.app.Network.NetworkClient;
 
 import java.util.ArrayList;
 
-public class BoardLogic {
+public class BoardLogic implements IBoardLogic {
 
     private NetworkClient networkClient;
 
-    private TiledMap tiledMap;
-    ArrayList<Player> players;
-    Player myPlayer;
+    public TiledMap tiledMap;
+    ArrayList<IPlayer> players;
+    IPlayer myPlayer;
     Boolean gameOver = false;
     private Integer nrOfPlayers;
 
@@ -38,7 +39,7 @@ public class BoardLogic {
         }
         players = new ArrayList<>();
         for (int i = 1; i <= nrOfPlayers; i++) {
-            Player playerToAdd = new Player(i, new Sprite(new Texture(Gdx.files.internal("src/main/Resources/robot" + i + ".png"))));
+            IPlayer playerToAdd = new Player(i, new Sprite(new Texture(Gdx.files.internal("src/main/Resources/robot" + i + ".png"))));
             this.players.add(playerToAdd);
         }
         myPlayer = players.get(networkClient.getId()-1);
@@ -56,6 +57,7 @@ public class BoardLogic {
      */
 
 
+    @Override
     public boolean checkOutOfBounds() {
 
         MapProperties prop = tiledMap.getProperties();
@@ -78,6 +80,7 @@ public class BoardLogic {
         else return !(playerLoc.x < 0) && !(playerLoc.y < 0);
     }
 
+    @Override
     public boolean checkWin(){
         int index = tiledMap.getLayers().getIndex("flag");
         MapLayer winLayer = tiledMap.getLayers().get(index);
@@ -87,40 +90,65 @@ public class BoardLogic {
         return playerLoc.x == flagX & playerLoc.y == flagY;
     }
 
+    @Override
     public void changePlayer(float x, float y, int id, float rotation){
-        Player curPlayer = players.get(id-1);
+        IPlayer curPlayer = players.get(id-1);
         curPlayer.setX(x);
         curPlayer.setY(y);
         curPlayer.setRoation(rotation);
         players.set(id-1, curPlayer);
     }
 
+    @Override
     public void gameOver(int id){
         System.out.println("Player with ID " + id + " has won");
         gameOver = true;
     }
 
+    @Override
     public Boolean getGameOver(){
         return this.gameOver;
     }
 
 
+    @Override
     public void setNrOfPlayers(Integer nr){
         this.nrOfPlayers = nr;
     }
-    public ArrayList<Player> getPlayers(){
+    @Override
+    public ArrayList<IPlayer> getPlayers(){
         return this.players;
     }
-    public Player getMyPlayer(){
+    @Override
+    public IPlayer getMyPlayer(){
         return this.myPlayer;
     }
+    @Override
     public void setGameOver(Boolean gameOverValue){
         this.gameOver = gameOverValue;
     }
+    @Override
     public void sendWin(){
         networkClient.sendWin();
     }
-    public void sendPlayer(Player player){
+    @Override
+    public void sendPlayer(IPlayer player){
         networkClient.sendPlayer(player);
     }
+
+    @Override
+    public void movePlayerFromCardList(ArrayList<Card> cardArrayList){
+        for (Card card: cardArrayList) {
+            card.action(myPlayer);
+            checkWin();
+            if(checkOutOfBounds()){
+                System.out.println("Player fell and died");
+                System.exit(1);
+            }
+        }
+        sendPlayer(myPlayer);
+
+    }
+
+
 }

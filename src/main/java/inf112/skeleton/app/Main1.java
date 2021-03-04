@@ -8,7 +8,7 @@ public class Main1 {
     public static void main(String[] args) throws Exception {
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
         cfg.setTitle("RoboRally");
-        cfg.setWindowedMode(800, 800);
+        cfg.setWindowedMode(1920, 1080);
         new Lwjgl3Application(new RoboRallyGUI(), cfg);
     }
 }

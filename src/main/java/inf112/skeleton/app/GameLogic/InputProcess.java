@@ -5,18 +5,16 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import inf112.skeleton.app.Cards.*;
-import inf112.skeleton.app.GameLogic.BoardLogic;
-import inf112.skeleton.app.GameLogic.Player;
 
 import java.util.ArrayList;
 
 public class InputProcess implements InputProcessor {
 
     private OrthographicCamera camera;
-    private Player myPlayer;
-    private BoardLogic logic;
+    private IPlayer myPlayer;
+    private IBoardLogic logic;
 
-    public InputProcess( OrthographicCamera camera, Player myPlayer, BoardLogic boardLogic){
+    public InputProcess(OrthographicCamera camera, IPlayer myPlayer, IBoardLogic boardLogic){
         this.camera = camera;
         this.myPlayer = myPlayer;
         this.logic = boardLogic;
@@ -38,7 +36,7 @@ public class InputProcess implements InputProcessor {
          myPlayer.moveUp();
          if(keycode == Input.Keys.DOWN)
          myPlayer.moveDown();
-         */
+         **/
         if(keycode == Input.Keys.NUM_1){
             MoveOneCard card = new MoveOneCard();
             card.action(myPlayer);
