@@ -20,11 +20,8 @@ public class RoboRallyGUI extends Game {
     TiledMapRenderer tiledMapRenderer;
     SpriteBatch sb;
     SpriteBatch sbHud;
-
     IBoardLogic boardLogic;
     int gameOverIf100 = 0;
-
-
     Hud hud;
 
     @Override

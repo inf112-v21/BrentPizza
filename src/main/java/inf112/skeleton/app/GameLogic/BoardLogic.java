@@ -140,11 +140,13 @@ public class BoardLogic implements IBoardLogic {
     public void movePlayerFromCardList(ArrayList<Card> cardArrayList){
         for (Card card: cardArrayList) {
             card.action(myPlayer);
-            checkWin();
             if(!checkOutOfBounds()){
                 System.out.println("Player fell and died");
                 setGameOver(true);
             }
+        }
+        if(checkWin()){
+            networkClient.sendWin();
         }
         sendPlayer(myPlayer);
 
