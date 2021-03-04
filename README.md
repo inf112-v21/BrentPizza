@@ -14,9 +14,7 @@ To play **Multiplayer:**
 To play multiplayer run the **main1.java** after running **main.java**. Robot movement is identical to single player, the game state will be updated after the ready button is pressed. 
 
 
-# How to do manual testing
-
-
+# How to do manual testing - this must be updated tommorrow-
 To check the tests, please run the text file and then close the application by pressing on the X in the top right corner. 
 To look around the map, you can use the mouse courser to drag yourself around to view the map. 
 
