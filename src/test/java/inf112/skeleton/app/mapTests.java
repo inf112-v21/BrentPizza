@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import inf112.skeleton.app.GUI.RoboRallyGUI;
+import inf112.skeleton.app.GameLogic.BoardLogic;
+import inf112.skeleton.app.GameLogic.Player;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,36 +19,46 @@ import org.junit.Test;
 public class mapTests {
 
     private RoboRallyGUI game;
+    private BoardLogic board;
+    private Player myPlayer;
 
     @Before
     public void setUp(){
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
         game = new RoboRallyGUI();
         new Lwjgl3Application(game, cfg);
+
+        try {
+            board = new BoardLogic(game.tiledMap);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        myPlayer = board.getMyPlayer();
     }
     /**
      * Test if map exist.
      */
     @Test
     public void testMap(){
-        assertNotNull(game.tiledMap);
+        assertNotNull(board);
     }
     /**
      * Test If player is inside map.
      */
     @Test
     public void testIfPlayerIsInsideMap(){
-        //assertTrue(game.checkOutOfBounds());
+        assertTrue(board.checkOutOfBounds());
+
     }
     /**
      * Test If player touched winner flag.
      */
     @Test
     public void testIfPlayerTouchedFlag(){
-        game.myPlayer.moveRight();
+        myPlayer.moveRight();
         for(int i = 0; i < 4; i++){
-            game.myPlayer.moveUp();
+            myPlayer.moveUp();
         }
-        //assertTrue(game.checkWin());
+        assertTrue(board.checkWin());
     }
 }

@@ -4,6 +4,8 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.GUI.RoboRallyGUI;
+import inf112.skeleton.app.GameLogic.BoardLogic;
+import inf112.skeleton.app.GameLogic.Player;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -14,7 +16,9 @@ import static org.junit.Assert.assertEquals;
  */
 public class movementTests {
 
-    public RoboRallyGUI game;
+    private RoboRallyGUI game;
+    private BoardLogic board;
+    private Player myPlayer;
 
     @Before
     public void setUp(){
@@ -22,8 +26,15 @@ public class movementTests {
         game = new RoboRallyGUI();
         new Lwjgl3Application(game, cfg);
 
-        game.myPlayer.getSprite().setX(500);
-        game.myPlayer.getSprite().setY(500);
+        try {
+            board = new BoardLogic(game.tiledMap);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        myPlayer = board.getMyPlayer();
+
+        myPlayer.getSprite().setX(500);
+        myPlayer.getSprite().setY(500);
     }
     /**
      * Test if player moves forward.
@@ -31,10 +42,10 @@ public class movementTests {
     @Test
     public void testIfPlayerMovesForward(){
 
-        game.myPlayer.moveForward();
+        myPlayer.moveForward();
         Vector2 move = new Vector2(500, 350);
 
-        assertEquals(game.myPlayer.getLocation(), move);
+        assertEquals(myPlayer.getLocation(), move);
     }
     /**
      * Test if player rotates and moves.
@@ -42,11 +53,11 @@ public class movementTests {
     @Test
     public void testIfPlayerRotatesAndMoves(){
 
-        game.myPlayer.rotatePlayer(-90);
-        game.myPlayer.moveForward();
+        myPlayer.rotatePlayer(-90);
+        myPlayer.moveForward();
         Vector2 move = new Vector2(350, 500);
 
-        assertEquals(game.myPlayer.getLocation(), move);
+        assertEquals(myPlayer.getLocation(), move);
     }
     /**
      * Test if player moves up.
@@ -54,39 +65,39 @@ public class movementTests {
     @Test
     public void testPlayerDirectionUp(){
 
-        game.myPlayer.moveUp();
+        myPlayer.moveUp();
         Vector2 up = new Vector2(500, 650);
 
-        assertEquals(game.myPlayer.getLocation(), up);
+        assertEquals(myPlayer.getLocation(), up);
     }
     /**
      * Test if player moves down.
      */
     @Test
     public void testPlayerDirectionDown(){
-        game.myPlayer.moveDown();
+        myPlayer.moveDown();
         Vector2 down = new Vector2(500, 350);
 
-        assertEquals(game.myPlayer.getLocation(), down);
+        assertEquals(myPlayer.getLocation(), down);
     }
     /**
      * Test if player moves left.
      */
     @Test
     public void testPlayerDirectionLeft(){
-        game.myPlayer.moveLeft();
+        myPlayer.moveLeft();
         Vector2 left = new Vector2(350, 500);
 
-        assertEquals(game.myPlayer.getLocation(), left);
+        assertEquals(myPlayer.getLocation(), left);
     }
     /**
      * Test if player moves right.
      */
     @Test
     public void testPlayerDirectionRight(){
-        game.myPlayer.moveRight();
+        myPlayer.moveRight();
         Vector2 right = new Vector2(650, 500);
 
-        assertEquals(game.myPlayer.getLocation(), right);
+        assertEquals(myPlayer.getLocation(), right);
     }
 }

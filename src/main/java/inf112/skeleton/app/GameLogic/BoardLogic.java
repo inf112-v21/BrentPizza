@@ -17,7 +17,7 @@ public class BoardLogic {
 
     private TiledMap tiledMap;
     ArrayList<Player> players;
-    Player myPlayer;
+    public Player myPlayer;
     Boolean gameOver = false;
     private Integer nrOfPlayers;
 

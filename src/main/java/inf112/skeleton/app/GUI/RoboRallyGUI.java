@@ -15,7 +15,7 @@ import inf112.skeleton.app.GameLogic.Player;
 
 
 public class RoboRallyGUI extends ApplicationAdapter {
-    TiledMap tiledMap;
+    public TiledMap tiledMap;
     OrthographicCamera camera;
     TiledMapRenderer tiledMapRenderer;
     SpriteBatch sb;
