@@ -152,5 +152,10 @@ public class HudLogic implements IHudLogic {
             });
         }
     }
-
+    public ArrayList<Card> getHand(){
+        return this.hand;
+    }
+    public ArrayList<Card> getProgramCards(){
+        return this.programCards;
+    }
 }

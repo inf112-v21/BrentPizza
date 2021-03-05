@@ -8,18 +8,21 @@ import inf112.skeleton.app.GUI.RoboRallyGUI;
 import inf112.skeleton.app.GameLogic.BoardLogic;
 import inf112.skeleton.app.GameLogic.IBoardLogic;
 import inf112.skeleton.app.GameLogic.IPlayer;
+import inf112.skeleton.app.Server.ServerConnect;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+
 /**
- * You must run ServerStart before running the tests. Max players 4.
+ * You must run ServerStart before running the tests. Max players 11.
+ *
+ * You have to run the test one by one with the maximum of eleven test before having to restart the server.
  *
  * For each test the application will run and open,
  * to let the tests run correctly just close the window
  * by pressing on the X in the top right corner.
  *
- * If you run more than four tests while the server runs you get IndexOutOfBoundsException.
- * Just restart the server to run more tests.
  */
 
 public class MapTests {
@@ -29,7 +32,8 @@ public class MapTests {
     private IPlayer myPlayer;
 
     @Before
-    public void setUp(){
+    public void setUp() throws IOException {
+
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
         game = new RoboRallyGUI();
         new Lwjgl3Application(game, cfg);
