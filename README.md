@@ -23,3 +23,4 @@ To test the functionality where you ass cards to the program table you have to d
 - For the game to work properly the generated window can't be altered. Otherwise when you choose cards you will not get the intended card. This is due to the way we set resoulution in the program, this needs to be a global setting instead of the local solution we are using now
 - For the player to be able to watch the game being won, there has been installed a delay. This will not be a part of the final product, however it is here
 due to its information value. This enbales however the player enable the win condition several times before the applictions shuts down.
+- If the robot walks over the win flag in the middle of the programmed sequence he does not win when he should
