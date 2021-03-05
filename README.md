@@ -4,8 +4,8 @@
 
 ## How to run the program
 
-The program is built using Maven. To run the game, run  serverStart.java in the master branch. When main file is run, the game will ask for amount of players. 
-2 is recommended, however 4 is maximum. To determine the robots action, choose 5 cards from the 9 options that are given and press the ready button. 
+The program is built using Maven. To run the game, run  serverStart.java in the master branch. The server will ask for amount of players. 
+2 is recommended, however 4 is maximum. After that run either Main or Main1 ro start the game. To determine the robots action, choose 5 cards from the 9 options that are given and press the ready button. 
 
 Recommended screen resolution: 1920x1080
 
