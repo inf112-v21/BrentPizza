@@ -15,7 +15,7 @@ public class ServerConnect {
 
     static Server server;
 
-    public ServerConnect(int nrOfPlayers, int udpPort, int tcpPort) throws IOException {
+    public void start(int nrOfPlayers, int udpPort, int tcpPort) throws IOException {
 
 
         server = new Server();
@@ -27,9 +27,6 @@ public class ServerConnect {
         serverKryo.register(Packet.class);
         serverKryo.register(FirstConnectPacket.class);
         serverKryo.register(WinPacket.class);
-        serverKryo.register(Player.class);
-        serverKryo.register(Sprite.class);
-        serverKryo.register(Vector2.class);
 
         server.start();
         System.out.println("inf112.skeleton.app.Server is up and running");

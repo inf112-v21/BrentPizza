@@ -12,7 +12,8 @@ public class ServerStart {
         Scanner in = new Scanner(System.in);
         System.out.println("Please choose number of Players:");
         nrOfPlayers = in.nextInt();
-        ServerConnect connection = new ServerConnect(nrOfPlayers, 7979, 7878);
+        ServerConnect connection = new ServerConnect();
+        connection.start(nrOfPlayers, 7979, 7878);
 
 
     }
