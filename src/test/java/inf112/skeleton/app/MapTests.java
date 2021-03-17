@@ -37,12 +37,14 @@ public class MapTests {
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
         game = new RoboRallyGUI();
         new Lwjgl3Application(game, cfg);
-
+/*
         try {
             board = new BoardLogic(game.tiledMap);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+ */
         myPlayer = board.getMyPlayer();
     }
     /**

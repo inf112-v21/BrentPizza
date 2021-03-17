@@ -12,7 +12,7 @@ import inf112.skeleton.app.Cards.Card;
 import inf112.skeleton.app.Cards.CardGenerator;
 import inf112.skeleton.app.Cards.ICardGenerator;
 import inf112.skeleton.app.Cards.NullCard;
-import inf112.skeleton.app.GUI.Hud;
+import inf112.skeleton.app.GUI.HUD.Hud;
 
 import java.util.ArrayList;
 import java.util.HashMap;

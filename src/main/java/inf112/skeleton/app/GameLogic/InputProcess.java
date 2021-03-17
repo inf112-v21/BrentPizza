@@ -32,15 +32,12 @@ public class InputProcess implements IInputProcess {
         logic.sendPlayer(myPlayer);
 
         // ends game if player exits map
-
         if(!logic.checkOutOfBounds()){
             System.out.println("Player " + myPlayer.getID() + " fell and died");
             logic.setGameOver(true);
         }
 
-
         //ends game if player steps on flag
-
         if(logic.checkWin()){
             logic.sendWin();
         }
@@ -64,10 +61,10 @@ public class InputProcess implements IInputProcess {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        float x = Gdx.input.getDeltaX();
-        float y = Gdx.input.getDeltaY();
-        camera.translate(-x,y);
-        return true;
+            float x = Gdx.input.getDeltaX();
+            float y = Gdx.input.getDeltaY();
+            camera.translate(-x, y);
+            return true;
     }
 
     @Override
