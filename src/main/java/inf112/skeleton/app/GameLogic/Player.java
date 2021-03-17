@@ -6,10 +6,12 @@ import com.badlogic.gdx.math.Vector2;
 public class Player implements IPlayer {
     private int id;
     private Sprite playerSprite;
+    private int collectedFlags;
 
     public Player(int id, Sprite sprite) {
         this.id = id;
         this.playerSprite = sprite;
+        this.collectedFlags = 0;
     }
 
     @Override
