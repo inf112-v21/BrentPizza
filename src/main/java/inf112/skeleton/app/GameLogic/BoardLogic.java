@@ -90,6 +90,7 @@ public class BoardLogic implements IBoardLogic {
         return playerLoc.x == flagX & playerLoc.y == flagY;
     }
 
+
     @Override
     public void changePlayer(float x, float y, int id, float rotation){
         IPlayer curPlayer = players.get(id-1);

@@ -33,7 +33,10 @@ public class RoboRallyGUI extends Game {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
         camera.update();
-        tiledMap = new TmxMapLoader().load("src/main/Resources/emptyMap.tmx");
+
+        //tiledMap = new TmxMapLoader().load("src/main/Resources/emptyMap.tmx");
+        tiledMap = new TmxMapLoader().load("src/main/Resources/roboRallyMap.tmx");
+
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         sb = new SpriteBatch();
         sbHud = new SpriteBatch();
