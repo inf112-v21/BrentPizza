@@ -7,6 +7,9 @@ import inf112.skeleton.app.Packets.FirstConnectPacket;
 import inf112.skeleton.app.Packets.Packet;
 import inf112.skeleton.app.Packets.WinPacket;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 
 public class ServerListener extends Listener {
 
@@ -39,6 +42,7 @@ public class ServerListener extends Listener {
             server.sendToAllTCP(win);
 
         }
+
     }
 
     public void disconnected(Connection c){

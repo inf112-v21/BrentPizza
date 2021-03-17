@@ -44,8 +44,6 @@ public class BoardLogic implements IBoardLogic {
         }
         myPlayer = players.get(networkClient.getId()-1);
 
-
-
     }
 
 

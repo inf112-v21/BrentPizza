@@ -34,10 +34,13 @@ public class HudLogic implements IHudLogic {
         nullCard = new NullCard();
 
         programCards = new ArrayList<>();
+        programImageList = new ArrayList<>();
+
         ICardGenerator = new CardGenerator();
+
         hand = ICardGenerator.getRandomHand();
         handButtonList = new ArrayList<>();
-        programImageList = new ArrayList<>();
+
         readyButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/ready.png"))));
 
         //Create initial programCards list

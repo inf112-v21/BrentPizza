@@ -25,7 +25,6 @@ public class Hud {
         hudLogic = new HudLogic(boardLogic, this);
 
         programCardsTable = new ProgramTableGenerator();
-
         handCardsTable = new HandTableGenerator();
 
         stage.addActor(programCardsTable.createCardTable(hudLogic.getProgramImageList(), hudLogic.getReadyButton()));
