@@ -44,6 +44,9 @@ public class BoardLogic implements IBoardLogic {
         }
         myPlayer = players.get(networkClient.getId()-1);
 
+        //setter første spawn point som lastSavePoint
+        myPlayer.setLastSavePoint(myPlayer.getLocation());
+
     }
 
 
@@ -136,12 +139,24 @@ public class BoardLogic implements IBoardLogic {
     }
 
     @Override
+    public void setLocation(Vector2 location){
+        myPlayer.getSprite().setX(location.x);
+        myPlayer.getSprite().setY(location.y);
+
+    }
+
+    @Override
     public void movePlayerFromCardList(ArrayList<Card> cardArrayList){
         for (Card card: cardArrayList) {
             card.action(myPlayer);
             if(!checkOutOfBounds()){
                 System.out.println("Player fell and died");
-                setGameOver(true);
+                myPlayer.changeLifeTokens(-1); //endre HP til spilleren
+
+                if (myPlayer.getLifeTokens() <= 0){ //hvis han ikke har HP igjen avslutt spillet
+                    setGameOver(true);
+                }
+                else setLocation(myPlayer.getLastSavePoint()); //ellers endre posisjonen til siste savepoint
             }
         }
         if(checkWin()){

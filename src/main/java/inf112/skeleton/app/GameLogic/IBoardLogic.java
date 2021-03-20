@@ -1,5 +1,6 @@
 package inf112.skeleton.app.GameLogic;
 
+import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.Cards.Card;
 
 import java.util.ArrayList;
@@ -82,4 +83,10 @@ public interface IBoardLogic {
      * @param cardArrayList
      */
     void movePlayerFromCardList(ArrayList<Card> cardArrayList);
+
+    /**
+     * Endre posisjonen til en player til en gitt posisjon
+     * @param location - du vil endre til
+     */
+    void setLocation(Vector2 location);
 }

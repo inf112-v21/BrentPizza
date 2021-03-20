@@ -7,6 +7,8 @@ public class Card {
 
     TextureRegionDrawable textureRegionDrawable;
 
+    double priorityNumber;
+
 
     public void action(IPlayer player) {
     }
@@ -15,4 +17,8 @@ public class Card {
         return this.textureRegionDrawable;
     }
 
+    public double getPriorityNumber() {
+        priorityNumber = Math.random()*1000;
+        return priorityNumber;
+    }
 }

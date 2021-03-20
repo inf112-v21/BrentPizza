@@ -7,16 +7,37 @@ public class Player implements IPlayer {
     private int id;
     private Sprite playerSprite;
     private int collectedFlags;
+    private int lifeTokens;
+    private Vector2 lastSavePoint;
+
+    private static int damageTokens;
 
     public Player(int id, Sprite sprite) {
         this.id = id;
         this.playerSprite = sprite;
         this.collectedFlags = 0;
+        this.lifeTokens = lifeTokens;
+        this.lastSavePoint = lastSavePoint;
+
     }
 
     @Override
     public int getID() {
         return this.id;
+    }
+
+    public static int getDamageTokens(){
+        return damageTokens;
+    }
+
+    @Override
+    public int getLifeTokens(){
+        return lifeTokens;
+    }
+
+    @Override
+    public void changeLifeTokens(int x){
+        this.lifeTokens += x;
     }
 
     @Override
@@ -30,6 +51,14 @@ public class Player implements IPlayer {
         vector.x = playerSprite.getX();
         vector.y = playerSprite.getY();
         return vector;
+    }
+
+    public Vector2 getLastSavePoint(){
+        return this.lastSavePoint;
+    }
+
+    public void setLastSavePoint(Vector2 location){
+        lastSavePoint = location;
     }
 
     @Override

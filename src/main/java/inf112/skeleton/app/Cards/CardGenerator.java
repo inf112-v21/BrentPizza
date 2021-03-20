@@ -1,5 +1,7 @@
 package inf112.skeleton.app.Cards;
 
+import inf112.skeleton.app.GameLogic.Player;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -23,7 +25,7 @@ public class CardGenerator implements ICardGenerator {
     @Override
     public ArrayList<Card> getRandomHand(){
         ArrayList<Card> hand = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 9 - Player.getDamageTokens(); i++) {
             hand.add(getRandomCard());
         }
         return hand;
