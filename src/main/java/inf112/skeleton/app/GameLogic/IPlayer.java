@@ -81,4 +81,14 @@ public interface IPlayer {
      * @param location
      */
     void setLastSavePoint(Vector2 location);
+
+    /**
+     *
+     */
+    Integer getDamageTokens();
+
+    /**
+     *
+     */
+    void changeDamageTokens(Integer change);
 }

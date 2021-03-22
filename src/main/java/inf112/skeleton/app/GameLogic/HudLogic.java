@@ -28,9 +28,11 @@ public class HudLogic implements IHudLogic {
     HashMap<Button, Card> buttonToCard;
     Integer programCounter = 0;
     Hud hud;
+    IBoardLogic boardLogic;
 
     public HudLogic(IBoardLogic boardLogic, Hud hud){
         this.hud = hud;
+        this.boardLogic = boardLogic;
         nullCard = new NullCard();
 
         programCards = new ArrayList<>();
@@ -91,7 +93,7 @@ public class HudLogic implements IHudLogic {
 
     @Override
     public void updateHand(){
-        hand = ICardGenerator.getRandomHand();
+        hand = getHandLimited();
     }
 
     @Override
@@ -160,5 +162,15 @@ public class HudLogic implements IHudLogic {
     }
     public ArrayList<Card> getProgramCards(){
         return this.programCards;
+    }
+
+    public ArrayList<Card> getHandLimited(){
+        ArrayList<Card> randomHand = ICardGenerator.getRandomHand();
+        System.out.println(boardLogic.getMyPlayer().getDamageTokens());
+        for (int i = randomHand.size()-1; i > randomHand.size()- 1 - boardLogic.getMyPlayer().getDamageTokens(); i--) {
+            randomHand.set(i, new NullCard());
+        }
+        System.out.println(randomHand.toString());
+        return randomHand;
     }
 }

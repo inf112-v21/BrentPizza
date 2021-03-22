@@ -10,14 +10,15 @@ public class Player implements IPlayer {
     private int lifeTokens;
     private Vector2 lastSavePoint;
 
-    private static int damageTokens;
+    private int damageTokens;
 
     public Player(int id, Sprite sprite) {
         this.id = id;
         this.playerSprite = sprite;
         this.collectedFlags = 0;
-        this.lifeTokens = lifeTokens;
-        this.lastSavePoint = lastSavePoint;
+        this.lifeTokens = 3;
+        this.lastSavePoint = getLocation();
+        this.damageTokens = 0;
 
     }
 
@@ -26,8 +27,13 @@ public class Player implements IPlayer {
         return this.id;
     }
 
-    public static int getDamageTokens(){
+    public Integer getDamageTokens(){
         return damageTokens;
+    }
+
+    @Override
+    public void changeDamageTokens(Integer change) {
+        this.damageTokens += change;
     }
 
     @Override

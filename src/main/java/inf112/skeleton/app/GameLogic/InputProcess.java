@@ -28,6 +28,12 @@ public class InputProcess implements IInputProcess {
             myPlayer.moveForward();
         if (keycode == Input.Keys.SPACE)
             myPlayer.rotatePlayer(-90);
+        if(keycode == Input.Keys.NUM_1){
+            System.out.println(myPlayer.getDamageTokens());
+            myPlayer.changeDamageTokens(1);
+            System.out.println(myPlayer.getDamageTokens());
+        }
+
 
         logic.sendPlayer(myPlayer);
 
