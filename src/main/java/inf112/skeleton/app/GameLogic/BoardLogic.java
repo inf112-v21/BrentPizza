@@ -21,6 +21,10 @@ public class BoardLogic implements IBoardLogic {
     IPlayer myPlayer;
     Boolean gameOver = false;
     private Integer nrOfPlayers;
+    ArrayList<String> collectFlags = new ArrayList();
+    ArrayList<Vector2> repairsites;
+    ArrayList<Vector2> holes;
+
 
 
 
@@ -46,6 +50,9 @@ public class BoardLogic implements IBoardLogic {
 
         //setter første spawn point som lastSavePoint
         myPlayer.setLastSavePoint(myPlayer.getLocation());
+
+        repairsites = getRepairSites();
+        holes = getHoles();
 
     }
 
@@ -83,14 +90,80 @@ public class BoardLogic implements IBoardLogic {
 
     @Override
     public boolean checkWin(){
-        int index = tiledMap.getLayers().getIndex("flag");
-        MapLayer winLayer = tiledMap.getLayers().get(index);
-        float flagX = Float.parseFloat(winLayer.getObjects().get("Flag1").getProperties().get("x").toString());
-        float flagY = Float.parseFloat(winLayer.getObjects().get("Flag1").getProperties().get("y").toString());
-        Vector2 playerLoc = myPlayer.getLocation();
-        return playerLoc.x == flagX & playerLoc.y == flagY;
+         return collectedFlags() == 4;
     }
 
+    public Integer collectedFlags() {
+        int index = tiledMap.getLayers().getIndex("flag");
+        MapLayer winLayer = tiledMap.getLayers().get(index);
+        float flagX1 = Float.parseFloat(winLayer.getObjects().get("Flag1").getProperties().get("x").toString());
+        float flagY1 = Float.parseFloat(winLayer.getObjects().get("Flag1").getProperties().get("y").toString());
+        Vector2 flag1pos = new Vector2(flagX1,flagY1);
+
+        float flagX2 = Float.parseFloat(winLayer.getObjects().get("Flag2").getProperties().get("x").toString());
+        float flagY2 = Float.parseFloat(winLayer.getObjects().get("Flag2").getProperties().get("y").toString());
+        Vector2 flag2pos = new Vector2(flagX2,flagY2);
+
+        float flagX3 = Float.parseFloat(winLayer.getObjects().get("Flag3").getProperties().get("x").toString());
+        float flagY3 = Float.parseFloat(winLayer.getObjects().get("Flag3").getProperties().get("y").toString());
+        Vector2 flag3pos = new Vector2(flagX3,flagY3);
+
+        float flagX4 = Float.parseFloat(winLayer.getObjects().get("Flag4").getProperties().get("x").toString());
+        float flagY4 = Float.parseFloat(winLayer.getObjects().get("Flag4").getProperties().get("y").toString());
+        Vector2 playerLoc = myPlayer.getLocation();
+        if(collectFlags.size()==0 && playerLoc.x == flagX1 & playerLoc.y == flagY1){
+            collectFlags.add("Flag 1 collected");
+            myPlayer.setLastSavePoint(flag1pos);
+        }
+        if(collectFlags.size()==1 && playerLoc.x == flagX2 & playerLoc.y == flagY2){
+            collectFlags.add("Flag 2 collected");
+            myPlayer.setLastSavePoint(flag2pos);
+        }
+        if(collectFlags.size()==2 && playerLoc.x == flagX3 & playerLoc.y == flagY3){
+            collectFlags.add("Flag 3 collected");
+            myPlayer.setLastSavePoint(flag3pos);
+        }
+        if(collectFlags.size()==3 && playerLoc.x == flagX4 & playerLoc.y == flagY4){
+            collectFlags.add("Flag 4 collected");
+        } return collectFlags.size();
+    }
+    public void robotFallHole() {
+        for (Vector2 loc : holes) {
+            if (myPlayer.getLocation().equals(loc)) {
+                myPlayer.changeLifeTokens(-1);
+            }
+        }
+    }
+    public void repairRobot(){
+        for (Vector2 loc : repairsites) {
+            if(myPlayer.getLocation().equals(loc)){
+                myPlayer.changeDamageTokens(-1);
+            }
+        }
+    }
+    public ArrayList<Vector2> getRepairSites(){
+        ArrayList<Vector2> repairsites = new ArrayList<>();
+        Integer index = tiledMap.getLayers().getIndex("fix1");
+        MapLayer repairObject = tiledMap.getLayers().get(index);
+        for (int i = 0; i < repairObject.getObjects().getCount(); i++) {
+            Float x = Float.parseFloat(repairObject.getObjects().get(i).getProperties().get("x").toString());
+            Float y = Float.parseFloat(repairObject.getObjects().get(i).getProperties().get("y").toString());
+            Vector2 repairLocation = new Vector2(x,y);
+            repairsites.add(repairLocation);
+        } return repairsites;
+    }
+
+    public ArrayList<Vector2> getHoles(){
+        ArrayList<Vector2> holes = new ArrayList<>();
+        Integer index = tiledMap.getLayers().getIndex("hole");
+        MapLayer holeObject = tiledMap.getLayers().get(index);
+        for (int i = 0; i < holeObject.getObjects().getCount(); i++) {
+            Float x = Float.parseFloat(holeObject.getObjects().get(i).getProperties().get("x").toString());
+            Float y = Float.parseFloat(holeObject.getObjects().get(i).getProperties().get("y").toString());
+            Vector2 holeLocation = new Vector2(x,y);
+            holes.add(holeLocation);
+        } return holes;
+    }
 
     @Override
     public void changePlayer(float x, float y, int id, float rotation){
