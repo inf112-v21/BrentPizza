@@ -4,6 +4,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.GUI.RoboRallyGUI;
+import inf112.skeleton.app.GUI.Screens.GameScreen;
 import inf112.skeleton.app.GameLogic.BoardLogic;
 import inf112.skeleton.app.GameLogic.IBoardLogic;
 import inf112.skeleton.app.GameLogic.IPlayer;
@@ -27,20 +28,18 @@ public class MovementTests {
     private RoboRallyGUI game;
     private IBoardLogic board;
     private IPlayer myPlayer;
+    private GameScreen gameScreen;
 
     @Before
     public void setUp(){
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
-        game = new RoboRallyGUI();
-        new Lwjgl3Application(game, cfg);
-/*
-        try {
-            board = new BoardLogic(game.tiledMap);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        this.game = new RoboRallyGUI();
+        new Lwjgl3Application(this.game, cfg);
 
- */
+        this.gameScreen = this.game.getGameScreen();
+
+        board = gameScreen.boardLogic;
+
         myPlayer = board.getMyPlayer();
 
         myPlayer.getSprite().setX(500);

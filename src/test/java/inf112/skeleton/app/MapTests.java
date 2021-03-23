@@ -2,9 +2,14 @@ package inf112.skeleton.app;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import inf112.skeleton.app.GUI.RoboRallyGUI;
+import inf112.skeleton.app.GUI.Screens.GameScreen;
 import inf112.skeleton.app.GameLogic.BoardLogic;
 import inf112.skeleton.app.GameLogic.IBoardLogic;
 import inf112.skeleton.app.GameLogic.IPlayer;
@@ -28,23 +33,22 @@ import java.io.IOException;
 public class MapTests {
 
     private RoboRallyGUI game;
-    private IBoardLogic board;
+    private BoardLogic board;
     private IPlayer myPlayer;
+    private GameScreen gameScreen;
+
 
     @Before
-    public void setUp() throws IOException {
+    public void setUp() {
 
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
-        game = new RoboRallyGUI();
-        new Lwjgl3Application(game, cfg);
-/*
-        try {
-            board = new BoardLogic(game.tiledMap);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        this.game = new RoboRallyGUI();
+        new Lwjgl3Application(this.game, cfg);
 
- */
+        this.gameScreen = this.game.getGameScreen();
+
+        board = gameScreen.boardLogic;
+
         myPlayer = board.getMyPlayer();
     }
     /**
@@ -52,7 +56,7 @@ public class MapTests {
      */
     @Test
     public void testMap(){
-        assertNotNull(board);
+        assertNotNull(board.tiledMap);
     }
     /**
      * Test If player is inside map.

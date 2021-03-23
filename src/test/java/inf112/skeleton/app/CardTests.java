@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import inf112.skeleton.app.Cards.*;
 import inf112.skeleton.app.GUI.HUD.Hud;
 import inf112.skeleton.app.GUI.RoboRallyGUI;
+import inf112.skeleton.app.GUI.Screens.GameScreen;
 import inf112.skeleton.app.GameLogic.HudLogic;
 import inf112.skeleton.app.GameLogic.IBoardLogic;
 import inf112.skeleton.app.GameLogic.IPlayer;
@@ -35,20 +36,19 @@ public class CardTests {
     private IBoardLogic board;
     private IPlayer myPlayer;
     private HudLogic hudLog;
+    private GameScreen gameScreen;
     Hud hud;
 
     @Before
     public void setUp(){
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
-        game = new RoboRallyGUI();
-        new Lwjgl3Application(game, cfg);
-/*
-        try {
-            board = new BoardLogic(game.tiledMap);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-*/
+        this.game = new RoboRallyGUI();
+        new Lwjgl3Application(this.game, cfg);
+
+        this.gameScreen = this.game.getGameScreen();
+
+        board = gameScreen.boardLogic;
+
         hudLog = new HudLogic(board, hud);
         myPlayer = board.getMyPlayer();
 
