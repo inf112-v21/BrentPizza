@@ -23,7 +23,10 @@ public class BoardLogic implements IBoardLogic {
     private Integer nrOfPlayers;
     ArrayList<String> collectFlags = new ArrayList();
     ArrayList<Vector2> repairsites;
+    ArrayList<Vector2> flagList;
     ArrayList<Vector2> holes;
+    ArrayList<Vector2> spawnLocation;
+    Vector2 spawnpoint;
 
 
 
@@ -53,6 +56,7 @@ public class BoardLogic implements IBoardLogic {
 
         repairsites = getRepairSites();
         holes = getHoles();
+        flagList = getFlags();
 
     }
 
@@ -63,8 +67,6 @@ public class BoardLogic implements IBoardLogic {
      * Returns true if player is inside map.
      * Returns false if player is outside map.
      */
-
-
     @Override
     public boolean checkOutOfBounds() {
 
@@ -94,39 +96,24 @@ public class BoardLogic implements IBoardLogic {
     }
 
     public Integer collectedFlags() {
-        int index = tiledMap.getLayers().getIndex("flag");
-        MapLayer winLayer = tiledMap.getLayers().get(index);
-        float flagX1 = Float.parseFloat(winLayer.getObjects().get("Flag1").getProperties().get("x").toString());
-        float flagY1 = Float.parseFloat(winLayer.getObjects().get("Flag1").getProperties().get("y").toString());
-        Vector2 flag1pos = new Vector2(flagX1,flagY1);
-
-        float flagX2 = Float.parseFloat(winLayer.getObjects().get("Flag2").getProperties().get("x").toString());
-        float flagY2 = Float.parseFloat(winLayer.getObjects().get("Flag2").getProperties().get("y").toString());
-        Vector2 flag2pos = new Vector2(flagX2,flagY2);
-
-        float flagX3 = Float.parseFloat(winLayer.getObjects().get("Flag3").getProperties().get("x").toString());
-        float flagY3 = Float.parseFloat(winLayer.getObjects().get("Flag3").getProperties().get("y").toString());
-        Vector2 flag3pos = new Vector2(flagX3,flagY3);
-
-        float flagX4 = Float.parseFloat(winLayer.getObjects().get("Flag4").getProperties().get("x").toString());
-        float flagY4 = Float.parseFloat(winLayer.getObjects().get("Flag4").getProperties().get("y").toString());
         Vector2 playerLoc = myPlayer.getLocation();
-        if(collectFlags.size()==0 && playerLoc.x == flagX1 & playerLoc.y == flagY1){
-            collectFlags.add("Flag 1 collected");
-            myPlayer.setLastSavePoint(flag1pos);
+        if(collectFlags.size()==0 && playerLoc.equals(flagList.get(0))){
+                collectFlags.add("Flag 1 collected");
+                myPlayer.setLastSavePoint(flagList.get(0));
         }
-        if(collectFlags.size()==1 && playerLoc.x == flagX2 & playerLoc.y == flagY2){
-            collectFlags.add("Flag 2 collected");
-            myPlayer.setLastSavePoint(flag2pos);
+        if(collectFlags.size()==1 && playerLoc.equals(flagList.get(1))){
+                collectFlags.add("Flag 2 collected");
+                myPlayer.setLastSavePoint(flagList.get(1));
         }
-        if(collectFlags.size()==2 && playerLoc.x == flagX3 & playerLoc.y == flagY3){
-            collectFlags.add("Flag 3 collected");
-            myPlayer.setLastSavePoint(flag3pos);
+        if(collectFlags.size()==2 && playerLoc.equals(flagList.get(2))){
+                collectFlags.add("Flag 3 collected");
+                myPlayer.setLastSavePoint(flagList.get(2));
         }
-        if(collectFlags.size()==3 && playerLoc.x == flagX4 & playerLoc.y == flagY4){
-            collectFlags.add("Flag 4 collected");
+        if(collectFlags.size()==3 && playerLoc.equals(flagList.get(3))){
+                collectFlags.add("Flag 4 collected");
         } return collectFlags.size();
     }
+
     public void robotFallHole() {
         for (Vector2 loc : holes) {
             if (myPlayer.getLocation().equals(loc)) {
@@ -141,6 +128,19 @@ public class BoardLogic implements IBoardLogic {
             }
         }
     }
+
+    public ArrayList<Vector2> getFlags(){
+        ArrayList<Vector2> flagList = new ArrayList<>();
+        Integer index = tiledMap.getLayers().getIndex("flag");
+        MapLayer flagObject = tiledMap.getLayers().get(index);
+        for (int i = 1; i <= 4; i++) {
+            Float x = Float.parseFloat(flagObject.getObjects().get("Flag"+i).getProperties().get("x").toString());
+            Float y = Float.parseFloat(flagObject.getObjects().get("Flag"+i).getProperties().get("y").toString());
+            Vector2 flagLocation = new Vector2(x,y);
+            flagList.add(flagLocation);
+        } return flagList;
+    }
+
     public ArrayList<Vector2> getRepairSites(){
         ArrayList<Vector2> repairsites = new ArrayList<>();
         Integer index = tiledMap.getLayers().getIndex("fix1");
