@@ -28,9 +28,6 @@ public class BoardLogic implements IBoardLogic {
     ArrayList<Vector2> spawnLocation;
     Vector2 spawnpoint;
 
-
-
-
     public BoardLogic(TiledMap tiledMap) throws InterruptedException {
 
         this.tiledMap = tiledMap;
@@ -59,7 +56,6 @@ public class BoardLogic implements IBoardLogic {
         flagList = getFlags();
 
     }
-
 
     /**
      * Checks if player is inside map.
@@ -92,7 +88,8 @@ public class BoardLogic implements IBoardLogic {
 
     @Override
     public boolean checkWin(){
-         return collectedFlags() == 4;
+        System.out.println(myPlayer.getLocation());
+        return collectedFlags() == 4;
     }
 
     public Integer collectedFlags() {
@@ -121,6 +118,19 @@ public class BoardLogic implements IBoardLogic {
             }
         }
     }
+
+    public void robotFallOutsideMap() {
+            if (!checkOutOfBounds()) {
+                myPlayer.changeLifeTokens(-1);
+            }
+    }
+
+    public void robotFullDamage() {
+        if (myPlayer.getDamageTokens() == 10) {
+            myPlayer.changeLifeTokens(-1);
+        }
+    }
+
     public void repairRobot(){
         for (Vector2 loc : repairsites) {
             if(myPlayer.getLocation().equals(loc)){
@@ -185,7 +195,6 @@ public class BoardLogic implements IBoardLogic {
         return this.gameOver;
     }
 
-
     @Override
     public void setNrOfPlayers(Integer nr){
         this.nrOfPlayers = nr;
@@ -210,7 +219,6 @@ public class BoardLogic implements IBoardLogic {
     public void sendPlayer(IPlayer player){
         networkClient.sendPlayer(player);
     }
-
     @Override
     public void setLocation(Vector2 location){
         myPlayer.getSprite().setX(location.x);
@@ -236,8 +244,5 @@ public class BoardLogic implements IBoardLogic {
             networkClient.sendWin();
         }
         sendPlayer(myPlayer);
-
     }
-
-
 }

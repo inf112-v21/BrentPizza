@@ -1,16 +1,14 @@
 package inf112.skeleton.app;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.GUI.RoboRallyGUI;
 import inf112.skeleton.app.GUI.Screens.GameScreen;
 import inf112.skeleton.app.GameLogic.BoardLogic;
 import inf112.skeleton.app.GameLogic.IPlayer;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 /**
  * You must run ServerStart before running the tests. Max players 11.
  *
@@ -21,7 +19,7 @@ import org.junit.Test;
  * by pressing on the X in the top right corner.
  *
  */
-public class MapTests {
+public class PlayerLifeTests {
 
     private RoboRallyGUI game;
     private BoardLogic board;
@@ -29,8 +27,7 @@ public class MapTests {
     private GameScreen gameScreen;
 
     @Before
-    public void setUp() {
-
+    public void setUp(){
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
         this.game = new RoboRallyGUI();
         cfg.setWindowedMode(1920, 1080);
@@ -43,39 +40,37 @@ public class MapTests {
         myPlayer = board.getMyPlayer();
     }
     /**
-     * Test if map exist.
+     * Test if the player have three lives in beginning of game.
      */
     @Test
-    public void testMap(){
-        assertNotNull(board.tiledMap);
+    public void testIfRobotHasThreeLives(){
+
+        assertEquals(myPlayer.getLifeTokens(), 3);
     }
     /**
-     * Test If player is inside map.
+     * Test if the player loses one life if he falls in a hole.
      */
     @Test
-    public void testIfPlayerIsInsideMap(){
-        assertTrue(board.checkOutOfBounds());
-    }
-    /**
-     * Test If player touched a flag.
-     */
-    @Test
-    public void testIfPlayerTouchedFlag(){
+    public void testFallsInHole(){
+
         myPlayer.rotatePlayer(-180);
-        for(int i = 0; i < 4; i++){
-            myPlayer.moveForward();
-        }
+        myPlayer.moveForward();
         myPlayer.rotatePlayer(-90);
-        for(int i = 0; i < 8; i++){
+        for(int i = 0; i < 5; i++){
+            board.robotFallHole();
             myPlayer.moveForward();
         }
-        boolean isTrue = false;
-        for (Vector2 loc : board.getFlags()) {
-            if(myPlayer.getLocation().equals(loc)){
-                isTrue = true;
-                break;
-            }
-        }
-        assertTrue(isTrue);
+        assertEquals(myPlayer.getLifeTokens(), 2);
+    }
+    /**
+     * Test if the player loses one life if he falls of the map.
+     */
+    @Test
+    public void testFallsOutsideMap(){
+
+        myPlayer.moveForward();
+        board.robotFallOutsideMap();
+
+        assertEquals(myPlayer.getLifeTokens(), 2);
     }
 }
