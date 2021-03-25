@@ -33,6 +33,7 @@ public class BoardLogic implements IBoardLogic {
     ArrayList<Integer> thisTurnPlayerIndex;
     private boolean readyForProgram = true;
 
+    //These will be used in the next iteration and is not just "unused" code.
     ArrayList<Vector2> spawnLocation;
     Vector2 spawnpoint;
 
