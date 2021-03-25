@@ -7,12 +7,14 @@ import inf112.skeleton.app.GameLogic.IPlayer;
 
 public class MoveTwoCard extends Card{
 
-    public MoveTwoCard(){
-        textureRegionDrawable = new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/moveTwo.png")));
-    }
     @Override
     public void action(IPlayer player) {
         for (int i = 0; i < 2; i++) {
+            try{
+                Thread.sleep(500);
+            }catch (Exception e){
+                System.out.println(e);
+            }
             player.moveForward();
         }
     }

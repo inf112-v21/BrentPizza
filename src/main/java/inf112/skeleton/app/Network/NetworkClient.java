@@ -1,15 +1,22 @@
 package inf112.skeleton.app.Network;
 
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.app.Cards.Card;
+import inf112.skeleton.app.Cards.CardTranslator;
+import inf112.skeleton.app.Cards.NullCard;
+import inf112.skeleton.app.GameLogic.BoardLogic;
 import inf112.skeleton.app.GameLogic.IBoardLogic;
 import inf112.skeleton.app.GameLogic.IPlayer;
-import inf112.skeleton.app.Packets.FirstConnectPacket;
-import inf112.skeleton.app.Packets.Packet;
-import inf112.skeleton.app.Packets.WinPacket;
+import inf112.skeleton.app.GameLogic.Player;
+import inf112.skeleton.app.Packets.*;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import inf112.skeleton.app.Server.CardNoTexture;
+import org.lwjgl.system.CallbackI;
+
+import java.util.ArrayList;
 
 public class NetworkClient implements INetworkClient {
     static Client client;
@@ -17,16 +24,26 @@ public class NetworkClient implements INetworkClient {
     static String ip = "localhost";
     public int id;
     public int nrOfPlayers;
+    private CardTranslator cardTranslator;
+    private IBoardLogic boardLogic;
 
     public NetworkClient(IBoardLogic boardLogic) throws Exception{
         client = new Client();
-
+        cardTranslator = new CardTranslator();
+        this.boardLogic = boardLogic;
         //register classes
         Kryo clientKryo = client.getKryo();
         clientKryo.register(Packet.class);
         clientKryo.register(FirstConnectPacket.class);
         clientKryo.register(WinPacket.class);
-
+        clientKryo.register(ArrayList.class);
+        clientKryo.register(ProgramCardsPacket.class);
+        clientKryo.register(String.class);
+        clientKryo.register(Integer.class);
+        clientKryo.register(PlayerReady.class);
+        clientKryo.register(CardNoTexture.class);
+        clientKryo.register(TurnPacket.class);
+        clientKryo.register(NextRound.class);
 
         client.start();
 
@@ -52,6 +69,14 @@ public class NetworkClient implements INetworkClient {
                 if(p instanceof WinPacket){
                     WinPacket win = (WinPacket) p;
                     boardLogic.gameOver(win.ID);
+                }
+                if(p instanceof TurnPacket){
+                    TurnPacket turnPacket = (TurnPacket) p;
+                    boardLogic.doTurn(turnPacket);
+                }
+                if(p instanceof NextRound){
+                    boardLogic.nextRound();
+                    System.out.println("Ready for next round");
                 }
             }
             public void disconnected(Connection c){
@@ -80,5 +105,23 @@ public class NetworkClient implements INetworkClient {
         WinPacket win = new WinPacket();
         win.ID = this.id;
         client.sendTCP(win);
+    }
+
+    public void sendProgramCards(ArrayList<Card> programCards){
+        ArrayList<String> programCardsStringed = new ArrayList<>();
+        ArrayList<Integer> priorityNumbers = new ArrayList<>();
+        for (Card card: programCards) {
+            programCardsStringed.add(cardTranslator.translateFromCardToString(card));
+            priorityNumbers.add(card.getPriorityNumber());
+        }
+
+        ProgramCardsPacket programCardsPacket = new ProgramCardsPacket();
+        programCardsPacket.programCards = programCardsStringed;
+        programCardsPacket.programCardsPriority = priorityNumbers;
+        client.sendTCP(programCardsPacket);
+    }
+    public void doneTurn(){
+        PlayerReady playerReady = new PlayerReady();
+        client.sendTCP(playerReady);
     }
 }

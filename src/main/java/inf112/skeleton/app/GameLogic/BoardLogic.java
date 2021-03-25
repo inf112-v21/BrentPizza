@@ -7,8 +7,10 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
-import inf112.skeleton.app.Cards.Card;
+import inf112.skeleton.app.Cards.*;
 import inf112.skeleton.app.Network.NetworkClient;
+import inf112.skeleton.app.Packets.TurnPacket;
+import inf112.skeleton.app.Server.CardNoTexture;
 
 import java.util.ArrayList;
 
@@ -24,6 +26,9 @@ public class BoardLogic implements IBoardLogic {
     ArrayList<String> collectFlags = new ArrayList();
     ArrayList<Vector2> repairsites;
     ArrayList<Vector2> holes;
+    ArrayList<ArrayList<Card>> thisTurnCards;
+    ArrayList<Integer> thisTurnPlayerIndex;
+    private boolean readyForProgram = true;
 
 
 
@@ -219,9 +224,31 @@ public class BoardLogic implements IBoardLogic {
     }
 
     @Override
-    public void movePlayerFromCardList(ArrayList<Card> cardArrayList){
-        for (Card card: cardArrayList) {
-            card.action(myPlayer);
+    public void sendProgramList(ArrayList<Card> cardArrayList){
+        readyForProgram = false;
+        networkClient.sendProgramCards(cardArrayList);
+    }
+
+    public void addCardToCardList(Card card, Integer playerID){
+        thisTurnPlayerIndex.add(playerID-1);
+    }
+
+    public void AddThisTurnProgramCards(ArrayList<Card> programCards, Integer ID){
+        thisTurnCards.add(programCards);
+        thisTurnPlayerIndex.add(ID);
+    }
+
+    public void doTurn(TurnPacket turnPacket){
+        ArrayList<Card> cards = new ArrayList<>();
+        CardTranslator cardGenerator = new CardTranslator();
+        for (String cardName: turnPacket.cards) {
+            System.out.println(cardName);
+            Card card = cardGenerator.translateFromStringToCard(cardName);
+            cards.add(card);
+        }
+        for (int i = 0; i < cards.size(); i++) {
+            System.out.println(turnPacket.ID.get(i));
+            IPlayer playerToMove = players.get(turnPacket.ID.get(i)-1);
             if(!checkOutOfBounds()){
                 System.out.println("Player fell and died");
                 myPlayer.changeLifeTokens(-1); //endre HP til spilleren
@@ -229,15 +256,33 @@ public class BoardLogic implements IBoardLogic {
                 if (myPlayer.getLifeTokens() <= 0){ //hvis han ikke har HP igjen avslutt spillet
                     setGameOver(true);
                 }
-                else setLocation(myPlayer.getLastSavePoint()); //ellers endre posisjonen til siste savepoint
+                else {
+                    setLocation(myPlayer.getLastSavePoint()); //ellers endre posisjonen til siste savepoint
+                    networkClient.sendPlayer(myPlayer);
+                }
             }
+            cards.get(i).action(playerToMove);
         }
+
         if(checkWin()){
             networkClient.sendWin();
         }
-        sendPlayer(myPlayer);
+        try{
+            Thread.sleep(500);
+        }catch (Exception e){
+            System.out.println(e);
+        }
 
+        networkClient.doneTurn();
     }
 
+    @Override
+    public void nextRound() {
+        readyForProgram = true;
+    }
 
+    @Override
+    public boolean isReadyForNextRound() {
+        return readyForProgram;
+    }
 }

@@ -7,10 +7,6 @@ import inf112.skeleton.app.GameLogic.IPlayer;
 
 public class NullCard extends Card {
 
-    public NullCard(){
-        textureRegionDrawable = new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/nullCard.png")));
-    }
-
     public void action(IPlayer player) {
         System.out.println("Null card cannot move");
     }

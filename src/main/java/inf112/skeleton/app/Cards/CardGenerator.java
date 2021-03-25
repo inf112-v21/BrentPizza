@@ -30,4 +30,5 @@ public class CardGenerator implements ICardGenerator {
         }
         return hand;
     }
+
 }

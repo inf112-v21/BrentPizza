@@ -8,10 +8,6 @@ import inf112.skeleton.app.GameLogic.IPlayer;
 public class TurnRightCard extends Card{
 
 
-    public TurnRightCard(){
-        textureRegionDrawable = new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/rightTurn.png")));
-    }
-
     public void action(IPlayer player) {
         player.rotatePlayer(-90);
     }

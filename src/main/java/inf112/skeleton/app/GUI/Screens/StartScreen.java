@@ -31,7 +31,7 @@ public class StartScreen {
         table.center();
         table.setFillParent(true);
 
-        Button startButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/ready.png"))));
+        Button startButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/start.png"))));
         table.add(startButton).expand(0,0).pad(10);
         stage.addActor(table);
 
