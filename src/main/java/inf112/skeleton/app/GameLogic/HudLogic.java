@@ -8,11 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import inf112.skeleton.app.Cards.Card;
-import inf112.skeleton.app.Cards.CardGenerator;
-import inf112.skeleton.app.Cards.ICardGenerator;
-import inf112.skeleton.app.Cards.NullCard;
-import inf112.skeleton.app.GUI.Hud;
+import inf112.skeleton.app.Cards.*;
+import inf112.skeleton.app.GUI.HUD.Hud;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,16 +25,23 @@ public class HudLogic implements IHudLogic {
     HashMap<Button, Card> buttonToCard;
     Integer programCounter = 0;
     Hud hud;
+    IBoardLogic boardLogic;
+    TextureGetter textureGetter;
 
     public HudLogic(IBoardLogic boardLogic, Hud hud){
         this.hud = hud;
+        this.boardLogic = boardLogic;
+        this.textureGetter = new TextureGetter();
         nullCard = new NullCard();
 
         programCards = new ArrayList<>();
+        programImageList = new ArrayList<>();
+
         ICardGenerator = new CardGenerator();
+
         hand = ICardGenerator.getRandomHand();
         handButtonList = new ArrayList<>();
-        programImageList = new ArrayList<>();
+
         readyButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/ready.png"))));
 
         //Create initial programCards list
@@ -47,26 +51,26 @@ public class HudLogic implements IHudLogic {
 
         //Create programImageList
         for (int i = 0; i < programCards.size(); i++) {
-            programImageList.add(new Image(programCards.get(i).getTextureRegionDrawable()));
+            programImageList.add(new Image(textureGetter.getCardTexture(programCards.get(i))));
         }
 
         //Create handButtonList
         for (int i = 0; i < hand.size(); i++) {
-            handButtonList.add(new ImageButton(hand.get(i).getTextureRegionDrawable()));
+            handButtonList.add(new ImageButton(textureGetter.getCardTexture(hand.get(i))));
         }
         updateButtonToHandMap();
         addClickListenersHand();
 
         readyButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
-                programCounter = 0;
-                boardLogic.movePlayerFromCardList(programCards);
-                clearProgramCards();
-                updateProgramImageList();
-                updateHand();
-                updateHandButtonList();
-                updateButtonToHandMap();
-                hud.updateStage();
+                if(boardLogic.isReadyForNextRound()){
+                    programCounter = 0;
+                    boardLogic.sendProgramList(programCards);
+                    newRound();
+                }
+                else{
+                    System.out.println("YOU NEED TO WAIT FOR NEXT ROUND!");
+                }
             }
         });
     }
@@ -75,20 +79,20 @@ public class HudLogic implements IHudLogic {
     @Override
     public void updateProgramImageList(){
         for (int i = 0; i < 5; i++) {
-            programImageList.set(i,  new Image(programCards.get(i).getTextureRegionDrawable()));
+            programImageList.set(i,  new Image(textureGetter.getCardTexture(programCards.get(i))));
         }
     }
     @Override
     public void updateHandButtonList(){
         for (int i = 0; i < hand.size(); i++) {
-            handButtonList.set(i,  new ImageButton(hand.get(i).getTextureRegionDrawable()));
+            handButtonList.set(i,  new ImageButton(textureGetter.getCardTexture(hand.get(i))));
         }
         addClickListenersHand();
     }
 
     @Override
     public void updateHand(){
-        hand = ICardGenerator.getRandomHand();
+        hand = getHandLimited();
     }
 
     @Override
@@ -115,11 +119,11 @@ public class HudLogic implements IHudLogic {
         Card currentCard = buttonToCard.get(button);
 
         programCards.set(programCounter, currentCard);
-        programImageList.set(programCounter, new Image(programCards.get(programCounter).getTextureRegionDrawable()));
+        programImageList.set(programCounter, new Image(textureGetter.getCardTexture(programCards.get(programCounter))));
 
         Integer indexHandLists = handButtonList.indexOf(button);
         hand.set(indexHandLists, new NullCard());
-        handButtonList.set(indexHandLists, new ImageButton(nullCard.getTextureRegionDrawable()));
+        handButtonList.set(indexHandLists, new ImageButton(textureGetter.getCardTexture(nullCard)));
         programCounter += 1;
 
     }
@@ -157,5 +161,23 @@ public class HudLogic implements IHudLogic {
     }
     public ArrayList<Card> getProgramCards(){
         return this.programCards;
+    }
+
+    public ArrayList<Card> getHandLimited(){
+        ArrayList<Card> randomHand = ICardGenerator.getRandomHand();
+        System.out.println(boardLogic.getMyPlayer().getDamageTokens());
+        for (int i = randomHand.size()-1; i > randomHand.size()- 1 - boardLogic.getMyPlayer().getDamageTokens(); i--) {
+            randomHand.set(i, new NullCard());
+        }
+        System.out.println(randomHand.toString());
+        return randomHand;
+    }
+    public void newRound(){
+        clearProgramCards();
+        updateProgramImageList();
+        updateHand();
+        updateHandButtonList();
+        updateButtonToHandMap();
+        hud.updateStage();
     }
 }

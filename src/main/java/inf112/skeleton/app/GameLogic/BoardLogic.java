@@ -7,8 +7,9 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
-import inf112.skeleton.app.Cards.Card;
+import inf112.skeleton.app.Cards.*;
 import inf112.skeleton.app.Network.NetworkClient;
+import inf112.skeleton.app.Packets.TurnPacket;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,19 @@ public class BoardLogic implements IBoardLogic {
     IPlayer myPlayer;
     Boolean gameOver = false;
     private Integer nrOfPlayers;
+    ArrayList<String> collectFlags = new ArrayList();
+    ArrayList<Vector2> repairsites;
+    ArrayList<Vector2> repairsites2;
+    ArrayList<Vector2> flagList;
+    ArrayList<Vector2> holes;
+
+    private boolean readyForProgram = true;
+
+    //These will be used in the next iteration and is not just "unused" code.
+    ArrayList<Vector2> spawnLocation;
+    Vector2 spawnpoint;
+
+
 
 
 
@@ -44,7 +58,13 @@ public class BoardLogic implements IBoardLogic {
         }
         myPlayer = players.get(networkClient.getId()-1);
 
+        //setter første spawn point som lastSavePoint
+        myPlayer.setLastSavePoint(myPlayer.getLocation());
 
+        repairsites = getRepairSites();
+        repairsites2 = getRepairSites2();
+        holes = getHoles();
+        flagList = getFlags();
 
     }
 
@@ -55,8 +75,6 @@ public class BoardLogic implements IBoardLogic {
      * Returns true if player is inside map.
      * Returns false if player is outside map.
      */
-
-
     @Override
     public boolean checkOutOfBounds() {
 
@@ -82,14 +100,113 @@ public class BoardLogic implements IBoardLogic {
 
     @Override
     public boolean checkWin(){
-        int index = tiledMap.getLayers().getIndex("flag");
-        MapLayer winLayer = tiledMap.getLayers().get(index);
-        float flagX = Float.parseFloat(winLayer.getObjects().get("Flag1").getProperties().get("x").toString());
-        float flagY = Float.parseFloat(winLayer.getObjects().get("Flag1").getProperties().get("y").toString());
-        Vector2 playerLoc = myPlayer.getLocation();
-        return playerLoc.x == flagX & playerLoc.y == flagY;
+         return collectedFlags() == 4;
     }
 
+    public Integer collectedFlags() {
+        Vector2 playerLoc = myPlayer.getLocation();
+        if(collectFlags.size()==0 && playerLoc.equals(flagList.get(0))){
+                collectFlags.add("Flag 1 collected");
+                myPlayer.setLastSavePoint(flagList.get(0));
+        }
+        if(collectFlags.size()==1 && playerLoc.equals(flagList.get(1))){
+                collectFlags.add("Flag 2 collected");
+                myPlayer.setLastSavePoint(flagList.get(1));
+        }
+        if(collectFlags.size()==2 && playerLoc.equals(flagList.get(2))){
+                collectFlags.add("Flag 3 collected");
+                myPlayer.setLastSavePoint(flagList.get(2));
+        }
+        if(collectFlags.size()==3 && playerLoc.equals(flagList.get(3))){
+                collectFlags.add("Flag 4 collected");
+        } return collectFlags.size();
+    }
+
+    public void robotFallHole() {
+        for (Vector2 loc : holes) {
+            if (myPlayer.getLocation().equals(loc)) {
+                myPlayer.changeLifeTokens(-1);
+                //respawn player here
+            }
+        }
+    }
+
+    public void robotFallOutsideMap() {
+            if (!checkOutOfBounds()) {
+                myPlayer.changeLifeTokens(-1);
+                //respawn player here
+            }
+    }
+
+    public void robotFullDamage() {
+        if (myPlayer.getDamageTokens()>= 9) {
+            myPlayer.changeLifeTokens(-1);
+            //respawn player
+        }
+    }
+
+    public void repairRobot(){
+        for (Vector2 loc : repairsites) {
+            if(myPlayer.getLocation().equals(loc)){
+                myPlayer.changeDamageTokens(-1);
+            }
+        }
+        for (Vector2 loc : repairsites2) {
+            if(myPlayer.getLocation().equals(loc)){
+                myPlayer.changeDamageTokens(-2);
+            }
+        }
+    }
+
+    public ArrayList<Vector2> getFlags(){
+        ArrayList<Vector2> flagList = new ArrayList<>();
+        Integer index = tiledMap.getLayers().getIndex("flag");
+        MapLayer flagObject = tiledMap.getLayers().get(index);
+        for (int i = 1; i <= 4; i++) {
+            Float x = Float.parseFloat(flagObject.getObjects().get("Flag"+i).getProperties().get("x").toString());
+            Float y = Float.parseFloat(flagObject.getObjects().get("Flag"+i).getProperties().get("y").toString());
+            Vector2 flagLocation = new Vector2(x,y);
+            flagList.add(flagLocation);
+        } return flagList;
+    }
+
+    public ArrayList<Vector2> getRepairSites(){
+        ArrayList<Vector2> repairsites = new ArrayList<>();
+        Integer index = tiledMap.getLayers().getIndex("fix1");
+        MapLayer repairObject = tiledMap.getLayers().get(index);
+        for (int i = 0; i < repairObject.getObjects().getCount(); i++) {
+            Float x = Float.parseFloat(repairObject.getObjects().get(i).getProperties().get("x").toString());
+            Float y = Float.parseFloat(repairObject.getObjects().get(i).getProperties().get("y").toString());
+            Vector2 repairLocation = new Vector2(x,y);
+            repairsites.add(repairLocation);
+        } return repairsites;
+    }
+
+    public ArrayList<Vector2> getRepairSites2(){
+        ArrayList<Vector2> repairsites2 = new ArrayList<>();
+        Integer index = tiledMap.getLayers().getIndex("fix2");
+        MapLayer repairObject = tiledMap.getLayers().get(index);
+        for (int i = 0; i < repairObject.getObjects().getCount(); i++) {
+            Float x = Float.parseFloat(repairObject.getObjects().get(i).getProperties().get("x").toString());
+            Float y = Float.parseFloat(repairObject.getObjects().get(i).getProperties().get("y").toString());
+            Vector2 repairLocation = new Vector2(x,y);
+            repairsites2.add(repairLocation);
+        } return repairsites2;
+    }
+
+    public ArrayList<Vector2> getHoles(){
+        ArrayList<Vector2> holes = new ArrayList<>();
+        Integer index = tiledMap.getLayers().getIndex("hole");
+        MapLayer holeObject = tiledMap.getLayers().get(index);
+        for (int i = 0; i < holeObject.getObjects().getCount(); i++) {
+            Float x = Float.parseFloat(holeObject.getObjects().get(i).getProperties().get("x").toString());
+            Float y = Float.parseFloat(holeObject.getObjects().get(i).getProperties().get("y").toString());
+            Vector2 holeLocation = new Vector2(x,y);
+            holes.add(holeLocation);
+        } return holes;
+    }
+
+    //to be removed in future iteration. This is just used for moving manually for testing
     @Override
     public void changePlayer(float x, float y, int id, float rotation){
         IPlayer curPlayer = players.get(id-1);
@@ -137,20 +254,69 @@ public class BoardLogic implements IBoardLogic {
     }
 
     @Override
-    public void movePlayerFromCardList(ArrayList<Card> cardArrayList){
-        for (Card card: cardArrayList) {
-            card.action(myPlayer);
-            if(!checkOutOfBounds()){
-                System.out.println("Player fell and died");
-                setGameOver(true);
-            }
-        }
-        if(checkWin()){
-            networkClient.sendWin();
-        }
-        sendPlayer(myPlayer);
+    public void setLocation(Vector2 location){
+        myPlayer.getSprite().setX(location.x);
+        myPlayer.getSprite().setY(location.y);
 
     }
 
+    @Override
+    public void sendProgramList(ArrayList<Card> cardArrayList){
+        readyForProgram = false;
+        networkClient.sendProgramCards(cardArrayList);
+    }
 
+
+    public void doTurn(TurnPacket turnPacket){
+        ArrayList<Card> cards = new ArrayList<>();
+        CardTranslator cardGenerator = new CardTranslator();
+        for (String cardName: turnPacket.cards) {
+            System.out.println(cardName);
+            Card card = cardGenerator.translateFromStringToCard(cardName);
+            cards.add(card);
+        }
+        for (int i = 0; i < cards.size(); i++) {
+            System.out.println(turnPacket.ID.get(i));
+            IPlayer playerToMove = players.get(turnPacket.ID.get(i)-1);
+            if(!checkOutOfBounds()){
+                System.out.println("Player fell and died");
+                myPlayer.changeLifeTokens(-1); //endre HP til spilleren
+
+                if (myPlayer.getLifeTokens() <= 0){ //hvis han ikke har HP igjen avslutt spillet
+                    setGameOver(true);
+                }
+                else {
+                    setLocation(myPlayer.getLastSavePoint()); //ellers endre posisjonen til siste savepoint
+                    networkClient.sendPlayer(myPlayer);
+                }
+            }
+            cards.get(i).action(playerToMove);
+        }
+
+        if(checkWin()){
+            networkClient.sendWin();
+        }
+        try{
+            Thread.sleep(500);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+        networkClient.doneTurn();
+    }
+
+    @Override
+    public void nextRound() {
+        readyForProgram = true;
+    }
+
+    @Override
+    public boolean isReadyForNextRound() {
+        return readyForProgram;
+    }
+
+    @Override
+    public TiledMap getTiledMap() {
+        return this.tiledMap;
+    }
 }

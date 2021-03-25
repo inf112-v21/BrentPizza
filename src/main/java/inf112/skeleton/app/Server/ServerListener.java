@@ -3,9 +3,7 @@ package inf112.skeleton.app.Server;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-import inf112.skeleton.app.Packets.FirstConnectPacket;
-import inf112.skeleton.app.Packets.Packet;
-import inf112.skeleton.app.Packets.WinPacket;
+import inf112.skeleton.app.Packets.*;
 
 
 public class ServerListener extends Listener {
@@ -13,10 +11,13 @@ public class ServerListener extends Listener {
     private final int nrOfPlayers;
     private final Server server;
 
+    private PriorityHandler priorityHandler;
+
     public ServerListener(int nrOfPlayers, Server server){
         this.nrOfPlayers = nrOfPlayers;
         this.server = server;
 
+        priorityHandler = new PriorityHandler(this.server);
     }
 
     public void connected(Connection c){
@@ -37,12 +38,28 @@ public class ServerListener extends Listener {
             WinPacket win = (WinPacket) p;
             System.out.println("Player with ID " + win.ID + " has won!");
             server.sendToAllTCP(win);
-
         }
+        if(p instanceof ProgramCardsPacket){
+            ProgramCardsPacket programCardsPacket = (ProgramCardsPacket) p;
+            priorityHandler.addCards(programCardsPacket.programCards, programCardsPacket.programCardsPriority, c.getID());
+            if(priorityHandler.recievedAllCards()){
+                priorityHandler.createTurnList();
+            }
+        }
+        if(p instanceof PlayerReady){
+            priorityHandler.playerReady();
+            if(priorityHandler.allPlayersReady()){
+                priorityHandler.sendNextTurn();
+                System.out.println("Next turn sent");
+            }
+        }
+
+
     }
 
     public void disconnected(Connection c){
         System.out.println("Client " + c.getID() + " disconnected");
+
     }
 
 }

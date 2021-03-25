@@ -6,15 +6,45 @@ import com.badlogic.gdx.math.Vector2;
 public class Player implements IPlayer {
     private int id;
     private Sprite playerSprite;
+    //To be used in the future
+    private int collectedFlags;
+    private int lifeTokens;
+    private Vector2 lastSavePoint;
+
+    private int damageTokens;
 
     public Player(int id, Sprite sprite) {
         this.id = id;
         this.playerSprite = sprite;
+        this.collectedFlags = 0;
+        this.lifeTokens = 3;
+        this.lastSavePoint = getLocation();
+        this.damageTokens = 0;
+
     }
 
     @Override
     public int getID() {
         return this.id;
+    }
+
+    public Integer getDamageTokens(){
+        return damageTokens;
+    }
+
+    @Override
+    public void changeDamageTokens(Integer change) {
+        this.damageTokens += change;
+    }
+
+    @Override
+    public int getLifeTokens(){
+        return lifeTokens;
+    }
+
+    @Override
+    public void changeLifeTokens(int x){
+        this.lifeTokens += x;
     }
 
     @Override
@@ -28,6 +58,14 @@ public class Player implements IPlayer {
         vector.x = playerSprite.getX();
         vector.y = playerSprite.getY();
         return vector;
+    }
+
+    public Vector2 getLastSavePoint(){
+        return this.lastSavePoint;
+    }
+
+    public void setLastSavePoint(Vector2 location){
+        lastSavePoint = location;
     }
 
     @Override

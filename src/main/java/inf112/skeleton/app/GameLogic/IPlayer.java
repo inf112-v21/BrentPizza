@@ -58,4 +58,37 @@ public interface IPlayer {
      */
     void setY(float y);
 
+    /**
+     *
+     * @return Players health points
+     */
+    int getLifeTokens();
+
+    /**
+     * Makes changes to the players life tokens
+     * @param x - amount you want to change
+     */
+    void changeLifeTokens(int x);
+
+    /**
+     * Returns the players last save point
+     * @return
+     */
+    Vector2 getLastSavePoint();
+
+    /**
+     * returns the players last save point
+     * @param location
+     */
+    void setLastSavePoint(Vector2 location);
+
+    /**
+     *
+     */
+    Integer getDamageTokens();
+
+    /**
+     *
+     */
+    void changeDamageTokens(Integer change);
 }

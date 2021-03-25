@@ -1,6 +1,9 @@
 package inf112.skeleton.app.GameLogic;
 
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.Cards.Card;
+import inf112.skeleton.app.Packets.TurnPacket;
 
 import java.util.ArrayList;
 
@@ -81,5 +84,37 @@ public interface IBoardLogic {
      * Does the moves based on a list of cards and the given card objects action
      * @param cardArrayList
      */
-    void movePlayerFromCardList(ArrayList<Card> cardArrayList);
+    void sendProgramList(ArrayList<Card> cardArrayList);
+
+    /**
+     * Endre posisjonen til en player til en gitt posisjon
+     * @param location - du vil endre til
+     */
+    void setLocation(Vector2 location);
+
+    public void doTurn(TurnPacket turnPacket);
+
+    public void nextRound();
+
+    public boolean isReadyForNextRound();
+
+    public TiledMap getTiledMap();
+
+    public ArrayList<Vector2> getHoles();
+
+    public ArrayList<Vector2> getRepairSites2();
+
+    public ArrayList<Vector2> getRepairSites();
+
+    public ArrayList<Vector2> getFlags();
+
+    public void repairRobot();
+
+    public void robotFullDamage();
+
+    public void robotFallOutsideMap();
+
+    public void robotFallHole();
+
+    public Integer collectedFlags();
 }

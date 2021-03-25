@@ -13,6 +13,8 @@ public class CardGenerator implements ICardGenerator {
         card.add(new MoveThreeCard());
         card.add(new TurnLeftCard());
         card.add(new TurnRightCard());
+        card.add(new uTurnCard());
+        card.add(new MoveBackCard());
         Collections.shuffle(card);
         return card.get(1);
 
@@ -26,4 +28,5 @@ public class CardGenerator implements ICardGenerator {
         }
         return hand;
     }
+
 }
