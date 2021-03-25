@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
  * You have to run the test one by one with the maximum of eleven test before having to restart the server.
  *
  * For each test the application will run and open,
- * to let the tests run correctly push the ready button to open the map and then just close the window
+ * to let the tests run correctly push the start button to open the map and then just close the window
  * by pressing on the X in the top right corner.
  *
  */

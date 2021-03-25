@@ -7,8 +7,9 @@ import inf112.skeleton.app.Cards.NullCard;
 import inf112.skeleton.app.GUI.HUD.Hud;
 import inf112.skeleton.app.GUI.RoboRallyGUI;
 import inf112.skeleton.app.GUI.Screens.GameScreen;
-import inf112.skeleton.app.GameLogic.BoardLogic;
+
 import inf112.skeleton.app.GameLogic.HudLogic;
+import inf112.skeleton.app.GameLogic.IBoardLogic;
 import inf112.skeleton.app.GameLogic.IPlayer;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +28,7 @@ import static org.junit.Assert.assertEquals;
 public class PlayerDamageTests {
 
     private RoboRallyGUI game;
-    private BoardLogic board;
+    private IBoardLogic board;
     private IPlayer myPlayer;
     private GameScreen gameScreen;
     private HudLogic hudLog;

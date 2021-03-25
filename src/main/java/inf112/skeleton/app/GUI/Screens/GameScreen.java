@@ -12,11 +12,12 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.skeleton.app.GUI.HUD.Hud;
 import inf112.skeleton.app.GUI.RoboRallyGUI;
 import inf112.skeleton.app.GameLogic.*;
+import org.lwjgl.system.CallbackI;
 
 public class GameScreen {
 
     public TiledMap tiledMap;
-    public BoardLogic boardLogic;
+    public IBoardLogic boardLogic;
     OrthographicCamera camera;
     TiledMapRenderer tiledMapRenderer;
     SpriteBatch sb;

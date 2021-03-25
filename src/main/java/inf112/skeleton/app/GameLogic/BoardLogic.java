@@ -314,4 +314,9 @@ public class BoardLogic implements IBoardLogic {
     public boolean isReadyForNextRound() {
         return readyForProgram;
     }
+
+    @Override
+    public TiledMap getTiledMap() {
+        return this.tiledMap;
+    }
 }
