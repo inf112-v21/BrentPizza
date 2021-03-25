@@ -26,7 +26,7 @@ public class TextureGetter {
             return new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/rightTurn.png")));
         }
         else if(card instanceof uTurnCard){
-            return new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/moveBack.png")));
+            return new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/uTurn.png")));
         }
         else if(card instanceof NullCard){
             return new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/nullCard.png")));

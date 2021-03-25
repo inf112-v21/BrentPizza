@@ -14,7 +14,6 @@ import inf112.skeleton.app.GUI.RoboRallyGUI;
 import inf112.skeleton.app.GameLogic.*;
 
 public class GameScreen {
-    private Viewport viewport;
 
     public TiledMap tiledMap;
     public BoardLogic boardLogic;
@@ -31,7 +30,6 @@ public class GameScreen {
         this.rgb = rgb;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
-        viewport = new FitViewport(1920, 1080, this.camera);
 
         camera.update();
 

@@ -2,8 +2,11 @@ package inf112.skeleton.app;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.skeleton.app.Cards.*;
 import inf112.skeleton.app.GUI.HUD.Hud;
 import inf112.skeleton.app.GUI.RoboRallyGUI;
@@ -161,5 +164,36 @@ public class CardTests {
         Vector2 movement = new Vector2(350, 500);
 
         assertEquals(myPlayer.getLocation(), movement);
+    }
+
+    /**
+     * Test if TurnRightCard turn player one right.
+     */
+    @Test
+    public void testTextureGetter(){
+        TextureGetter textureGetter = new TextureGetter();
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(new TurnRightCard());
+        cards.add(new TurnLeftCard());
+        cards.add(new MoveTwoCard());
+        cards.add(new MoveThreeCard());
+        cards.add(new MoveOneCard());
+        cards.add(new uTurnCard());
+        cards.add(new MoveBackCard());
+        cards.add(new NullCard());
+        ArrayList<TextureRegionDrawable> textureRegions = new ArrayList<>();
+        textureRegions.add(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/rightTurn.png"))));
+        textureRegions.add(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/leftTurn.png"))));
+        textureRegions.add(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/moveTwo.png"))));
+        textureRegions.add(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/moveThree.png"))));
+        textureRegions.add(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/moveOne.png"))));
+        textureRegions.add(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/uTurn.png"))));
+        textureRegions.add(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/moveBack.png"))));
+        textureRegions.add(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/nullCard.png"))));
+
+        for (int i = 0; i < cards.size(); i++) {
+            assertEquals(textureGetter.getCardTexture(cards.get(i)).getRegion().toString().equals(textureRegions.get(i).getRegion().toString()), true);
+        }
+
     }
 }

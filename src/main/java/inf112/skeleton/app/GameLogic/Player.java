@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Player implements IPlayer {
     private int id;
     private Sprite playerSprite;
+    //To be used in the future
     private int collectedFlags;
     private int lifeTokens;
     private Vector2 lastSavePoint;

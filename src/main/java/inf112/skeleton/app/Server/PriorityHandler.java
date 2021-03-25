@@ -2,7 +2,6 @@ package inf112.skeleton.app.Server;
 
 import com.esotericsoftware.kryonet.Server;
 
-import inf112.skeleton.app.Cards.CardTranslator;
 import inf112.skeleton.app.Packets.NextRound;
 import inf112.skeleton.app.Packets.TurnPacket;
 
@@ -14,16 +13,13 @@ import java.util.Comparator;
 public class PriorityHandler {
     ArrayList<ArrayList<CardNoTexture>> playerCards;
     Server server;
-    CardTranslator cardTranslator;
     ArrayList<ArrayList<CardNoTexture>> sortedCards;
     Integer playersReady = 0;
     Integer turnsDone = 0;
-    Integer playersDisconnected = 0;
 
     public PriorityHandler(Server server){
         this.server = server;
         playerCards = new ArrayList<>();
-        cardTranslator = new CardTranslator();
         sortedCards = new ArrayList<>();
 
     }
@@ -47,11 +43,11 @@ public class PriorityHandler {
                 turns.get(i).add(card.get(i));
             }
         }
-        sortTurnList(turns);
+        sortedCards = sortTurnList(turns);
         sendNextTurn();
     }
 
-    public void sortTurnList(ArrayList<ArrayList<CardNoTexture>> turns){
+    public ArrayList<ArrayList<CardNoTexture>> sortTurnList(ArrayList<ArrayList<CardNoTexture>> turns){
         Comparator<CardNoTexture> comparator = new Comparator<CardNoTexture>() {
             @Override
             public int compare(CardNoTexture o1, CardNoTexture o2) {
@@ -62,7 +58,7 @@ public class PriorityHandler {
         for (ArrayList<CardNoTexture> turn: turns) {
             Collections.sort(turn, comparator);
         }
-        sortedCards = turns;
+        return turns;
 
     }
     public void sendNextTurn(){
@@ -70,7 +66,7 @@ public class PriorityHandler {
             turnsDone = 0;
             NextRound nextRound = new NextRound();
             server.sendToAllTCP(nextRound);
-            clearCardList();
+            playerCards = new ArrayList<>();
         }
         if(sortedCards.size() <= 0){
             return;
@@ -91,9 +87,9 @@ public class PriorityHandler {
     public boolean recievedAllCards(){
         return server.getConnections().length == playerCards.size();
     }
+
     public boolean allPlayersReady(){
-        System.out.println(server.getConnections().length + " == " + playersReady);
-        if(server.getConnections().length - playersDisconnected == playersReady){
+        if(server.getConnections().length == playersReady){
             playersReady = 0;
             return true;
         }
@@ -101,12 +97,6 @@ public class PriorityHandler {
     }
     public void playerReady(){
         playersReady += 1;
-    }
-    public void clearCardList(){
-        playerCards = new ArrayList<>();
-    }
-    public void playerDisconnect(){
-        playersDisconnected += 1;
     }
 
 }

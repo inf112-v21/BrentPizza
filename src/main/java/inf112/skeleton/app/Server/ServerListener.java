@@ -3,12 +3,7 @@ package inf112.skeleton.app.Server;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-import inf112.skeleton.app.Cards.Card;
 import inf112.skeleton.app.Packets.*;
-import org.lwjgl.system.CallbackI;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class ServerListener extends Listener {
@@ -64,7 +59,6 @@ public class ServerListener extends Listener {
 
     public void disconnected(Connection c){
         System.out.println("Client " + c.getID() + " disconnected");
-        priorityHandler.playerDisconnect();
 
     }
 

@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.Cards.*;
 import inf112.skeleton.app.Network.NetworkClient;
 import inf112.skeleton.app.Packets.TurnPacket;
-import inf112.skeleton.app.Server.CardNoTexture;
 
 import java.util.ArrayList;
 
@@ -29,8 +28,6 @@ public class BoardLogic implements IBoardLogic {
     ArrayList<Vector2> flagList;
     ArrayList<Vector2> holes;
 
-    ArrayList<ArrayList<Card>> thisTurnCards;
-    ArrayList<Integer> thisTurnPlayerIndex;
     private boolean readyForProgram = true;
 
     //These will be used in the next iteration and is not just "unused" code.
@@ -129,6 +126,7 @@ public class BoardLogic implements IBoardLogic {
         for (Vector2 loc : holes) {
             if (myPlayer.getLocation().equals(loc)) {
                 myPlayer.changeLifeTokens(-1);
+                //respawn player here
             }
         }
     }
@@ -136,12 +134,14 @@ public class BoardLogic implements IBoardLogic {
     public void robotFallOutsideMap() {
             if (!checkOutOfBounds()) {
                 myPlayer.changeLifeTokens(-1);
+                //respawn player here
             }
     }
 
     public void robotFullDamage() {
-        if (myPlayer.getDamageTokens() == 10) {
+        if (myPlayer.getDamageTokens()>= 9) {
             myPlayer.changeLifeTokens(-1);
+            //respawn player
         }
     }
 
@@ -206,6 +206,7 @@ public class BoardLogic implements IBoardLogic {
         } return holes;
     }
 
+    //to be removed in future iteration. This is just used for moving manually for testing
     @Override
     public void changePlayer(float x, float y, int id, float rotation){
         IPlayer curPlayer = players.get(id-1);
@@ -265,14 +266,6 @@ public class BoardLogic implements IBoardLogic {
         networkClient.sendProgramCards(cardArrayList);
     }
 
-    public void addCardToCardList(Card card, Integer playerID){
-        thisTurnPlayerIndex.add(playerID-1);
-    }
-
-    public void AddThisTurnProgramCards(ArrayList<Card> programCards, Integer ID){
-        thisTurnCards.add(programCards);
-        thisTurnPlayerIndex.add(ID);
-    }
 
     public void doTurn(TurnPacket turnPacket){
         ArrayList<Card> cards = new ArrayList<>();

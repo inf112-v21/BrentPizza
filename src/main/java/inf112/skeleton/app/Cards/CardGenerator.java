@@ -1,7 +1,5 @@
 package inf112.skeleton.app.Cards;
 
-import inf112.skeleton.app.GameLogic.Player;
-
 import java.util.ArrayList;
 import java.util.Collections;
 

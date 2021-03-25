@@ -3,7 +3,6 @@ package inf112.skeleton.app.GameLogic;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.Cards.Card;
 import inf112.skeleton.app.Packets.TurnPacket;
-import inf112.skeleton.app.Server.CardNoTexture;
 
 import java.util.ArrayList;
 
@@ -91,10 +90,6 @@ public interface IBoardLogic {
      * @param location - du vil endre til
      */
     void setLocation(Vector2 location);
-
-    void addCardToCardList(Card translateFromStringToCard, Integer id);
-
-    void AddThisTurnProgramCards(ArrayList<Card> programCards, Integer ID);
 
     public void doTurn(TurnPacket turnPacket);
 

@@ -3,18 +3,14 @@ package inf112.skeleton.app.Network;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.Cards.Card;
 import inf112.skeleton.app.Cards.CardTranslator;
-import inf112.skeleton.app.Cards.NullCard;
-import inf112.skeleton.app.GameLogic.BoardLogic;
 import inf112.skeleton.app.GameLogic.IBoardLogic;
 import inf112.skeleton.app.GameLogic.IPlayer;
-import inf112.skeleton.app.GameLogic.Player;
 import inf112.skeleton.app.Packets.*;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import inf112.skeleton.app.Server.CardNoTexture;
-import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 
@@ -23,14 +19,12 @@ public class NetworkClient implements INetworkClient {
     static int udpPort = 7979, tcpPort = 7878;
     static String ip = "localhost";
     public int id;
-    public int nrOfPlayers;
+
     private CardTranslator cardTranslator;
-    private IBoardLogic boardLogic;
 
     public NetworkClient(IBoardLogic boardLogic) throws Exception{
         client = new Client();
         cardTranslator = new CardTranslator();
-        this.boardLogic = boardLogic;
         //register classes
         Kryo clientKryo = client.getKryo();
         clientKryo.register(Packet.class);
@@ -58,7 +52,6 @@ public class NetworkClient implements INetworkClient {
                     FirstConnectPacket con = (FirstConnectPacket) p;
                     id = con.id;
                     System.out.println("I am now id: " + id);
-                    nrOfPlayers = con.nrOfPlayers;
                     boardLogic.setNrOfPlayers(con.nrOfPlayers);
                 }
                 if(p instanceof Packet){

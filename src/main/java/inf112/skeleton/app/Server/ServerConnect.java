@@ -1,10 +1,7 @@
 package inf112.skeleton.app.Server;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Server;
-import inf112.skeleton.app.GameLogic.Player;
 import inf112.skeleton.app.Packets.*;
 
 import java.io.IOException;
