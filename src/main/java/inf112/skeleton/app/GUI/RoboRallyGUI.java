@@ -78,4 +78,9 @@ public class RoboRallyGUI extends Game {
         inputMultiplexer.addProcessor(endScreen.getStage());
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
+
+    public GameScreen getGameScreen() {
+        return gameScreen;
+    }
 }
+
