@@ -37,10 +37,6 @@ public class BoardLogic implements IBoardLogic {
     ArrayList<Vector2> spawnLocation;
     Vector2 spawnpoint;
 
-
-
-
-
     public BoardLogic(TiledMap tiledMap) throws InterruptedException {
 
         this.tiledMap = tiledMap;
@@ -146,14 +142,25 @@ public class BoardLogic implements IBoardLogic {
     }
 
     public void repairRobot(){
-        for (Vector2 loc : repairsites) {
-            if(myPlayer.getLocation().equals(loc)){
-                myPlayer.changeDamageTokens(-1);
+        if(myPlayer.getDamageTokens() > 0){
+            for (Vector2 loc : repairsites) {
+                if(myPlayer.getLocation().equals(loc)){
+                    myPlayer.changeDamageTokens(-1);
+                }
             }
-        }
-        for (Vector2 loc : repairsites2) {
-            if(myPlayer.getLocation().equals(loc)){
-                myPlayer.changeDamageTokens(-2);
+            if(myPlayer.getDamageTokens() == 1) {
+                for (Vector2 loc : repairsites2) {
+                    if (myPlayer.getLocation().equals(loc)) {
+                        myPlayer.changeDamageTokens(-1);
+                    }
+                }
+            }
+            else {
+                for (Vector2 loc : repairsites2) {
+                    if (myPlayer.getLocation().equals(loc)) {
+                        myPlayer.changeDamageTokens(-2);
+                    }
+                }
             }
         }
     }

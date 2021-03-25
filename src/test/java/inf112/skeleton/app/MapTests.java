@@ -11,13 +11,16 @@ import inf112.skeleton.app.GameLogic.BoardLogic;
 import inf112.skeleton.app.GameLogic.IPlayer;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+
 /**
  * You must run ServerStart before running the tests. Max players 11.
  *
  * You have to run the test one by one with the maximum of eleven test before having to restart the server.
  *
  * For each test the application will run and open,
- * to let the tests run correctly push the ready button to open the map and then just close the window
+ * to let the tests run correctly push the start button to open the map and then just close the window
  * by pressing on the X in the top right corner.
  *
  */
@@ -77,5 +80,35 @@ public class MapTests {
             }
         }
         assertTrue(isTrue);
+    }
+    /**
+     * Test If player wins if he has visited the flags in the appropriate order.
+     */
+    @Test
+    public void testPlayerWin(){
+
+        ArrayList<Vector2> flagList = board.getFlags();
+
+        myPlayer.setX(flagList.get(0).x);
+        myPlayer.setY(flagList.get(0).y);
+
+        System.out.println("flags collected: "+board.collectedFlags());
+
+        myPlayer.setX(flagList.get(1).x);
+        myPlayer.setY(flagList.get(1).y);
+
+        System.out.println("flags collected: "+board.collectedFlags());
+
+        myPlayer.setX(flagList.get(2).x);
+        myPlayer.setY(flagList.get(2).y);
+
+        System.out.println("flags collected: "+board.collectedFlags());
+
+        myPlayer.setX(flagList.get(3).x);
+        myPlayer.setY(flagList.get(3).y);
+
+        System.out.println("flags collected: "+board.collectedFlags());
+
+        assertTrue(board.checkWin());
     }
 }

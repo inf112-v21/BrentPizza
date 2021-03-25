@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
  * You have to run the test one by one with the maximum of eleven test before having to restart the server.
  *
  * For each test the application will run and open,
- * to let the tests run correctly push the ready button to open the map and then just close the window
+ * to let the tests run correctly push the start button to open the map and then just close the window
  * by pressing on the X in the top right corner.
  *
  */
@@ -45,7 +45,7 @@ public class PlayerLifeTests {
     @Test
     public void testIfRobotHasThreeLives(){
 
-        assertEquals(myPlayer.getLifeTokens(), 3);
+        assertEquals(3, myPlayer.getLifeTokens());
     }
     /**
      * Test if the player loses one life if he falls in a hole.
@@ -60,7 +60,7 @@ public class PlayerLifeTests {
             board.robotFallHole();
             myPlayer.moveForward();
         }
-        assertEquals(myPlayer.getLifeTokens(), 2);
+        assertEquals(2, myPlayer.getLifeTokens());
     }
     /**
      * Test if the player loses one life if he falls of the map.
@@ -71,6 +71,6 @@ public class PlayerLifeTests {
         myPlayer.moveForward();
         board.robotFallOutsideMap();
 
-        assertEquals(myPlayer.getLifeTokens(), 2);
+        assertEquals(2, myPlayer.getLifeTokens());
     }
 }

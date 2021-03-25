@@ -14,13 +14,15 @@ import org.junit.Before;
 import org.junit.Test;
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+
 /**
  * You must run ServerStart before running the tests. Max players 11.
  *
  * You have to run the test one by one with the maximum of eleven test before having to restart the server.
  *
  * For each test the application will run and open,
- * to let the tests run correctly push the ready button to open the map and then just close the window
+ * to let the tests run correctly push the start button to open the map and then just close the window
  * by pressing on the X in the top right corner.
  *
  */
@@ -84,11 +86,44 @@ public class PlayerDamageTests {
      * Test if the player loses one life if he gets ten damage tokens.
      */
     @Test
-    public void testRobotFullDamage(){
+    public void testPlayerFullDamage(){
 
         myPlayer.changeDamageTokens(10);
         board.robotFullDamage();
 
         assertEquals(2, myPlayer.getLifeTokens());
+    }
+    /**
+     * Test if the player gets one less damage token on single repair site.
+     */
+    @Test
+    public void testPlayerRepairOne(){
+
+        myPlayer.changeDamageTokens(2);
+
+        myPlayer.rotatePlayer(-270);
+        for(int i = 0; i < 10; i++){
+            board.repairRobot();
+            myPlayer.moveForward();
+        }
+        assertSame(1, myPlayer.getDamageTokens());
+    }
+    /**
+     * Test if the player gets two less damage token on double repair site.
+     */
+    @Test
+    public void testPlayerRepairTwo(){
+
+        myPlayer.changeDamageTokens(2);
+
+        myPlayer.rotatePlayer(-180);
+        myPlayer.moveForward();
+        myPlayer.moveForward();
+        myPlayer.rotatePlayer(-90);
+        for(int i = 0; i < 4; i++){
+            board.repairRobot();
+            myPlayer.moveForward();
+        }
+        assertSame(0, myPlayer.getDamageTokens());
     }
 }
