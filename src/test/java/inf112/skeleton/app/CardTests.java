@@ -14,6 +14,7 @@ import inf112.skeleton.app.GUI.Screens.GameScreen;
 import inf112.skeleton.app.GameLogic.HudLogic;
 import inf112.skeleton.app.GameLogic.IBoardLogic;
 import inf112.skeleton.app.GameLogic.IPlayer;
+import inf112.skeleton.app.Server.ServerConnect;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
@@ -40,6 +41,13 @@ public class CardTests {
 
     @Before
     public void setUp(){
+        ServerConnect connection = new ServerConnect();
+        try{
+            connection.start(11, 7979, 7878);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
         this.game = new RoboRallyGUI();
         cfg.setWindowedMode(1920, 1080);
@@ -54,6 +62,8 @@ public class CardTests {
 
         myPlayer.getSprite().setX(500);
         myPlayer.getSprite().setY(500);
+
+        connection.stop();
     }
     /**
      * Test adding cards to program list.

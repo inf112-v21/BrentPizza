@@ -11,6 +11,7 @@ import inf112.skeleton.app.GUI.Screens.GameScreen;
 import inf112.skeleton.app.GameLogic.HudLogic;
 import inf112.skeleton.app.GameLogic.IBoardLogic;
 import inf112.skeleton.app.GameLogic.IPlayer;
+import inf112.skeleton.app.Server.ServerConnect;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.ArrayList;
@@ -36,6 +37,13 @@ public class PlayerDamageTests {
 
     @Before
     public void setUp(){
+        ServerConnect connection = new ServerConnect();
+        try{
+            connection.start(11, 7979, 7878);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
         this.game = new RoboRallyGUI();
         cfg.setWindowedMode(1920, 1080);
@@ -46,6 +54,8 @@ public class PlayerDamageTests {
         board = gameScreen.boardLogic;
         myPlayer = board.getMyPlayer();
         hudLog = new HudLogic(board, hud);
+
+        connection.stop();
     }
     /**
      * Test if the player have eight cards too pick from with one damage token.

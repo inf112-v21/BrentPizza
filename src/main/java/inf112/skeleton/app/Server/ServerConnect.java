@@ -41,4 +41,8 @@ public class ServerConnect {
 
     }
 
+    public void stop(){
+        server.close();
+    }
+
 }
