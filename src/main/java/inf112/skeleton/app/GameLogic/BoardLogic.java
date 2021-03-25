@@ -23,13 +23,9 @@ public class BoardLogic implements IBoardLogic {
     private Integer nrOfPlayers;
     ArrayList<String> collectFlags = new ArrayList();
     ArrayList<Vector2> repairsites;
+    ArrayList<Vector2> repairsites2;
     ArrayList<Vector2> flagList;
     ArrayList<Vector2> holes;
-    ArrayList<Vector2> spawnLocation;
-    Vector2 spawnpoint;
-
-
-
 
     public BoardLogic(TiledMap tiledMap) throws InterruptedException {
 
@@ -55,11 +51,11 @@ public class BoardLogic implements IBoardLogic {
         myPlayer.setLastSavePoint(myPlayer.getLocation());
 
         repairsites = getRepairSites();
+        repairsites2 = getRepairSites2();
         holes = getHoles();
         flagList = getFlags();
 
     }
-
 
     /**
      * Checks if player is inside map.
@@ -121,10 +117,16 @@ public class BoardLogic implements IBoardLogic {
             }
         }
     }
+
     public void repairRobot(){
         for (Vector2 loc : repairsites) {
             if(myPlayer.getLocation().equals(loc)){
                 myPlayer.changeDamageTokens(-1);
+            }
+        }
+        for (Vector2 loc : repairsites2) {
+            if(myPlayer.getLocation().equals(loc)){
+                myPlayer.changeDamageTokens(-2);
             }
         }
     }
@@ -151,6 +153,18 @@ public class BoardLogic implements IBoardLogic {
             Vector2 repairLocation = new Vector2(x,y);
             repairsites.add(repairLocation);
         } return repairsites;
+    }
+
+    public ArrayList<Vector2> getRepairSites2(){
+        ArrayList<Vector2> repairsites2 = new ArrayList<>();
+        Integer index = tiledMap.getLayers().getIndex("fix2");
+        MapLayer repairObject = tiledMap.getLayers().get(index);
+        for (int i = 0; i < repairObject.getObjects().getCount(); i++) {
+            Float x = Float.parseFloat(repairObject.getObjects().get(i).getProperties().get("x").toString());
+            Float y = Float.parseFloat(repairObject.getObjects().get(i).getProperties().get("y").toString());
+            Vector2 repairLocation = new Vector2(x,y);
+            repairsites2.add(repairLocation);
+        } return repairsites2;
     }
 
     public ArrayList<Vector2> getHoles(){
