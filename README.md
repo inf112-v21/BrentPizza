@@ -23,3 +23,4 @@ To test the functionality where you add cards to the program table you have to d
 - For the player to be able to watch the game being won, there has been installed a delay. This will not be a part of the final product, however it is here
 due to its information value. This enbales however the player enable the win condition several times before the applictions shuts down.
 - If the robot walks over the win flag in the middle of the programmed sequence he does not win when he should
+- At the moment you cannot win the game. This is due to the turn system taking a lot of time and effort to implement. This will be fixed in the next iteration
