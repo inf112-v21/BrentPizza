@@ -92,29 +92,76 @@ public interface IBoardLogic {
      */
     void setLocation(Vector2 location);
 
+    /**
+     * Moves all the players based on sorted recieved cards from the server
+     * @param turnPacket List of cards to be played this turn and their respective player id
+     */
     public void doTurn(TurnPacket turnPacket);
 
+    /**
+     * Set's the ready boolean of this class to true. This enables players to excecute the next program
+     */
     public void nextRound();
 
+    /**
+     * Checks if the current turn is over
+     * @return
+     */
     public boolean isReadyForNextRound();
 
+    /**
+     *
+     * @return Current tiledMap
+     */
     public TiledMap getTiledMap();
 
+    /**
+     * Returns a list of all holes
+     * @return
+     */
     public ArrayList<Vector2> getHoles();
 
+    /**
+     * Builds a list of all repair sites that repair 2 hp
+     * @return
+     */
     public ArrayList<Vector2> getRepairSites2();
 
+    /**
+     * Builds a list of all repair sites that repair 1 hp
+     * @return
+     */
     public ArrayList<Vector2> getRepairSites();
 
+    /**
+     * Gives list of the location of all flags
+     * @return
+     */
     public ArrayList<Vector2> getFlags();
 
+    /**
+     * Repairs this players robot
+     */
     public void repairRobot();
 
+    /**
+     * Checks if player has taken so much dmg that a life token is removed
+     */
     public void robotFullDamage();
 
+    /**
+     * When robot falls outside of map this is to be run
+     */
     public void robotFallOutsideMap();
 
+    /**
+     * checks if robot falls in hole
+     */
     public void robotFallHole();
 
+    /**
+     * Gives how many flags the player has collected
+     * @return Nr of flags collected
+     */
     public Integer collectedFlags();
 }

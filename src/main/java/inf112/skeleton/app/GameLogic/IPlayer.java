@@ -83,12 +83,12 @@ public interface IPlayer {
     void setLastSavePoint(Vector2 location);
 
     /**
-     *
+     *Returns players dmg tokens
      */
     Integer getDamageTokens();
 
     /**
-     *
+     * Edits dmg tokens
      */
     void changeDamageTokens(Integer change);
 }
