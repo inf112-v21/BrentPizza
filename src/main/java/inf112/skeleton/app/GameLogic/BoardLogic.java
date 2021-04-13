@@ -11,6 +11,7 @@ import inf112.skeleton.app.Cards.*;
 import inf112.skeleton.app.Network.NetworkClient;
 import inf112.skeleton.app.Packets.TurnPacket;
 
+import javax.lang.model.element.VariableElement;
 import java.util.ArrayList;
 
 public class BoardLogic implements IBoardLogic {
@@ -27,6 +28,15 @@ public class BoardLogic implements IBoardLogic {
     ArrayList<Vector2> repairsites2;
     ArrayList<Vector2> flagList;
     ArrayList<Vector2> holes;
+    ArrayList<Vector2> spawnpoints;
+
+    ArrayList<Vector2> conveyorNorth;
+    ArrayList<Vector2> conveyorSouth;
+    ArrayList<Vector2> conveyorWest;
+    ArrayList<Vector2> conveyorEast;
+
+    ArrayList<Vector2> twoConveyorSouth;
+    ArrayList<Vector2> twoConveyorWest;
 
     private boolean readyForProgram = true;
 
@@ -58,13 +68,26 @@ public class BoardLogic implements IBoardLogic {
         }
         myPlayer = players.get(networkClient.getId()-1);
 
+        spawnpoints = getSpawnPoints();
+        myPlayer.setX(spawnpoints.get(myPlayer.getID()-1).x);
+        myPlayer.setY(spawnpoints.get(myPlayer.getID()-1).y);
+        myPlayer.setRoation(-90);
+
         //setter første spawn point som lastSavePoint
         myPlayer.setLastSavePoint(myPlayer.getLocation());
 
         repairsites = getRepairSites();
         repairsites2 = getRepairSites2();
+
+        conveyorNorth = getConveyorBeltsNorth();
+        conveyorSouth = getConveyorBeltsSouth();
+        conveyorWest = getConveyorBeltsWest();
+        conveyorEast= getConveyorBeltsEast();
+        twoConveyorSouth = getDoubleConveyorBeltsSouth();
+        twoConveyorWest = getDoubleConveyorBeltsWest();
         holes = getHoles();
         flagList = getFlags();
+
 
     }
 
@@ -126,7 +149,117 @@ public class BoardLogic implements IBoardLogic {
         for (Vector2 loc : holes) {
             if (myPlayer.getLocation().equals(loc)) {
                 myPlayer.changeLifeTokens(-1);
-                //respawn player here
+                myPlayer.setX(myPlayer.getLastSavePoint().x);
+                myPlayer.setY(myPlayer.getLastSavePoint().y);
+            }
+        }
+    }
+    public void conveyNorth() {
+        for (Vector2 loc : conveyorNorth) {
+            if (myPlayer.getLocation().equals(loc)) {
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 180) {
+                    myPlayer.getSprite().translate(0, 150);
+                }
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 270) {
+                    myPlayer.getSprite().translate(0, 150);
+                }
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 0) {
+                    myPlayer.getSprite().translate(0, 150);
+                }
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 90) {
+                    myPlayer.getSprite().translate(0, 150);
+                }
+            }
+        }
+    }
+    public void conveySouth() {
+        for (Vector2 loc : conveyorSouth) {
+            if (myPlayer.getLocation().equals(loc)) {
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 180) {
+                    myPlayer.getSprite().translate(0, -150);
+                }
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 270) {
+                    myPlayer.getSprite().translate(0, -150);
+                }
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 0) {
+                    myPlayer.getSprite().translate(0, -150);
+                }
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 90) {
+                    myPlayer.getSprite().translate(0, -150);
+                }
+            }
+        }
+    }
+
+    public void conveyEast() {
+        for (Vector2 loc : conveyorEast) {
+            if (myPlayer.getLocation().equals(loc)) {
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 180) {
+                    myPlayer.getSprite().translate(150, 0);
+                }
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 270) {
+                    myPlayer.getSprite().translate(150, 0);
+                }
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 0) {
+                    myPlayer.getSprite().translate(150, 0);
+                }
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 90) {
+                    myPlayer.getSprite().translate(150, 0);
+                }
+            }
+        }
+    }
+    public void conveyWest() {
+        for (Vector2 loc : conveyorWest) {
+            if (myPlayer.getLocation().equals(loc)) {
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 180) {
+                    myPlayer.getSprite().translate(-150, 0);
+                }
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 270) {
+                    myPlayer.getSprite().translate(-150, 0);
+                }
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 0) {
+                    myPlayer.getSprite().translate(-150, 0);
+                }
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 90) {
+                    myPlayer.getSprite().translate(-150, 0);
+                }
+            }
+        }
+    }
+    public void twoConveySouth() {
+        for (Vector2 loc : twoConveyorSouth) {
+            if (myPlayer.getLocation().equals(loc)) {
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 180) {
+                    myPlayer.getSprite().translate(0, -300);
+                }
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 270) {
+                    myPlayer.getSprite().translate(0, -300);
+                }
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 0) {
+                    myPlayer.getSprite().translate(0, -300);
+                }
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 90) {
+                    myPlayer.getSprite().translate(0, -300);
+                }
+            }
+        }
+    }
+    public void twoConveyWest() {
+        for (Vector2 loc : twoConveyorWest) {
+            if (myPlayer.getLocation().equals(loc)) {
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 180) {
+                    myPlayer.getSprite().translate(-300, 0);
+                }
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 270) {
+                    myPlayer.getSprite().translate(-300, 0);
+                }
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 0) {
+                    myPlayer.getSprite().translate(-300, 0);
+                }
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 90) {
+                    myPlayer.getSprite().translate(-300, 0);
+                }
             }
         }
     }
@@ -134,14 +267,16 @@ public class BoardLogic implements IBoardLogic {
     public void robotFallOutsideMap() {
             if (!checkOutOfBounds()) {
                 myPlayer.changeLifeTokens(-1);
-                //respawn player here
+                myPlayer.setX(myPlayer.getLastSavePoint().x);
+                myPlayer.setY(myPlayer.getLastSavePoint().y);
             }
     }
 
     public void robotFullDamage() {
         if (myPlayer.getDamageTokens()>= 9) {
             myPlayer.changeLifeTokens(-1);
-            //respawn player
+            myPlayer.setX(myPlayer.getLastSavePoint().x);
+            myPlayer.setY(myPlayer.getLastSavePoint().y);
         }
     }
 
@@ -168,6 +303,83 @@ public class BoardLogic implements IBoardLogic {
             Vector2 flagLocation = new Vector2(x,y);
             flagList.add(flagLocation);
         } return flagList;
+    }
+    public ArrayList<Vector2> getDoubleConveyorBeltsSouth() {
+        ArrayList<Vector2> twoConveyorSouth = new ArrayList<>();
+        Integer index = tiledMap.getLayers().getIndex("twoArrowSouth");
+        MapLayer conveyorObject = tiledMap.getLayers().get(index);
+        for (int i = 0; i < conveyorObject.getObjects().getCount(); i++) {
+            Float x = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("x").toString());
+            Float y = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("y").toString());
+            Vector2 conveyorLocation = new Vector2(x, y);
+            twoConveyorSouth.add(conveyorLocation);
+        } return twoConveyorSouth;
+    }
+    public ArrayList<Vector2> getDoubleConveyorBeltsWest() {
+        ArrayList<Vector2> twoConveyorWest = new ArrayList<>();
+        Integer index = tiledMap.getLayers().getIndex("twoArrowWest");
+        MapLayer conveyorObject = tiledMap.getLayers().get(index);
+        for (int i = 0; i < conveyorObject.getObjects().getCount(); i++) {
+            Float x = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("x").toString());
+            Float y = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("y").toString());
+            Vector2 conveyorLocation = new Vector2(x, y);
+            twoConveyorWest.add(conveyorLocation);
+        } return twoConveyorWest;
+    }
+    public ArrayList<Vector2> getConveyorBeltsNorth() {
+        ArrayList<Vector2> conveyorNorth = new ArrayList<>();
+        Integer index = tiledMap.getLayers().getIndex("oneArrowNorth");
+        MapLayer conveyorObject = tiledMap.getLayers().get(index);
+        for (int i = 0; i < conveyorObject.getObjects().getCount(); i++) {
+            Float x = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("x").toString());
+            Float y = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("y").toString());
+            Vector2 conveyorLocation = new Vector2(x, y);
+            conveyorNorth.add(conveyorLocation);
+        } return conveyorNorth;
+    }
+    public ArrayList<Vector2> getConveyorBeltsSouth() {
+        ArrayList<Vector2> conveyorSouth = new ArrayList<>();
+        Integer index = tiledMap.getLayers().getIndex("oneArrowSouth");
+        MapLayer conveyorObject = tiledMap.getLayers().get(index);
+        for (int i = 0; i < conveyorObject.getObjects().getCount(); i++) {
+            Float x = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("x").toString());
+            Float y = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("y").toString());
+            Vector2 conveyorLocation = new Vector2(x, y);
+            conveyorSouth.add(conveyorLocation);
+        } return conveyorSouth;
+    }
+    public ArrayList<Vector2> getConveyorBeltsWest() {
+        ArrayList<Vector2> conveyorWest = new ArrayList<>();
+        Integer index = tiledMap.getLayers().getIndex("oneArrowWest");
+        MapLayer conveyorObject = tiledMap.getLayers().get(index);
+        for (int i = 0; i < conveyorObject.getObjects().getCount(); i++) {
+            Float x = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("x").toString());
+            Float y = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("y").toString());
+            Vector2 conveyorLocation = new Vector2(x, y);
+            conveyorWest.add(conveyorLocation);
+        } return conveyorWest;
+    }
+    public ArrayList<Vector2> getConveyorBeltsEast() {
+        ArrayList<Vector2> conveyorEast = new ArrayList<>();
+        Integer index = tiledMap.getLayers().getIndex("oneArrowEast");
+        MapLayer conveyorObject = tiledMap.getLayers().get(index);
+        for (int i = 0; i < conveyorObject.getObjects().getCount(); i++) {
+            Float x = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("x").toString());
+            Float y = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("y").toString());
+            Vector2 conveyorLocation = new Vector2(x, y);
+            conveyorEast.add(conveyorLocation);
+        } return conveyorEast;
+    }
+    public ArrayList<Vector2> getSpawnPoints(){
+        ArrayList<Vector2> spawnPoints = new ArrayList<>();
+        Integer index = tiledMap.getLayers().getIndex("spawns");
+        MapLayer spawnObject = tiledMap.getLayers().get(index);
+        for (int i = 1; i < 7; i++) {
+            Float x = Float.parseFloat(spawnObject.getObjects().get("Spawn"+i).getProperties().get("x").toString());
+            Float y = Float.parseFloat(spawnObject.getObjects().get("Spawn"+i).getProperties().get("y").toString());
+            Vector2 spawnLocation = new Vector2(x,y);
+            spawnPoints.add(spawnLocation);
+        } return spawnPoints;
     }
 
     public ArrayList<Vector2> getRepairSites(){
