@@ -100,11 +100,13 @@ public interface IBoardLogic {
 
     public TiledMap getTiledMap();
 
-    public ArrayList<Vector2> getHoles();
+    /**
+     * Retrieves list of object on map
+     * @param name - name of wanted objects
+     * @return list of wanted objects
+     */
+    public ArrayList<Vector2> get(String name);
 
-    public ArrayList<Vector2> getRepairSites2();
-
-    public ArrayList<Vector2> getRepairSites();
 
     public ArrayList<Vector2> getFlags();
 

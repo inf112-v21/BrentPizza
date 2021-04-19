@@ -76,16 +76,21 @@ public class BoardLogic implements IBoardLogic {
         //setter første spawn point som lastSavePoint
         myPlayer.setLastSavePoint(myPlayer.getLocation());
 
-        repairsites = getRepairSites();
-        repairsites2 = getRepairSites2();
+        repairsites = get("fix1");
+        repairsites2 = get("fix2");
 
-        conveyorNorth = getConveyorBeltsNorth();
-        conveyorSouth = getConveyorBeltsSouth();
-        conveyorWest = getConveyorBeltsWest();
-        conveyorEast= getConveyorBeltsEast();
-        twoConveyorSouth = getDoubleConveyorBeltsSouth();
-        twoConveyorWest = getDoubleConveyorBeltsWest();
-        holes = getHoles();
+
+
+        conveyorNorth = get("oneArrowNorth");
+        conveyorSouth = get("oneArrowSouth");
+        conveyorWest = get("oneArrowWest");
+        conveyorEast= get("oneArrowEast");
+
+        twoConveyorSouth = get("twoArrowSouth");
+        twoConveyorWest = get("twoArrowWest");
+
+
+        holes = get("hole");
         flagList = getFlags();
 
 
@@ -154,6 +159,27 @@ public class BoardLogic implements IBoardLogic {
             }
         }
     }
+
+
+    public void conveyer(ArrayList<Vector2> list, Integer x, Integer y){
+        for (Vector2 loc : list) {
+            if (myPlayer.getLocation().equals(loc)) {
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 180) {
+                    myPlayer.getSprite().translate(x, y);
+                }
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 270) {
+                    myPlayer.getSprite().translate(x, y);
+                }
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 0) {
+                    myPlayer.getSprite().translate(x, y);
+                }
+                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 90) {
+                    myPlayer.getSprite().translate(x, y);
+                }
+            }
+        }
+    }
+
     public void conveyNorth() {
         for (Vector2 loc : conveyorNorth) {
             if (myPlayer.getLocation().equals(loc)) {
@@ -293,6 +319,7 @@ public class BoardLogic implements IBoardLogic {
         }
     }
 
+
     public ArrayList<Vector2> getFlags(){
         ArrayList<Vector2> flagList = new ArrayList<>();
         Integer index = tiledMap.getLayers().getIndex("flag");
@@ -304,72 +331,8 @@ public class BoardLogic implements IBoardLogic {
             flagList.add(flagLocation);
         } return flagList;
     }
-    public ArrayList<Vector2> getDoubleConveyorBeltsSouth() {
-        ArrayList<Vector2> twoConveyorSouth = new ArrayList<>();
-        Integer index = tiledMap.getLayers().getIndex("twoArrowSouth");
-        MapLayer conveyorObject = tiledMap.getLayers().get(index);
-        for (int i = 0; i < conveyorObject.getObjects().getCount(); i++) {
-            Float x = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("x").toString());
-            Float y = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("y").toString());
-            Vector2 conveyorLocation = new Vector2(x, y);
-            twoConveyorSouth.add(conveyorLocation);
-        } return twoConveyorSouth;
-    }
-    public ArrayList<Vector2> getDoubleConveyorBeltsWest() {
-        ArrayList<Vector2> twoConveyorWest = new ArrayList<>();
-        Integer index = tiledMap.getLayers().getIndex("twoArrowWest");
-        MapLayer conveyorObject = tiledMap.getLayers().get(index);
-        for (int i = 0; i < conveyorObject.getObjects().getCount(); i++) {
-            Float x = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("x").toString());
-            Float y = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("y").toString());
-            Vector2 conveyorLocation = new Vector2(x, y);
-            twoConveyorWest.add(conveyorLocation);
-        } return twoConveyorWest;
-    }
-    public ArrayList<Vector2> getConveyorBeltsNorth() {
-        ArrayList<Vector2> conveyorNorth = new ArrayList<>();
-        Integer index = tiledMap.getLayers().getIndex("oneArrowNorth");
-        MapLayer conveyorObject = tiledMap.getLayers().get(index);
-        for (int i = 0; i < conveyorObject.getObjects().getCount(); i++) {
-            Float x = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("x").toString());
-            Float y = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("y").toString());
-            Vector2 conveyorLocation = new Vector2(x, y);
-            conveyorNorth.add(conveyorLocation);
-        } return conveyorNorth;
-    }
-    public ArrayList<Vector2> getConveyorBeltsSouth() {
-        ArrayList<Vector2> conveyorSouth = new ArrayList<>();
-        Integer index = tiledMap.getLayers().getIndex("oneArrowSouth");
-        MapLayer conveyorObject = tiledMap.getLayers().get(index);
-        for (int i = 0; i < conveyorObject.getObjects().getCount(); i++) {
-            Float x = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("x").toString());
-            Float y = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("y").toString());
-            Vector2 conveyorLocation = new Vector2(x, y);
-            conveyorSouth.add(conveyorLocation);
-        } return conveyorSouth;
-    }
-    public ArrayList<Vector2> getConveyorBeltsWest() {
-        ArrayList<Vector2> conveyorWest = new ArrayList<>();
-        Integer index = tiledMap.getLayers().getIndex("oneArrowWest");
-        MapLayer conveyorObject = tiledMap.getLayers().get(index);
-        for (int i = 0; i < conveyorObject.getObjects().getCount(); i++) {
-            Float x = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("x").toString());
-            Float y = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("y").toString());
-            Vector2 conveyorLocation = new Vector2(x, y);
-            conveyorWest.add(conveyorLocation);
-        } return conveyorWest;
-    }
-    public ArrayList<Vector2> getConveyorBeltsEast() {
-        ArrayList<Vector2> conveyorEast = new ArrayList<>();
-        Integer index = tiledMap.getLayers().getIndex("oneArrowEast");
-        MapLayer conveyorObject = tiledMap.getLayers().get(index);
-        for (int i = 0; i < conveyorObject.getObjects().getCount(); i++) {
-            Float x = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("x").toString());
-            Float y = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("y").toString());
-            Vector2 conveyorLocation = new Vector2(x, y);
-            conveyorEast.add(conveyorLocation);
-        } return conveyorEast;
-    }
+
+
     public ArrayList<Vector2> getSpawnPoints(){
         ArrayList<Vector2> spawnPoints = new ArrayList<>();
         Integer index = tiledMap.getLayers().getIndex("spawns");
@@ -382,40 +345,16 @@ public class BoardLogic implements IBoardLogic {
         } return spawnPoints;
     }
 
-    public ArrayList<Vector2> getRepairSites(){
-        ArrayList<Vector2> repairsites = new ArrayList<>();
-        Integer index = tiledMap.getLayers().getIndex("fix1");
-        MapLayer repairObject = tiledMap.getLayers().get(index);
-        for (int i = 0; i < repairObject.getObjects().getCount(); i++) {
-            Float x = Float.parseFloat(repairObject.getObjects().get(i).getProperties().get("x").toString());
-            Float y = Float.parseFloat(repairObject.getObjects().get(i).getProperties().get("y").toString());
-            Vector2 repairLocation = new Vector2(x,y);
-            repairsites.add(repairLocation);
-        } return repairsites;
-    }
-
-    public ArrayList<Vector2> getRepairSites2(){
-        ArrayList<Vector2> repairsites2 = new ArrayList<>();
-        Integer index = tiledMap.getLayers().getIndex("fix2");
-        MapLayer repairObject = tiledMap.getLayers().get(index);
-        for (int i = 0; i < repairObject.getObjects().getCount(); i++) {
-            Float x = Float.parseFloat(repairObject.getObjects().get(i).getProperties().get("x").toString());
-            Float y = Float.parseFloat(repairObject.getObjects().get(i).getProperties().get("y").toString());
-            Vector2 repairLocation = new Vector2(x,y);
-            repairsites2.add(repairLocation);
-        } return repairsites2;
-    }
-
-    public ArrayList<Vector2> getHoles(){
-        ArrayList<Vector2> holes = new ArrayList<>();
-        Integer index = tiledMap.getLayers().getIndex("hole");
-        MapLayer holeObject = tiledMap.getLayers().get(index);
-        for (int i = 0; i < holeObject.getObjects().getCount(); i++) {
-            Float x = Float.parseFloat(holeObject.getObjects().get(i).getProperties().get("x").toString());
-            Float y = Float.parseFloat(holeObject.getObjects().get(i).getProperties().get("y").toString());
-            Vector2 holeLocation = new Vector2(x,y);
-            holes.add(holeLocation);
-        } return holes;
+    public ArrayList<Vector2>get(String name){
+        ArrayList<Vector2> getList = new ArrayList<>();
+        Integer index = tiledMap.getLayers().getIndex(name);
+        MapLayer mapObject = tiledMap.getLayers().get(index);
+        for (int i = 0; i < mapObject.getObjects().getCount(); i++) {
+            Float x = Float.parseFloat(mapObject.getObjects().get(i).getProperties().get("x").toString());
+            Float y = Float.parseFloat(mapObject.getObjects().get(i).getProperties().get("y").toString());
+            Vector2 objectLocation = new Vector2(x, y);
+            getList.add(objectLocation);
+        } return getList;
     }
 
     //to be removed in future iteration. This is just used for moving manually for testing
