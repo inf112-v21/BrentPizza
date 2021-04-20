@@ -106,7 +106,7 @@
   <object id="120" x="2700" y="450" width="150" height="150"/>
   <object id="121" x="2700" y="600" width="150" height="150"/>
  </objectgroup>
- <objectgroup id="14" name="oneArrowEast" visible="0">
+ <objectgroup id="14" name="oneArrowEast">
   <object id="58" x="0" y="1500" width="150" height="150"/>
   <object id="59" x="450" y="1050" width="150" height="150"/>
   <object id="60" x="600" y="1200" width="150" height="150"/>
@@ -270,7 +270,7 @@
   <object id="259" x="300" y="1650" width="150" height="150"/>
   <object id="260" x="450" y="600" width="150" height="150"/>
  </objectgroup>
- <objectgroup id="28" name="wallEast">
+ <objectgroup id="28" name="wallEast" visible="0">
   <object id="261" x="450" y="600" width="150" height="150"/>
   <object id="262" x="450" y="450" width="150" height="150"/>
   <object id="263" x="600" y="300" width="150" height="150"/>

@@ -13,6 +13,7 @@ import inf112.skeleton.app.Packets.TurnPacket;
 
 import javax.lang.model.element.VariableElement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BoardLogic implements IBoardLogic {
 
@@ -30,23 +31,10 @@ public class BoardLogic implements IBoardLogic {
     ArrayList<Vector2> holes;
     ArrayList<Vector2> spawnpoints;
 
-    ArrayList<Vector2> conveyorNorth;
-    ArrayList<Vector2> conveyorSouth;
-    ArrayList<Vector2> conveyorWest;
-    ArrayList<Vector2> conveyorEast;
-
-    ArrayList<Vector2> twoConveyorSouth;
-    ArrayList<Vector2> twoConveyorWest;
+    HashMap<Vector2, String> conveyorBelts;
+    HashMap<Vector2, String> walls;
 
     private boolean readyForProgram = true;
-
-    //These will be used in the next iteration and is not just "unused" code.
-    ArrayList<Vector2> spawnLocation;
-    Vector2 spawnpoint;
-
-
-
-
 
     public BoardLogic(TiledMap tiledMap) throws InterruptedException {
 
@@ -76,26 +64,14 @@ public class BoardLogic implements IBoardLogic {
         //setter første spawn point som lastSavePoint
         myPlayer.setLastSavePoint(myPlayer.getLocation());
 
-        repairsites = get("fix1");
-        repairsites2 = get("fix2");
-
-
-
-        conveyorNorth = get("oneArrowNorth");
-        conveyorSouth = get("oneArrowSouth");
-        conveyorWest = get("oneArrowWest");
-        conveyorEast= get("oneArrowEast");
-
-        twoConveyorSouth = get("twoArrowSouth");
-        twoConveyorWest = get("twoArrowWest");
-
-
-        holes = get("hole");
+        repairsites = getObjects("fix1");
+        repairsites2 = getObjects("fix2");
+        holes = getObjects("hole");
         flagList = getFlags();
+        walls = getWalls();
 
-
+        conveyorBelts = getConveyorBelts();
     }
-
 
     /**
      * Checks if player is inside map.
@@ -131,6 +107,7 @@ public class BoardLogic implements IBoardLogic {
          return collectedFlags() == 4;
     }
 
+    @Override
     public Integer collectedFlags() {
         Vector2 playerLoc = myPlayer.getLocation();
         if(collectFlags.size()==0 && playerLoc.equals(flagList.get(0))){
@@ -149,7 +126,24 @@ public class BoardLogic implements IBoardLogic {
                 collectFlags.add("Flag 4 collected");
         } return collectFlags.size();
     }
+    @Override
+    public boolean checkMove(){
+        if(walls.get(myPlayer.getLocation()) == "wallNorth"  && Math.abs(myPlayer.getSprite().getRotation() % 360) == 180){
+            return false;
+        }
+        if(walls.get(myPlayer.getLocation()) == "wallSouth" && Math.abs(myPlayer.getSprite().getRotation() % 360) == 0){
+            return false;
+        }
+        if(walls.get(myPlayer.getLocation()) == "wallWest" && Math.abs(myPlayer.getSprite().getRotation() % 360) == 90){
+            return false;
+        }
+        if(walls.get(myPlayer.getLocation()) == "wallEast" && Math.abs(myPlayer.getSprite().getRotation() % 360) == 270){
+            return false;
+        }
+        return true;
+    }
 
+    @Override
     public void robotFallHole() {
         for (Vector2 loc : holes) {
             if (myPlayer.getLocation().equals(loc)) {
@@ -159,137 +153,7 @@ public class BoardLogic implements IBoardLogic {
             }
         }
     }
-
-
-    public void conveyer(ArrayList<Vector2> list, Integer x, Integer y){
-        for (Vector2 loc : list) {
-            if (myPlayer.getLocation().equals(loc)) {
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 180) {
-                    myPlayer.getSprite().translate(x, y);
-                }
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 270) {
-                    myPlayer.getSprite().translate(x, y);
-                }
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 0) {
-                    myPlayer.getSprite().translate(x, y);
-                }
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 90) {
-                    myPlayer.getSprite().translate(x, y);
-                }
-            }
-        }
-    }
-
-    public void conveyNorth() {
-        for (Vector2 loc : conveyorNorth) {
-            if (myPlayer.getLocation().equals(loc)) {
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 180) {
-                    myPlayer.getSprite().translate(0, 150);
-                }
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 270) {
-                    myPlayer.getSprite().translate(0, 150);
-                }
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 0) {
-                    myPlayer.getSprite().translate(0, 150);
-                }
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 90) {
-                    myPlayer.getSprite().translate(0, 150);
-                }
-            }
-        }
-    }
-    public void conveySouth() {
-        for (Vector2 loc : conveyorSouth) {
-            if (myPlayer.getLocation().equals(loc)) {
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 180) {
-                    myPlayer.getSprite().translate(0, -150);
-                }
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 270) {
-                    myPlayer.getSprite().translate(0, -150);
-                }
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 0) {
-                    myPlayer.getSprite().translate(0, -150);
-                }
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 90) {
-                    myPlayer.getSprite().translate(0, -150);
-                }
-            }
-        }
-    }
-
-    public void conveyEast() {
-        for (Vector2 loc : conveyorEast) {
-            if (myPlayer.getLocation().equals(loc)) {
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 180) {
-                    myPlayer.getSprite().translate(150, 0);
-                }
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 270) {
-                    myPlayer.getSprite().translate(150, 0);
-                }
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 0) {
-                    myPlayer.getSprite().translate(150, 0);
-                }
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 90) {
-                    myPlayer.getSprite().translate(150, 0);
-                }
-            }
-        }
-    }
-    public void conveyWest() {
-        for (Vector2 loc : conveyorWest) {
-            if (myPlayer.getLocation().equals(loc)) {
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 180) {
-                    myPlayer.getSprite().translate(-150, 0);
-                }
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 270) {
-                    myPlayer.getSprite().translate(-150, 0);
-                }
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 0) {
-                    myPlayer.getSprite().translate(-150, 0);
-                }
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 90) {
-                    myPlayer.getSprite().translate(-150, 0);
-                }
-            }
-        }
-    }
-    public void twoConveySouth() {
-        for (Vector2 loc : twoConveyorSouth) {
-            if (myPlayer.getLocation().equals(loc)) {
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 180) {
-                    myPlayer.getSprite().translate(0, -300);
-                }
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 270) {
-                    myPlayer.getSprite().translate(0, -300);
-                }
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 0) {
-                    myPlayer.getSprite().translate(0, -300);
-                }
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 90) {
-                    myPlayer.getSprite().translate(0, -300);
-                }
-            }
-        }
-    }
-    public void twoConveyWest() {
-        for (Vector2 loc : twoConveyorWest) {
-            if (myPlayer.getLocation().equals(loc)) {
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 180) {
-                    myPlayer.getSprite().translate(-300, 0);
-                }
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 270) {
-                    myPlayer.getSprite().translate(-300, 0);
-                }
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 0) {
-                    myPlayer.getSprite().translate(-300, 0);
-                }
-                if (Math.abs(myPlayer.getSprite().getRotation() % 360) == 90) {
-                    myPlayer.getSprite().translate(-300, 0);
-                }
-            }
-        }
-    }
-
+    @Override
     public void robotFallOutsideMap() {
             if (!checkOutOfBounds()) {
                 myPlayer.changeLifeTokens(-1);
@@ -297,7 +161,7 @@ public class BoardLogic implements IBoardLogic {
                 myPlayer.setY(myPlayer.getLastSavePoint().y);
             }
     }
-
+    @Override
     public void robotFullDamage() {
         if (myPlayer.getDamageTokens()>= 9) {
             myPlayer.changeLifeTokens(-1);
@@ -305,7 +169,7 @@ public class BoardLogic implements IBoardLogic {
             myPlayer.setY(myPlayer.getLastSavePoint().y);
         }
     }
-
+    @Override
     public void repairRobot(){
         for (Vector2 loc : repairsites) {
             if(myPlayer.getLocation().equals(loc)){
@@ -318,8 +182,26 @@ public class BoardLogic implements IBoardLogic {
             }
         }
     }
-
-
+    @Override
+    public HashMap<Vector2, String> getWalls(){
+        HashMap<Vector2, String> walls = new HashMap<>();
+        ArrayList<String> wallNames = new ArrayList<>();
+        wallNames.add("wallNorth");
+        wallNames.add("wallSouth");
+        wallNames.add("wallWest");
+        wallNames.add("wallEast");
+        for (String elem : wallNames) {
+            Integer index = tiledMap.getLayers().getIndex(elem);
+            MapLayer wallObject = tiledMap.getLayers().get(index);
+            for (int i = 0; i < wallObject.getObjects().getCount(); i++) {
+                Float x = Float.parseFloat(wallObject.getObjects().get(i).getProperties().get("x").toString());
+                Float y = Float.parseFloat(wallObject.getObjects().get(i).getProperties().get("y").toString());
+                Vector2 wallLocation = new Vector2(x, y);
+                walls.put(wallLocation, elem);
+            }
+        } return walls;
+    }
+    @Override
     public ArrayList<Vector2> getFlags(){
         ArrayList<Vector2> flagList = new ArrayList<>();
         Integer index = tiledMap.getLayers().getIndex("flag");
@@ -331,8 +213,28 @@ public class BoardLogic implements IBoardLogic {
             flagList.add(flagLocation);
         } return flagList;
     }
-
-
+    @Override
+    public HashMap<Vector2, String> getConveyorBelts() {
+        HashMap<Vector2, String> conveyorBelts = new HashMap<>();
+        ArrayList<String> names = new ArrayList<>();
+        names.add("twoArrowSouth");
+        names.add("twoArrowWest");
+        names.add("oneArrowNorth");
+        names.add("oneArrowSouth");
+        names.add("oneArrowWest");
+        names.add("oneArrowEast");
+        for (String elem : names) {
+            Integer index = tiledMap.getLayers().getIndex(elem);
+            MapLayer conveyorObject = tiledMap.getLayers().get(index);
+            for (int i = 0; i < conveyorObject.getObjects().getCount(); i++) {
+                Float x = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("x").toString());
+                Float y = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("y").toString());
+                Vector2 conveyorLocation = new Vector2(x, y);
+                conveyorBelts.put(conveyorLocation, elem);
+            }
+        } return conveyorBelts;
+    }
+    @Override
     public ArrayList<Vector2> getSpawnPoints(){
         ArrayList<Vector2> spawnPoints = new ArrayList<>();
         Integer index = tiledMap.getLayers().getIndex("spawns");
@@ -344,19 +246,39 @@ public class BoardLogic implements IBoardLogic {
             spawnPoints.add(spawnLocation);
         } return spawnPoints;
     }
-
-    public ArrayList<Vector2>get(String name){
-        ArrayList<Vector2> getList = new ArrayList<>();
+    @Override
+    public ArrayList<Vector2> getObjects(String name){
+        ArrayList<Vector2> objectList = new ArrayList<>();
         Integer index = tiledMap.getLayers().getIndex(name);
         MapLayer mapObject = tiledMap.getLayers().get(index);
         for (int i = 0; i < mapObject.getObjects().getCount(); i++) {
             Float x = Float.parseFloat(mapObject.getObjects().get(i).getProperties().get("x").toString());
             Float y = Float.parseFloat(mapObject.getObjects().get(i).getProperties().get("y").toString());
-            Vector2 objectLocation = new Vector2(x, y);
-            getList.add(objectLocation);
-        } return getList;
+            Vector2 objectLocation = new Vector2(x,y);
+            objectList.add(objectLocation);
+        } return objectList;
     }
-
+    @Override
+    public void convey() {
+        if (conveyorBelts.get(myPlayer.getLocation()) == "oneArrowNorth") {
+            myPlayer.getSprite().translate(0, 150);
+        }
+        if (conveyorBelts.get(myPlayer.getLocation()) == "oneArrowSouth") {
+            myPlayer.getSprite().translate(0, -150);
+        }
+        if (conveyorBelts.get(myPlayer.getLocation()) == "oneArrowWest") {
+            myPlayer.getSprite().translate(-150, 0);
+        }
+        if (conveyorBelts.get(myPlayer.getLocation()) == "oneArrowEast") {
+            myPlayer.getSprite().translate(150, 0);
+        }
+        if (conveyorBelts.get(myPlayer.getLocation()) == "twoArrowSouth") {
+            myPlayer.getSprite().translate(0, -300);
+        }
+        if (conveyorBelts.get(myPlayer.getLocation()) == "twoArrowWest") {
+            myPlayer.getSprite().translate(-300, 0);
+        }
+    }
     //to be removed in future iteration. This is just used for moving manually for testing
     @Override
     public void changePlayer(float x, float y, int id, float rotation){
@@ -417,7 +339,7 @@ public class BoardLogic implements IBoardLogic {
         networkClient.sendProgramCards(cardArrayList);
     }
 
-
+    @Override
     public void doTurn(TurnPacket turnPacket){
         ArrayList<Card> cards = new ArrayList<>();
         CardTranslator cardGenerator = new CardTranslator();

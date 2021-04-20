@@ -6,6 +6,7 @@ import inf112.skeleton.app.Cards.Card;
 import inf112.skeleton.app.Packets.TurnPacket;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface IBoardLogic {
 
@@ -105,7 +106,15 @@ public interface IBoardLogic {
      * @param name - name of wanted objects
      * @return list of wanted objects
      */
-    public ArrayList<Vector2> get(String name);
+    //public ArrayList<Vector2> get(String name);
+
+    public boolean checkMove();
+
+    public void convey();
+    public ArrayList<Vector2> getObjects(String name);
+    public ArrayList<Vector2> getSpawnPoints();
+    public HashMap<Vector2, String> getConveyorBelts();
+    public HashMap<Vector2, String> getWalls();
 
 
     public ArrayList<Vector2> getFlags();
