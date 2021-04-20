@@ -1,19 +1,17 @@
 package inf112.skeleton.app;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.GUI.RoboRallyGUI;
 import inf112.skeleton.app.GUI.Screens.GameScreen;
-
 import inf112.skeleton.app.GameLogic.IBoardLogic;
 import inf112.skeleton.app.GameLogic.IPlayer;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+
+import static org.junit.Assert.*;
 
 /**
  * You must run ServerStart before running the tests. Max players 11.
@@ -65,14 +63,11 @@ public class MapTests {
      */
     @Test
     public void testIfPlayerTouchedFlag(){
-        myPlayer.rotatePlayer(-180);
-        for(int i = 0; i < 4; i++){
-            myPlayer.moveForward();
-        }
-        myPlayer.rotatePlayer(-90);
-        for(int i = 0; i < 8; i++){
-            myPlayer.moveForward();
-        }
+
+        myPlayer.getSprite().setX(2700);
+        myPlayer.getSprite().setY(900);
+        myPlayer.moveForward();
+
         boolean isTrue = false;
         for (Vector2 loc : board.getFlags()) {
             if(myPlayer.getLocation().equals(loc)){
@@ -111,5 +106,16 @@ public class MapTests {
         System.out.println("flags collected: "+board.collectedFlags());
 
         assertTrue(board.checkWin());
+    }
+    /**
+     * Test If player respawns after he falls off the map.
+     *
+     * Manuel test
+     * Chose some cards that will send the player off the map and close the window.
+     */
+    @Test
+    public void testIfPlayerRespawns(){
+
+        assertEquals(myPlayer.getLocation(), myPlayer.getLastSavePoint());
     }
 }
