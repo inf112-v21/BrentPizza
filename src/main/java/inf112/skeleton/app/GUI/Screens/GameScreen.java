@@ -57,7 +57,7 @@ public class GameScreen {
             }
         }
 
-        laser = new Laser();
+        laser = new Laser(boardLogic);
 
 
 
@@ -75,7 +75,7 @@ public class GameScreen {
         tiledMapRenderer.render();
 
         sb.setProjectionMatrix(camera.combined);
-        lasers = laser.createLaser(tiledMap, boardLogic);
+        lasers = laser.createLaser(tiledMap);
         sb.begin();
 
 
@@ -86,9 +86,11 @@ public class GameScreen {
             player.getSprite().draw(sb);
         }
         //Pls don't touch
-        /**for (Sprite lazer: lasers) {
+        for (Sprite lazer: lasers) {
             lazer.draw(sb);
-        }**/
+        }
+
+
         sb.end();
         sbHud.setProjectionMatrix(hud.getStage().getCamera().combined);
         hud.getStage().draw();

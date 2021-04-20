@@ -232,7 +232,7 @@
   <object id="206" x="3000" y="1500" width="150" height="150"/>
   <object id="207" x="3000" y="1650" width="150" height="150"/>
  </objectgroup>
- <objectgroup id="25" name="wallWest" visible="0">
+ <objectgroup id="25" name="wallWest">
   <object id="208" x="0" y="300" width="150" height="150"/>
   <object id="209" x="0" y="600" width="150" height="150"/>
   <object id="210" x="0" y="1050" width="150" height="150"/>
@@ -248,7 +248,7 @@
   <object id="220" x="3600" y="1050" width="150" height="150"/>
   <object id="221" x="3600" y="1350" width="150" height="150"/>
  </objectgroup>
- <objectgroup id="26" name="wallNorth" visible="0">
+ <objectgroup id="26" name="wallNorth">
   <object id="222" x="300" y="0" width="150" height="150"/>
   <object id="223" x="600" y="0" width="150" height="150"/>
   <object id="224" x="1050" y="0" width="150" height="150"/>
@@ -259,7 +259,6 @@
   <object id="229" x="450" y="1500" width="150" height="150"/>
   <object id="230" x="1200" y="1200" width="150" height="150"/>
   <object id="231" x="1350" y="1350" width="150" height="150"/>
-  <object id="232" x="1200" y="450" width="150" height="150"/>
   <object id="233" x="1650" y="600" width="150" height="150"/>
   <object id="234" x="2400" y="1050" width="150" height="150"/>
   <object id="235" x="2850" y="0" width="150" height="150"/>
@@ -271,7 +270,7 @@
   <object id="242" x="3900" y="1350" width="150" height="150"/>
   <object id="243" x="3900" y="1050" width="150" height="150"/>
  </objectgroup>
- <objectgroup id="27" name="wallSouth" visible="0">
+ <objectgroup id="27" name="wallSouth">
   <object id="244" x="3900" y="0" width="150" height="150"/>
   <object id="245" x="3900" y="300" width="150" height="150"/>
   <object id="246" x="3900" y="600" width="150" height="150"/>
@@ -290,7 +289,7 @@
   <object id="259" x="300" y="1650" width="150" height="150"/>
   <object id="260" x="450" y="600" width="150" height="150"/>
  </objectgroup>
- <objectgroup id="28" name="wallEast" visible="0">
+ <objectgroup id="28" name="wallEast">
   <object id="261" x="450" y="600" width="150" height="150"/>
   <object id="262" x="450" y="450" width="150" height="150"/>
   <object id="263" x="600" y="300" width="150" height="150"/>
