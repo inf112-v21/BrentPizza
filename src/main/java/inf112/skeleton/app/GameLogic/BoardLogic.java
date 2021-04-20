@@ -72,6 +72,7 @@ public class BoardLogic implements IBoardLogic {
         myPlayer.setX(spawnpoints.get(myPlayer.getID()-1).x);
         myPlayer.setY(spawnpoints.get(myPlayer.getID()-1).y);
         myPlayer.setRoation(-90);
+        networkClient.sendPlayer(myPlayer);
 
         //setter første spawn point som lastSavePoint
         myPlayer.setLastSavePoint(myPlayer.getLocation());
@@ -100,7 +101,7 @@ public class BoardLogic implements IBoardLogic {
      */
     @Override
     public boolean checkOutOfBounds() {
-
+        System.out.println(myPlayer.getLifeTokens());
         MapProperties prop = tiledMap.getProperties();
 
         // Get tiledMap width and height.
@@ -118,6 +119,7 @@ public class BoardLogic implements IBoardLogic {
         if(playerLoc.x > mapPixelWidth || playerLoc.y > mapPixelHeight) {
             return false;
         }
+
         else return !(playerLoc.x < 0) && !(playerLoc.y < 0);
     }
 
@@ -149,8 +151,7 @@ public class BoardLogic implements IBoardLogic {
         for (Vector2 loc : holes) {
             if (myPlayer.getLocation().equals(loc)) {
                 myPlayer.changeLifeTokens(-1);
-                myPlayer.setX(myPlayer.getLastSavePoint().x);
-                myPlayer.setY(myPlayer.getLastSavePoint().y);
+                myPlayer.setLocation(myPlayer.getLastSavePoint());
             }
         }
     }
@@ -465,12 +466,7 @@ public class BoardLogic implements IBoardLogic {
         networkClient.sendPlayer(player);
     }
 
-    @Override
-    public void setLocation(Vector2 location){
-        myPlayer.getSprite().setX(location.x);
-        myPlayer.getSprite().setY(location.y);
 
-    }
 
     @Override
     public void sendProgramList(ArrayList<Card> cardArrayList){
@@ -498,7 +494,7 @@ public class BoardLogic implements IBoardLogic {
                     setGameOver(true);
                 }
                 else {
-                    setLocation(myPlayer.getLastSavePoint()); //ellers endre posisjonen til siste savepoint
+                    myPlayer.setLocation(myPlayer.getLastSavePoint()); //ellers endre posisjonen til siste savepoint
                     networkClient.sendPlayer(myPlayer);
                 }
             }

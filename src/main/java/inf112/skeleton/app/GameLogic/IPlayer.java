@@ -91,4 +91,6 @@ public interface IPlayer {
      *
      */
     void changeDamageTokens(Integer change);
+
+    public void setLocation(Vector2 location);
 }

@@ -86,11 +86,6 @@ public interface IBoardLogic {
      */
     void sendProgramList(ArrayList<Card> cardArrayList);
 
-    /**
-     * Endre posisjonen til en player til en gitt posisjon
-     * @param location - du vil endre til
-     */
-    void setLocation(Vector2 location);
 
     public void doTurn(TurnPacket turnPacket);
 
@@ -117,4 +112,6 @@ public interface IBoardLogic {
     public void robotFallHole();
 
     public Integer collectedFlags();
+
+
 }
