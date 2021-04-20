@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="2021.01.13" orientation="orthogonal" renderorder="right-down" width="28" height="12" tilewidth="150" tileheight="150" infinite="0" nextlayerid="29" nextobjectid="279">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="28" height="12" tilewidth="150" tileheight="150" infinite="0" nextlayerid="30" nextobjectid="279">
  <tileset firstgid="1" source="tileset.tsx"/>
  <layer id="1" name="Tile Layer 1" width="28" height="12">
   <data encoding="csv">
 67,3221225491,2684354585,34,2684354585,3221225491,19,2684354585,13,2684354585,13,13,13,38,2684354585,2684354622,2684354585,59,2684354622,3221225494,1610612797,3221225494,11,119,86,86,3221225522,86,
 1610612755,2147483662,34,33,34,3221225491,19,25,13,13,2684354574,2684354562,59,25,59,2684354622,59,1610612797,2684354622,37,1610612797,118,118,118,86,86,86,86,
 32,34,47,34,1610612758,3221225491,19,26,38,13,2,3221225497,59,59,59,2684354622,59,1610612797,2684354622,33,1610612797,118,107,118,1610612786,86,3221225522,2684354610,
-34,2684354611,2684354599,1610612787,34,3221225491,19,13,3221225523,13,2,59,3221225534,3221225534,3221225534,0,59,1610612797,2684354622,37,0,3221225533,3221225533,3221225533,86,86,86,86,
+34,2684354611,2684354599,1610612787,34,3221225491,19,13,39,13,2,59,3221225534,3221225534,3221225534,0,59,1610612797,2684354622,37,0,3221225533,3221225533,3221225533,86,86,86,86,
 32,110,110,35,2684354574,2147483662,19,2684354595,51,13,2,1610612771,59,59,59,59,35,1610612797,2684354622,2684354595,37,37,37,37,1610612786,86,3221225522,2684354610,
 1610612755,1610612755,1610612755,1610612755,2147483662,3221225540,3758096398,1610612755,1610612755,1610612755,2147483662,1610612755,3221225546,3221225546,3221225546,3221225546,3221225546,33,59,61,61,61,61,61,86,86,86,86,
 1610612738,1073741838,1610612738,536870926,2684354628,56,1610612804,1073741838,2684354579,2684354579,2684354579,2684354579,37,3221225533,3221225534,3221225534,3221225534,59,59,3221225533,3221225533,3221225533,3221225533,3221225533,86,86,86,86,
@@ -38,11 +38,31 @@
   <object id="86" x="3000" y="450" width="150" height="150"/>
  </objectgroup>
  <objectgroup id="8" name="lazers" visible="0">
-  <object id="23" x="0" y="1050" width="450" height="150"/>
-  <object id="24" x="1200" y="1200" width="150" height="300"/>
-  <object id="25" x="1200" y="450" width="150" height="300"/>
-  <object id="26" x="150" y="450" width="450" height="150"/>
-  <object id="27" x="3150" y="1350" width="150" height="450"/>
+  <object id="23" x="420" y="1050" width="30" height="150">
+   <properties>
+    <property name="direction" value="east"/>
+   </properties>
+  </object>
+  <object id="24" x="1200" y="1200" width="150" height="22">
+   <properties>
+    <property name="direction" value="south"/>
+   </properties>
+  </object>
+  <object id="25" x="1200" y="724" width="150" height="26">
+   <properties>
+    <property name="direction" value="north"/>
+   </properties>
+  </object>
+  <object id="26" x="150" y="450" width="28" height="150">
+   <properties>
+    <property name="direction" value="east"/>
+   </properties>
+  </object>
+  <object id="27" x="3150" y="1350" width="150" height="26">
+   <properties>
+    <property name="direction" value="south"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="4" name="flag" visible="0">
   <object id="13" name="Flag1" x="2550" y="750" width="150" height="150"/>
