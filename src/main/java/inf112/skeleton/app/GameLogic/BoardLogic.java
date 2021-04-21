@@ -51,7 +51,7 @@ public class BoardLogic implements IBoardLogic {
         }
         players = new ArrayList<>();
         for (int i = 1; i <= nrOfPlayers; i++) {
-            IPlayer playerToAdd = new Player(i, new Sprite(new Texture(Gdx.files.internal("src/main/Resources/robot" + i + ".png"))));
+            IPlayer playerToAdd = new Player(i, new Sprite(new Texture(Gdx.files.internal("src/main/Resources/robot/robot" + i + ".png"))));
             this.players.add(playerToAdd);
         }
         myPlayer = players.get(networkClient.getId()-1);

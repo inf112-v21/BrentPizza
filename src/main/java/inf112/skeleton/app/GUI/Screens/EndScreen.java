@@ -33,9 +33,9 @@ public class EndScreen {
         table.center();
         table.setFillParent(true);
 
-        Button restartButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/ready.png"))));
+        Button restartButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/buttons/ready.png"))));
         table.add(restartButton).expand(0,0).pad(10);
-        Button endButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/exit.png"))));
+        Button endButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/buttons/exit.png"))));
         table.add(endButton).expand(0,0).pad(10);
         stage.addActor(table);
 

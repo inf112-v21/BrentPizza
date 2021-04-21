@@ -42,7 +42,7 @@ public class HudLogic implements IHudLogic {
         hand = ICardGenerator.getRandomHand();
         handButtonList = new ArrayList<>();
 
-        readyButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/ready.png"))));
+        readyButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/buttons/ready.png"))));
 
         //Create initial programCards list
         for (int i = 0; i < 5; i++) {

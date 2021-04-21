@@ -55,7 +55,7 @@ public class ConveyorBeltTests {
         board.convey();
         Vector2 moved = new Vector2(3300, 450);
 
-        assertEquals(myPlayer.getLocation(), moved);
+        assertEquals(moved, myPlayer.getLocation());
     }
     /**
      * Test if oneArrowEast conveyor-belt moves the player correctly.
@@ -69,7 +69,7 @@ public class ConveyorBeltTests {
         board.convey();
         Vector2 moved = new Vector2(3450, 750);
 
-        assertEquals(myPlayer.getLocation(), moved);
+        assertEquals(moved, myPlayer.getLocation());
     }
     /**
      * Test if oneArrowNorth conveyor-belt moves the player correctly.
@@ -83,7 +83,7 @@ public class ConveyorBeltTests {
         board.convey();
         Vector2 moved = new Vector2(2700, 1200);
 
-        assertEquals(myPlayer.getLocation(), moved);
+        assertEquals(moved, myPlayer.getLocation());
     }
     /**
      * Test if oneArrowSouth conveyor-belt moves the player correctly.
@@ -97,7 +97,7 @@ public class ConveyorBeltTests {
         board.convey();
         Vector2 moved = new Vector2(2550, 1050);
 
-        assertEquals(myPlayer.getLocation(), moved);
+        assertEquals(moved, myPlayer.getLocation());
     }
     /**
      * Test if twoArrowSouth conveyor-belt moves the player correctly.
@@ -111,7 +111,7 @@ public class ConveyorBeltTests {
         board.convey();
         Vector2 moved = new Vector2(2550, 300);
 
-        assertEquals(myPlayer.getLocation(), moved);
+        assertEquals(moved,myPlayer.getLocation());
     }
     /**
      * Test if twoArrowWest conveyor-belt moves the player correctly.
@@ -125,6 +125,6 @@ public class ConveyorBeltTests {
         board.convey();
         Vector2 moved = new Vector2(2100, 900);
 
-        assertEquals(myPlayer.getLocation(), moved);
+        assertEquals(moved, myPlayer.getLocation());
     }
 }

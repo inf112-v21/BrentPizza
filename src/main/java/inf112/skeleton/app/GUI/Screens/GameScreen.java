@@ -39,7 +39,7 @@ public class GameScreen {
 
         camera.update();
 
-        tiledMap = new TmxMapLoader().load("src/main/Resources/roboRallyMap.tmx");
+        tiledMap = new TmxMapLoader().load("src/main/Resources/map/roboRallyMap.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         sb = new SpriteBatch();
 

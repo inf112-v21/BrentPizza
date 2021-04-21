@@ -29,6 +29,7 @@ public class InputProcess implements IInputProcess {
             myPlayer.rotatePlayer(-90);
         if (keycode == Input.Keys.U)
             logic.convey();
+            System.out.println(myPlayer.getLocation());
         if(keycode == Input.Keys.NUM_1){
             System.out.println(myPlayer.getDamageTokens());
             myPlayer.changeDamageTokens(1);
