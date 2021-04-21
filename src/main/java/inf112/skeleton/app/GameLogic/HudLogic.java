@@ -156,6 +156,16 @@ public class HudLogic implements IHudLogic {
             });
         }
     }
+
+    @Override
+    public ArrayList<Integer> getHandPriority() {
+        ArrayList<Integer> priority = new ArrayList<>();
+        for (Card card: hand) {
+            priority.add(card.getPriorityNumber());
+        }
+        return priority;
+    }
+
     public ArrayList<Card> getHand(){
         return this.hand;
     }

@@ -61,4 +61,6 @@ public interface IHudLogic {
      * Adds the listeners to the buttons in the handButton list
      */
     void addClickListenersHand();
+
+    ArrayList<Integer> getHandPriority();
 }

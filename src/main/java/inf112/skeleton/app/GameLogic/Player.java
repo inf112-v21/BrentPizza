@@ -73,13 +73,13 @@ public class Player implements IPlayer {
         if (Math.abs(playerSprite.getRotation()%360) == 180) {
             playerSprite.translate(0, 150);
         }
-        if (Math.abs(playerSprite.getRotation()%360) == 270) {
+        else if (Math.abs(playerSprite.getRotation()%360) == 270) {
             playerSprite.translate(150, 0);
         }
-        if (Math.abs(playerSprite.getRotation()%360) == 0) {
+        else if (Math.abs(playerSprite.getRotation()%360) == 0) {
             playerSprite.translate(0, -150);
         }
-        if (Math.abs(playerSprite.getRotation()%360) == 90) {
+        else if (Math.abs(playerSprite.getRotation()%360) == 90) {
             playerSprite.translate(-150, 0);
         }
     }

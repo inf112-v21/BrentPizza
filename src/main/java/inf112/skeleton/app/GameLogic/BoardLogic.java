@@ -57,10 +57,13 @@ public class BoardLogic implements IBoardLogic {
         myPlayer = players.get(networkClient.getId()-1);
 
         spawnpoints = getSpawnPoints();
-        myPlayer.setX(spawnpoints.get(myPlayer.getID()-1).x);
-        myPlayer.setY(spawnpoints.get(myPlayer.getID()-1).y);
-        myPlayer.setRoation(-90);
-        networkClient.sendPlayer(myPlayer);
+        for (IPlayer player : players) {
+            player.setX(spawnpoints.get(player.getID()-1).x);
+            player.setY(spawnpoints.get(player.getID()-1).y);
+            player.rotatePlayer(270);
+        }
+
+        //networkClient.sendPlayer(myPlayer);
 
         //setter første spawn point som lastSavePoint
         myPlayer.setLastSavePoint(myPlayer.getLocation());
@@ -129,17 +132,17 @@ public class BoardLogic implements IBoardLogic {
         } return collectFlags.size();
     }
     @Override
-    public boolean checkMove(){
-        if(walls.get(myPlayer.getLocation()) == "wallNorth"  && Math.abs(myPlayer.getSprite().getRotation() % 360) == 180){
+    public boolean checkMove(IPlayer player){
+        if(walls.get(player.getLocation()) == "wallNorth"  && Math.abs(player.getSprite().getRotation() % 360) == 180){
             return false;
         }
-        if(walls.get(myPlayer.getLocation()) == "wallSouth" && Math.abs(myPlayer.getSprite().getRotation() % 360) == 0){
+        if(walls.get(player.getLocation()) == "wallSouth" && Math.abs(player.getSprite().getRotation() % 360) == 0){
             return false;
         }
-        if(walls.get(myPlayer.getLocation()) == "wallWest" && Math.abs(myPlayer.getSprite().getRotation() % 360) == 90){
+        if(walls.get(player.getLocation()) == "wallWest" && Math.abs(player.getSprite().getRotation() % 360) == 90){
             return false;
         }
-        if(walls.get(myPlayer.getLocation()) == "wallEast" && Math.abs(myPlayer.getSprite().getRotation() % 360) == 270){
+        if(walls.get(player.getLocation()) == "wallEast" && Math.abs(player.getSprite().getRotation() % 360) == 270){
             return false;
         }
         return true;
@@ -147,12 +150,15 @@ public class BoardLogic implements IBoardLogic {
 
     @Override
     public void robotFallHole() {
-        for (Vector2 loc : holes) {
-            if (myPlayer.getLocation().equals(loc)) {
-                myPlayer.changeLifeTokens(-1);
-                myPlayer.setLocation(myPlayer.getLastSavePoint());
+        for (IPlayer player : players) {
+            for (Vector2 loc : holes) {
+                if (player.getLocation().equals(loc)) {
+                    player.changeLifeTokens(-1);
+                    player.setLocation(myPlayer.getLastSavePoint());
+                }
             }
         }
+
     }
     @Override
     public void robotFallOutsideMap() {
@@ -261,24 +267,27 @@ public class BoardLogic implements IBoardLogic {
     }
     @Override
     public void convey() {
-        if (conveyorBelts.get(myPlayer.getLocation()) == "oneArrowNorth") {
-            myPlayer.getSprite().translate(0, 150);
+        for (IPlayer player: players) {
+            if (conveyorBelts.get(player.getLocation()) == "oneArrowNorth") {
+                player.getSprite().translate(0, 150);
+            }
+            if (conveyorBelts.get(player.getLocation()) == "oneArrowSouth") {
+                player.getSprite().translate(0, -150);
+            }
+            if (conveyorBelts.get(player.getLocation()) == "oneArrowWest") {
+                player.getSprite().translate(-150, 0);
+            }
+            if (conveyorBelts.get(player.getLocation()) == "oneArrowEast") {
+                player.getSprite().translate(150, 0);
+            }
+            if (conveyorBelts.get(player.getLocation()) == "twoArrowSouth") {
+                player.getSprite().translate(0, -300);
+            }
+            if (conveyorBelts.get(player.getLocation()) == "twoArrowWest") {
+                player.getSprite().translate(-300, 0);
+            }
         }
-        if (conveyorBelts.get(myPlayer.getLocation()) == "oneArrowSouth") {
-            myPlayer.getSprite().translate(0, -150);
-        }
-        if (conveyorBelts.get(myPlayer.getLocation()) == "oneArrowWest") {
-            myPlayer.getSprite().translate(-150, 0);
-        }
-        if (conveyorBelts.get(myPlayer.getLocation()) == "oneArrowEast") {
-            myPlayer.getSprite().translate(150, 0);
-        }
-        if (conveyorBelts.get(myPlayer.getLocation()) == "twoArrowSouth") {
-            myPlayer.getSprite().translate(0, -300);
-        }
-        if (conveyorBelts.get(myPlayer.getLocation()) == "twoArrowWest") {
-            myPlayer.getSprite().translate(-300, 0);
-        }
+
     }
     //to be removed in future iteration. This is just used for moving manually for testing
     @Override
@@ -347,6 +356,7 @@ public class BoardLogic implements IBoardLogic {
         for (int i = 0; i < cards.size(); i++) {
             System.out.println(turnPacket.ID.get(i));
             IPlayer playerToMove = players.get(turnPacket.ID.get(i)-1);
+            robotFallHole();
             if(!checkOutOfBounds()){
                 System.out.println("Player fell and died");
                 myPlayer.changeLifeTokens(-1); //endre HP til spilleren
@@ -359,7 +369,10 @@ public class BoardLogic implements IBoardLogic {
                     networkClient.sendPlayer(myPlayer);
                 }
             }
-            cards.get(i).action(playerToMove);
+            if(checkMove(playerToMove)){
+                cards.get(i).action(playerToMove);
+            }
+
         }
 
         if(checkWin()){
@@ -376,6 +389,8 @@ public class BoardLogic implements IBoardLogic {
 
     @Override
     public void nextRound() {
+        convey();
+
         readyForProgram = true;
     }
 

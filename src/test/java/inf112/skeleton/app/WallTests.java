@@ -48,7 +48,7 @@ public class WallTests {
 
         boolean isTrue = true;
 
-        if(board.checkMove()){
+        if(board.checkMove(myPlayer)){
             isTrue = false;
             one.action(myPlayer);
             System.out.println("Obs you went through a wall");
@@ -68,7 +68,7 @@ public class WallTests {
 
         boolean isTrue = false;
 
-        if(board.checkMove()){
+        if(board.checkMove(myPlayer)){
             isTrue = true;
             one.action(myPlayer);
         }
@@ -87,7 +87,7 @@ public class WallTests {
 
         Card one = new MoveOneCard();
 
-        if(board.checkMove()){
+        if(board.checkMove(myPlayer)){
             one.action(myPlayer);
         }
         assertEquals(moved, myPlayer.getLocation());

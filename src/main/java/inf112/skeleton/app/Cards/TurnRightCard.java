@@ -6,6 +6,6 @@ public class TurnRightCard extends Card{
 
 
     public void action(IPlayer player) {
-        player.rotatePlayer(-90);
+        player.rotatePlayer(270);
     }
 }

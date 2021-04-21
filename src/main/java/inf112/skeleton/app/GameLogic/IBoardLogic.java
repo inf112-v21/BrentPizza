@@ -103,7 +103,7 @@ public interface IBoardLogic {
      */
     //public ArrayList<Vector2> get(String name);
 
-    public boolean checkMove();
+    public boolean checkMove(IPlayer player);
 
     public void convey();
     public ArrayList<Vector2> getObjects(String name);

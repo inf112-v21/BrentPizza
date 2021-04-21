@@ -28,7 +28,7 @@ public class Hud {
         handCardsTable = new HandTableGenerator();
 
         stage.addActor(programCardsTable.createCardTable(hudLogic.getProgramImageList(), hudLogic.getReadyButton()));
-        stage.addActor(handCardsTable.createHandTable(hudLogic.getHandButtonList()));
+        stage.addActor(handCardsTable.createHandTable(hudLogic.getHandButtonList(), hudLogic.getHandPriority()));
     }
 
     public Stage getStage(){
@@ -38,7 +38,7 @@ public class Hud {
     public void updateStage(){
         stage.clear();
         stage.addActor(programCardsTable.createCardTable(hudLogic.getProgramImageList(), hudLogic.getReadyButton()));
-        stage.addActor(handCardsTable.createHandTable(hudLogic.getHandButtonList()));
+        stage.addActor(handCardsTable.createHandTable(hudLogic.getHandButtonList(), hudLogic.getHandPriority()));
     }
 
 
