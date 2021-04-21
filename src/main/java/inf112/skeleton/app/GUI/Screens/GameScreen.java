@@ -1,6 +1,7 @@
 package inf112.skeleton.app.GUI.Screens;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -14,6 +15,8 @@ import inf112.skeleton.app.GUI.RoboRallyGUI;
 import inf112.skeleton.app.GameLogic.*;
 import org.lwjgl.system.CallbackI;
 
+import java.util.ArrayList;
+
 public class GameScreen {
 
     public TiledMap tiledMap;
@@ -25,6 +28,8 @@ public class GameScreen {
     SpriteBatch sbHud;
     private IInputProcess IInputProcess;
     private RoboRallyGUI rgb;
+    private Laser laser;
+    ArrayList<Sprite> lasers;
 
 
     public GameScreen(RoboRallyGUI rgb){
@@ -51,6 +56,12 @@ public class GameScreen {
                 e.printStackTrace();
             }
         }
+
+        laser = new Laser();
+
+
+
+
         IInputProcess = new InputProcess(camera, boardLogic.getMyPlayer(), boardLogic);
         sbHud = new SpriteBatch();
         hud = new Hud(sbHud, boardLogic);
@@ -58,16 +69,26 @@ public class GameScreen {
     }
 
     public void stageRefresh(){
+
         camera.update();
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
 
         sb.setProjectionMatrix(camera.combined);
+        lasers = laser.createLaser(tiledMap, boardLogic);
         sb.begin();
+
+
+
+
         //draw players
         for (IPlayer player : boardLogic.getPlayers()) {
             player.getSprite().draw(sb);
         }
+        //Pls don't touch
+        /**for (Sprite lazer: lasers) {
+            lazer.draw(sb);
+        }**/
         sb.end();
         sbHud.setProjectionMatrix(hud.getStage().getCamera().combined);
         hud.getStage().draw();

@@ -54,10 +54,10 @@ public class PlayerLifeTests {
     @Test
     public void testFallsInHole(){
 
-        myPlayer.rotatePlayer(-180);
-        myPlayer.moveForward();
-        myPlayer.rotatePlayer(-90);
-        for(int i = 0; i < 5; i++){
+        myPlayer.getSprite().setX(3450);
+        myPlayer.getSprite().setY(1350);
+
+        for(int i = 0; i < 2; i++){
             board.robotFallHole();
             myPlayer.moveForward();
         }
@@ -69,6 +69,8 @@ public class PlayerLifeTests {
     @Test
     public void testFallsOutsideMap(){
 
+        myPlayer.rotatePlayer(-180);
+        myPlayer.moveForward();
         myPlayer.moveForward();
         board.robotFallOutsideMap();
 

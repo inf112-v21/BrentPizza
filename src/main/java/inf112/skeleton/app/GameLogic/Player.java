@@ -39,7 +39,7 @@ public class Player implements IPlayer {
 
     @Override
     public int getLifeTokens(){
-        return lifeTokens;
+        return this.lifeTokens;
     }
 
     @Override
@@ -104,6 +104,12 @@ public class Player implements IPlayer {
     @Override
     public void setY(float y){
         playerSprite.setY(y);
+    }
+    @Override
+    public void setLocation(Vector2 location){
+        this.getSprite().setX(location.x);
+        this.getSprite().setY(location.y);
+
     }
 
 }

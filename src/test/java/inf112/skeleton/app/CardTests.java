@@ -2,11 +2,8 @@ package inf112.skeleton.app;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.skeleton.app.Cards.*;
 import inf112.skeleton.app.GUI.HUD.Hud;
 import inf112.skeleton.app.GUI.RoboRallyGUI;
@@ -107,7 +104,7 @@ public class CardTests {
         Card one = new MoveOneCard();
         one.action(myPlayer);
 
-        Vector2 movement = new Vector2(500, 350);
+        Vector2 movement = new Vector2(350, 500);
 
         assertEquals(myPlayer.getLocation(), movement);
     }
@@ -119,7 +116,7 @@ public class CardTests {
         Card two = new MoveTwoCard();
         two.action(myPlayer);
 
-        Vector2 movement = new Vector2(500, 200);
+        Vector2 movement = new Vector2(200, 500);
 
         assertEquals(myPlayer.getLocation(), movement);
     }
@@ -131,12 +128,12 @@ public class CardTests {
         Card three = new MoveThreeCard();
         three.action(myPlayer);
 
-        Vector2 movement = new Vector2(500, 50);
+        Vector2 movement = new Vector2(50, 500);
 
         assertEquals(myPlayer.getLocation(), movement);
     }
     /**
-     * Test if TurnLeftCard turn player one left.
+     * Test if TurnLeftCard turn player one right.
      */
     @Test
     public void testIfCardTurnPlayerRight(){
@@ -146,12 +143,12 @@ public class CardTests {
         move.action(myPlayer);
         right.action(myPlayer);
 
-        Vector2 movement = new Vector2(500, 350);
+        Vector2 movement = new Vector2(350, 500);
 
         assertEquals(myPlayer.getLocation(), movement);
     }
     /**
-     * Test if TurnRightCard turn player one right.
+     * Test if TurnRightCard turn player one left.
      */
     @Test
     public void testIfCardTurnPlayerLeft(){
@@ -161,7 +158,7 @@ public class CardTests {
         left.action(myPlayer);
         move.action(myPlayer);
 
-        Vector2 movement = new Vector2(350, 500);
+        Vector2 movement = new Vector2(500, 350);
 
         assertEquals(myPlayer.getLocation(), movement);
     }
