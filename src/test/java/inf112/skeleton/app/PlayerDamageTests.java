@@ -88,7 +88,7 @@ public class PlayerDamageTests {
     public void testRobotFullDamage(){
 
         myPlayer.changeDamageTokens(10);
-        board.robotFullDamage();
+        board.robotFullDamage(myPlayer);
 
         assertEquals(2, myPlayer.getLifeTokens());
     }

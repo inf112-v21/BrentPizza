@@ -1,5 +1,6 @@
 package inf112.skeleton.app.GameLogic;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.Cards.Card;
@@ -15,7 +16,7 @@ public interface IBoardLogic {
      *
      * @return true if player is inside the map, false otherwise
      */
-    boolean checkOutOfBounds();
+    boolean checkOutOfBounds(IPlayer player);
 
     /**
      * Checks if the player has won by walking on a flag,
@@ -114,15 +115,19 @@ public interface IBoardLogic {
 
     public ArrayList<Vector2> getFlags();
 
-    public void repairRobot();
+    public void repairRobot(IPlayer player);
 
-    public void robotFullDamage();
+    public void robotFullDamage(IPlayer player);
 
-    public void robotFallOutsideMap();
-
-    public void robotFallHole();
+    public void robotFallHole(IPlayer player);
 
     public Integer collectedFlags();
+
+    public ArrayList<Sprite> getLaser();
+
+
+    public boolean checkMovement(IPlayer player);
+
 
 
 }

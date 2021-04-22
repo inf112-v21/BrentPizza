@@ -23,8 +23,16 @@ public class InputProcess implements IInputProcess {
 
     @Override
     public boolean keyUp(int keycode) {
-        if(keycode == Input.Keys.UP)
+        if(keycode == Input.Keys.P){
+            camera.zoom += -1;
+        }
+        if(keycode == Input.Keys.O){
+            camera.zoom += 1;
+        }
+        if(keycode == Input.Keys.UP){
             myPlayer.moveForward();
+            System.out.println(myPlayer.getLocation().x + "," + myPlayer.getLocation().y );
+        }
         if (keycode == Input.Keys.SPACE)
             myPlayer.rotatePlayer(-90);
         if (keycode == Input.Keys.U)
@@ -38,17 +46,6 @@ public class InputProcess implements IInputProcess {
 
 
         logic.sendPlayer(myPlayer);
-
-        // ends game if player exits map
-        if(!logic.checkOutOfBounds()){
-            System.out.println("Player " + myPlayer.getID() + " fell and died");
-            logic.setGameOver(true);
-        }
-
-        //ends game if player steps on flag
-        if(logic.checkWin()){
-            logic.sendWin();
-        }
 
         return false;
     }

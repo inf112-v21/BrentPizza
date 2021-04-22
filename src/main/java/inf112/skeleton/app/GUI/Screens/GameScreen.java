@@ -1,5 +1,6 @@
 package inf112.skeleton.app.GUI.Screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -28,8 +29,6 @@ public class GameScreen {
     SpriteBatch sbHud;
     private IInputProcess IInputProcess;
     private RoboRallyGUI rgb;
-    private Laser laser;
-    ArrayList<Sprite> lasers;
 
 
     public GameScreen(RoboRallyGUI rgb){
@@ -57,7 +56,6 @@ public class GameScreen {
             }
         }
 
-        laser = new Laser(boardLogic);
 
 
 
@@ -75,20 +73,18 @@ public class GameScreen {
         tiledMapRenderer.render();
 
         sb.setProjectionMatrix(camera.combined);
-        lasers = laser.createLaser(tiledMap);
+
         sb.begin();
-
-
-
 
         //draw players
         for (IPlayer player : boardLogic.getPlayers()) {
             player.getSprite().draw(sb);
         }
-        //Pls don't touch
-        for (Sprite lazer: lasers) {
+
+        for (Sprite lazer: boardLogic.getLaser()) {
             lazer.draw(sb);
         }
+
 
 
         sb.end();

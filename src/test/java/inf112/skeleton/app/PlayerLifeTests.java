@@ -58,7 +58,7 @@ public class PlayerLifeTests {
         myPlayer.getSprite().setY(1350);
 
         for(int i = 0; i < 2; i++){
-            board.robotFallHole();
+            //board.robotFallHole();
             myPlayer.moveForward();
         }
         assertEquals(2, myPlayer.getLifeTokens());
@@ -72,7 +72,7 @@ public class PlayerLifeTests {
         myPlayer.rotatePlayer(-180);
         myPlayer.moveForward();
         myPlayer.moveForward();
-        board.robotFallOutsideMap();
+        //board.robotFallOutsideMap();
 
         assertEquals(2, myPlayer.getLifeTokens());
     }

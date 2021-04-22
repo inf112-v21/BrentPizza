@@ -1,5 +1,6 @@
 package inf112.skeleton.app.GameLogic;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Timer;
 import inf112.skeleton.app.Cards.*;
 import inf112.skeleton.app.Network.NetworkClient;
 import inf112.skeleton.app.Packets.TurnPacket;
@@ -30,6 +32,8 @@ public class BoardLogic implements IBoardLogic {
     ArrayList<Vector2> flagList;
     ArrayList<Vector2> holes;
     ArrayList<Vector2> spawnpoints;
+    private ArrayList<Sprite> lasers;
+    private Texture laserTexture;
 
     HashMap<Vector2, String> conveyorBelts;
     HashMap<Vector2, String> walls;
@@ -37,7 +41,8 @@ public class BoardLogic implements IBoardLogic {
     private boolean readyForProgram = true;
 
     public BoardLogic(TiledMap tiledMap) throws InterruptedException {
-
+        laserTexture = new Texture(Gdx.files.internal("src/main/Resources/Laser.png"));
+        lasers = new ArrayList<>();
         this.tiledMap = tiledMap;
 
         try{
@@ -60,7 +65,7 @@ public class BoardLogic implements IBoardLogic {
         for (IPlayer player : players) {
             player.setX(spawnpoints.get(player.getID()-1).x);
             player.setY(spawnpoints.get(player.getID()-1).y);
-            player.rotatePlayer(270);
+            player.setRoation(270);
         }
 
         //networkClient.sendPlayer(myPlayer);
@@ -84,8 +89,7 @@ public class BoardLogic implements IBoardLogic {
      * Returns false if player is outside map.
      */
     @Override
-    public boolean checkOutOfBounds() {
-        System.out.println(myPlayer.getLifeTokens());
+    public boolean checkOutOfBounds(IPlayer player) {
         MapProperties prop = tiledMap.getProperties();
 
         // Get tiledMap width and height.
@@ -98,7 +102,7 @@ public class BoardLogic implements IBoardLogic {
         int mapPixelWidth = (mapWidth * tilePixelWidth)-150;
         int mapPixelHeight = (mapHeight * tilePixelHeight)-150;
 
-        Vector2 playerLoc = myPlayer.getLocation();
+        Vector2 playerLoc = player.getLocation();
 
         if(playerLoc.x > mapPixelWidth || playerLoc.y > mapPixelHeight) {
             return false;
@@ -131,6 +135,34 @@ public class BoardLogic implements IBoardLogic {
                 collectFlags.add("Flag 4 collected");
         } return collectFlags.size();
     }
+
+    @Override
+    public ArrayList<Sprite> getLaser() {
+        return lasers;
+    }
+
+
+    @Override
+    public boolean checkMovement(IPlayer player) {
+        robotFallHole(player);
+        if(!checkOutOfBounds(player)){
+            System.out.println("Player fell and died");
+            player.changeLifeTokens(-1); //endre HP til spilleren
+
+            if (myPlayer.getLifeTokens() <= 0){ //hvis han ikke har HP igjen avslutt spillet
+                setGameOver(true);
+            }
+            else {
+                player.setLocation(player.getLastSavePoint()); //ellers endre posisjonen til siste savepoint
+                networkClient.sendPlayer(myPlayer);
+            }
+
+        }
+        robotFullDamage(player);
+        return false;
+    }
+
+
     @Override
     public boolean checkMove(IPlayer player){
         if(walls.get(player.getLocation()) == "wallNorth"  && Math.abs(player.getSprite().getRotation() % 360) == 180){
@@ -149,43 +181,33 @@ public class BoardLogic implements IBoardLogic {
     }
 
     @Override
-    public void robotFallHole() {
-        for (IPlayer player : players) {
-            for (Vector2 loc : holes) {
-                if (player.getLocation().equals(loc)) {
-                    player.changeLifeTokens(-1);
-                    player.setLocation(myPlayer.getLastSavePoint());
-                }
+    public void robotFallHole(IPlayer player) {
+        for (Vector2 loc : holes) {
+            if (player.getLocation().equals(loc)) {
+                player.changeLifeTokens(-1);
+                player.setLocation(myPlayer.getLastSavePoint());
             }
         }
 
     }
     @Override
-    public void robotFallOutsideMap() {
-            if (!checkOutOfBounds()) {
-                myPlayer.changeLifeTokens(-1);
-                myPlayer.setX(myPlayer.getLastSavePoint().x);
-                myPlayer.setY(myPlayer.getLastSavePoint().y);
-            }
-    }
-    @Override
-    public void robotFullDamage() {
-        if (myPlayer.getDamageTokens()>= 9) {
-            myPlayer.changeLifeTokens(-1);
-            myPlayer.setX(myPlayer.getLastSavePoint().x);
-            myPlayer.setY(myPlayer.getLastSavePoint().y);
+    public void robotFullDamage(IPlayer player) {
+        if (player.getDamageTokens()>= 9) {
+            player.changeLifeTokens(-1);
+            player.setX(myPlayer.getLastSavePoint().x);
+            player.setY(myPlayer.getLastSavePoint().y);
         }
     }
     @Override
-    public void repairRobot(){
+    public void repairRobot(IPlayer player){
         for (Vector2 loc : repairsites) {
-            if(myPlayer.getLocation().equals(loc)){
-                myPlayer.changeDamageTokens(-1);
+            if(player.getLocation().equals(loc)){
+                player.changeDamageTokens(-1);
             }
         }
         for (Vector2 loc : repairsites2) {
-            if(myPlayer.getLocation().equals(loc)){
-                myPlayer.changeDamageTokens(-2);
+            if(player.getLocation().equals(loc)){
+                player.changeDamageTokens(-2);
             }
         }
     }
@@ -336,8 +358,6 @@ public class BoardLogic implements IBoardLogic {
         networkClient.sendPlayer(player);
     }
 
-
-
     @Override
     public void sendProgramList(ArrayList<Card> cardArrayList){
         readyForProgram = false;
@@ -356,21 +376,10 @@ public class BoardLogic implements IBoardLogic {
         for (int i = 0; i < cards.size(); i++) {
             System.out.println(turnPacket.ID.get(i));
             IPlayer playerToMove = players.get(turnPacket.ID.get(i)-1);
-            robotFallHole();
-            if(!checkOutOfBounds()){
-                System.out.println("Player fell and died");
-                myPlayer.changeLifeTokens(-1); //endre HP til spilleren
 
-                if (myPlayer.getLifeTokens() <= 0){ //hvis han ikke har HP igjen avslutt spillet
-                    setGameOver(true);
-                }
-                else {
-                    myPlayer.setLocation(myPlayer.getLastSavePoint()); //ellers endre posisjonen til siste savepoint
-                    networkClient.sendPlayer(myPlayer);
-                }
-            }
+
             if(checkMove(playerToMove)){
-                cards.get(i).action(playerToMove);
+                cards.get(i).action(playerToMove, this);
             }
 
         }
@@ -390,8 +399,20 @@ public class BoardLogic implements IBoardLogic {
     @Override
     public void nextRound() {
         convey();
-
+        for (IPlayer pl: players) {
+            repairRobot(pl);
+        }
+        Laser laser = new Laser(this, laserTexture);
+        lasers = laser.createLasers(tiledMap);
         readyForProgram = true;
+
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                lasers = new ArrayList<>();
+            }
+        }, 2);
     }
 
     @Override
@@ -403,4 +424,5 @@ public class BoardLogic implements IBoardLogic {
     public TiledMap getTiledMap() {
         return this.tiledMap;
     }
+
 }
