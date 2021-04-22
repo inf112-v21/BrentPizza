@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class ProgramTableGenerator {
 
-    public Table createCardTable(ArrayList<Image> spriteList, Button readyButton){
+    public Table createCardTable(ArrayList<Image> spriteList, Button readyButton, Button healButtoon){
 
         Table table = new Table();
         table.right();
@@ -15,11 +15,13 @@ public class ProgramTableGenerator {
 
 
         for (Image image: spriteList) {
-            table.add(image).expandY().padBottom(10);
+            table.add(image).expandY().padBottom(1);
             table.row();
         }
 
-        table.add(readyButton).expandY().padBottom(10);
+        table.add(readyButton).expandY().padBottom(1);
+        table.row();
+        table.add(healButtoon).expandY().padBottom(1);
 
         return table;
 

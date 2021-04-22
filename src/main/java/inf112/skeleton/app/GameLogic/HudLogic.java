@@ -8,8 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Timer;
 import inf112.skeleton.app.Cards.*;
 import inf112.skeleton.app.GUI.HUD.Hud;
+import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +29,7 @@ public class HudLogic implements IHudLogic {
     Hud hud;
     IBoardLogic boardLogic;
     TextureGetter textureGetter;
+    Button healbutton;
 
     public HudLogic(IBoardLogic boardLogic, Hud hud){
         this.hud = hud;
@@ -43,7 +46,7 @@ public class HudLogic implements IHudLogic {
         handButtonList = new ArrayList<>();
 
         readyButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/buttons/ready.png"))));
-
+        healbutton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/buttons/Heal.png"))));
         //Create initial programCards list
         for (int i = 0; i < 5; i++) {
             programCards.add(new NullCard());
@@ -61,6 +64,23 @@ public class HudLogic implements IHudLogic {
         updateButtonToHandMap();
         addClickListenersHand();
 
+        healbutton.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y){
+                if(programCounter > 1){
+                    System.out.println("YOU CANNOT HEAL WHEN YOU HAVE ALREADY PICKED A PROGRAM CARD");
+                }else{
+                    if(boardLogic.isReadyForNextRound()){
+                        boardLogic.sendProgramList(programCards);
+                        boardLogic.getMyPlayer().changeDamageTokens(-boardLogic.getMyPlayer().getDamageTokens());
+                        newRound();
+                    }
+                    else{
+                        System.out.println("YOU NEED TO WAIT FOR NEXT ROUND!");
+                    }
+                }
+
+            }
+        });
         readyButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
                 if(boardLogic.isReadyForNextRound()){
@@ -73,6 +93,14 @@ public class HudLogic implements IHudLogic {
                 }
             }
         });
+
+        //checky way to update the GUI for damage and Life tokens :)
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                hud.updateStage(boardLogic);
+            }
+        }, 10, 1, 99999999);
     }
 
 
@@ -166,6 +194,11 @@ public class HudLogic implements IHudLogic {
         return priority;
     }
 
+    @Override
+    public Button getHealButton() {
+        return this.healbutton;
+    }
+
     public ArrayList<Card> getHand(){
         return this.hand;
     }
@@ -189,5 +222,8 @@ public class HudLogic implements IHudLogic {
         updateHandButtonList();
         updateButtonToHandMap();
         hud.updateStage(boardLogic);
+
     }
+
+
 }
