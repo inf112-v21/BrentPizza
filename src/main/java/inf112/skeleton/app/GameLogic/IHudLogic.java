@@ -62,6 +62,11 @@ public interface IHudLogic {
      */
     void addClickListenersHand();
 
+    /**
+     * Retrieves the priority numbers of the cards in hand
+     * @return list of hand cards priority number
+     */
+
     ArrayList<Integer> getHandPriority();
 
 }
