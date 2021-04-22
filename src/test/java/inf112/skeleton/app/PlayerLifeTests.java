@@ -27,6 +27,9 @@ public class PlayerLifeTests {
     private IPlayer myPlayer;
     private GameScreen gameScreen;
 
+    Integer three = 3;
+    Integer two = 2;
+
     @Before
     public void setUp(){
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
@@ -46,7 +49,7 @@ public class PlayerLifeTests {
     @Test
     public void testIfRobotHasThreeLives(){
 
-        assertEquals(3, myPlayer.getLifeTokens());
+        assertEquals(three, myPlayer.getLifeTokens());
     }
     /**
      * Test if the player loses one life if he falls in a hole.
@@ -61,7 +64,7 @@ public class PlayerLifeTests {
             board.robotFallHole();
             myPlayer.moveForward();
         }
-        assertEquals(2, myPlayer.getLifeTokens());
+        assertEquals(two, myPlayer.getLifeTokens());
     }
     /**
      * Test if the player loses one life if he falls of the map.
@@ -74,6 +77,6 @@ public class PlayerLifeTests {
         myPlayer.moveForward();
         board.robotFallOutsideMap();
 
-        assertEquals(2, myPlayer.getLifeTokens());
+        assertEquals(two, myPlayer.getLifeTokens());
     }
 }

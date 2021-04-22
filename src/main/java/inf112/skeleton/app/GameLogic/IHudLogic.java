@@ -63,4 +63,5 @@ public interface IHudLogic {
     void addClickListenersHand();
 
     ArrayList<Integer> getHandPriority();
+
 }
