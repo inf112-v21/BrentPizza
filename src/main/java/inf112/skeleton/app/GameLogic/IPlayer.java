@@ -72,25 +72,31 @@ public interface IPlayer {
 
     /**
      * Returns the players last save point
-     * @return
+     * @return Vector 2 with players location
      */
     Vector2 getLastSavePoint();
 
     /**
-     * returns the players last save point
-     * @param location
+     * Sets current players location as last save point
+     * @param location - vector2 position you want as players last save point
      */
     void setLastSavePoint(Vector2 location);
 
     /**
-     *
+     * Retrieves players damage tokens
+     * @return Integer which represents players damage token
      */
     Integer getDamageTokens();
 
     /**
-     *
+     * changes the players damage token
+     * @param change - amount you want to change players damage token
      */
     void changeDamageTokens(Integer change);
 
-    public void setLocation(Vector2 location);
+    /**
+     * Change players position to the given location
+     * @param location - Vector2 position you want the player to be at
+     */
+    void setLocation(Vector2 location);
 }
