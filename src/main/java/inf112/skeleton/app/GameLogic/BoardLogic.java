@@ -337,19 +337,19 @@ public class BoardLogic implements IBoardLogic {
             if (conveyorBelts.get(player.getLocation()) == "oneArrowNorth") {
                 player.getSprite().translate(0, 150);
             }
-            if (conveyorBelts.get(player.getLocation()) == "oneArrowSouth") {
+            else if (conveyorBelts.get(player.getLocation()) == "oneArrowSouth") {
                 player.getSprite().translate(0, -150);
             }
-            if (conveyorBelts.get(player.getLocation()) == "oneArrowWest") {
+            else if (conveyorBelts.get(player.getLocation()) == "oneArrowWest") {
                 player.getSprite().translate(-150, 0);
             }
-            if (conveyorBelts.get(player.getLocation()) == "oneArrowEast") {
+            else if (conveyorBelts.get(player.getLocation()) == "oneArrowEast") {
                 player.getSprite().translate(150, 0);
             }
-            if (conveyorBelts.get(player.getLocation()) == "twoArrowSouth") {
+            else if (conveyorBelts.get(player.getLocation()) == "twoArrowSouth") {
                 player.getSprite().translate(0, -300);
             }
-            if (conveyorBelts.get(player.getLocation()) == "twoArrowWest") {
+            else if (conveyorBelts.get(player.getLocation()) == "twoArrowWest") {
                 player.getSprite().translate(-300, 0);
             }
         }

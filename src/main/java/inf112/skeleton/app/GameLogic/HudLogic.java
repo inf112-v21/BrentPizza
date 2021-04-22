@@ -66,7 +66,7 @@ public class HudLogic implements IHudLogic {
 
         healbutton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
-                if(programCounter > 1){
+                if(programCounter >= 1){
                     System.out.println("YOU CANNOT HEAL WHEN YOU HAVE ALREADY PICKED A PROGRAM CARD");
                 }else{
                     if(boardLogic.isReadyForNextRound()){
