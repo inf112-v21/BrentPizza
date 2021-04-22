@@ -30,6 +30,8 @@ public class BoardLogic implements IBoardLogic {
     ArrayList<Vector2> flagList;
     ArrayList<Vector2> holes;
     ArrayList<Vector2> spawnpoints;
+    ArrayList<Vector2> rotateClockwise;
+    ArrayList<Vector2> rotateCounterClockwise;
 
     HashMap<Vector2, String> conveyorBelts;
     HashMap<Vector2, String> walls;
@@ -73,6 +75,8 @@ public class BoardLogic implements IBoardLogic {
         holes = getObjects("hole");
         flagList = getFlags();
         walls = getWalls();
+        rotateClockwise = getObjects("rotateClockwise");
+        rotateCounterClockwise = getObjects("rotateCounterClockwise");
 
         conveyorBelts = getConveyorBelts();
     }
@@ -146,6 +150,20 @@ public class BoardLogic implements IBoardLogic {
             return false;
         }
         return true;
+    }
+    public void rotatePlayer(){
+        for (IPlayer player : players) {
+            for(Vector2 loc : rotateClockwise) {
+                if(player.getLocation().equals(loc)){
+                    player.rotatePlayer(90);
+                }
+            }
+            for(Vector2 loc : rotateCounterClockwise) {
+                if(player.getLocation().equals(loc)){
+                    player.rotatePlayer(-90);
+                }
+            }
+        }
     }
 
     @Override
@@ -357,6 +375,7 @@ public class BoardLogic implements IBoardLogic {
             System.out.println(turnPacket.ID.get(i));
             IPlayer playerToMove = players.get(turnPacket.ID.get(i)-1);
             robotFallHole();
+            rotatePlayer();
             if(!checkOutOfBounds()){
                 System.out.println("Player fell and died");
                 myPlayer.changeLifeTokens(-1); //endre HP til spilleren
