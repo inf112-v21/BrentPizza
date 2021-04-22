@@ -22,7 +22,7 @@ public interface IBoardLogic {
      * Checks if the player has won by walking on a flag,
      * @return true if myPlayer has won the game
      */
-    boolean checkWin();
+    boolean checkWin(IPlayer player);
 
     /**
      * Changes a given player in the list of players position based on the id
@@ -121,7 +121,7 @@ public interface IBoardLogic {
 
     public void robotFallHole(IPlayer player);
 
-    public Integer collectedFlags();
+    public Integer collectedFlags(IPlayer player);
 
     public ArrayList<Sprite> getLaser();
 

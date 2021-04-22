@@ -31,6 +31,7 @@ public class InputProcess implements IInputProcess {
         }
         if(keycode == Input.Keys.UP){
             myPlayer.moveForward();
+            logic.collectedFlags(myPlayer);
             System.out.println(myPlayer.getLocation().x + "," + myPlayer.getLocation().y );
         }
         if (keycode == Input.Keys.SPACE)

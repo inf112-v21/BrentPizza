@@ -88,24 +88,24 @@ public class MapTests {
         myPlayer.setX(flagList.get(0).x);
         myPlayer.setY(flagList.get(0).y);
 
-        System.out.println("flags collected: "+board.collectedFlags());
+        System.out.println("flags collected: "+board.collectedFlags(myPlayer));
 
         myPlayer.setX(flagList.get(1).x);
         myPlayer.setY(flagList.get(1).y);
 
-        System.out.println("flags collected: "+board.collectedFlags());
+        System.out.println("flags collected: "+board.collectedFlags(myPlayer));
 
         myPlayer.setX(flagList.get(2).x);
         myPlayer.setY(flagList.get(2).y);
 
-        System.out.println("flags collected: "+board.collectedFlags());
+        System.out.println("flags collected: "+board.collectedFlags(myPlayer));
 
         myPlayer.setX(flagList.get(3).x);
         myPlayer.setY(flagList.get(3).y);
 
-        System.out.println("flags collected: "+board.collectedFlags());
+        System.out.println("flags collected: "+board.collectedFlags(myPlayer));
 
-        assertTrue(board.checkWin());
+        assertTrue(board.checkWin(myPlayer));
     }
     /**
      * Test If player respawns after he falls off the map.

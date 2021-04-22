@@ -64,10 +64,13 @@ public class BoardLogic implements IBoardLogic {
         myPlayer = players.get(networkClient.getId()-1);
 
         spawnpoints = getSpawnPoints();
-        for (IPlayer player : players) {
-            player.setLocation(new Vector2(spawnpoints.get(player.getID()-1).x, spawnpoints.get(player.getID()-1).y));
-            player.setRoation(90);
+        if(spawnpoints.size() >= players.size()){
+            for (IPlayer player : players) {
+                player.setLocation(new Vector2(spawnpoints.get(player.getID()-1).x, spawnpoints.get(player.getID()-1).y));
+                player.setRoation(90);
+            }
         }
+
 
         //networkClient.sendPlayer(myPlayer);
 
@@ -115,24 +118,27 @@ public class BoardLogic implements IBoardLogic {
     }
 
     @Override
-    public boolean checkWin(){
-         return collectedFlags() == 4;
+    public boolean checkWin(IPlayer player){
+        if(collectedFlags(player) == 4){
+            networkClient.sendWin();
+        }
+         return collectedFlags(player) == 4;
     }
 
     @Override
-    public Integer collectedFlags() {
-        Vector2 playerLoc = myPlayer.getLocation();
+    public Integer collectedFlags(IPlayer player) {
+        Vector2 playerLoc = player.getLocation();
         if(collectFlags.size()==0 && playerLoc.equals(flagList.get(0))){
                 collectFlags.add("Flag 1 collected");
-                myPlayer.setLastSavePoint(flagList.get(0));
+                player.setLastSavePoint(flagList.get(0));
         }
         if(collectFlags.size()==1 && playerLoc.equals(flagList.get(1))){
                 collectFlags.add("Flag 2 collected");
-                myPlayer.setLastSavePoint(flagList.get(1));
+                player.setLastSavePoint(flagList.get(1));
         }
         if(collectFlags.size()==2 && playerLoc.equals(flagList.get(2))){
                 collectFlags.add("Flag 3 collected");
-                myPlayer.setLastSavePoint(flagList.get(2));
+                player.setLastSavePoint(flagList.get(2));
         }
         if(collectFlags.size()==3 && playerLoc.equals(flagList.get(3))){
                 collectFlags.add("Flag 4 collected");
@@ -163,6 +169,7 @@ public class BoardLogic implements IBoardLogic {
 
         }
         robotFullDamage(player);
+        checkWin(player);
         return false;
     }
 
@@ -252,7 +259,13 @@ public class BoardLogic implements IBoardLogic {
     public ArrayList<Vector2> getFlags(){
         ArrayList<Vector2> flagList = new ArrayList<>();
         Integer index = tiledMap.getLayers().getIndex("flag");
-        MapLayer flagObject = tiledMap.getLayers().get(index);
+        MapLayer flagObject;
+        try{
+            flagObject = tiledMap.getLayers().get(index);
+        }catch(Exception e){
+            System.out.println(e);
+            return new ArrayList<>();
+        }
         for (int i = 1; i <= 4; i++) {
             Float x = Float.parseFloat(flagObject.getObjects().get("Flag"+i).getProperties().get("x").toString());
             Float y = Float.parseFloat(flagObject.getObjects().get("Flag"+i).getProperties().get("y").toString());
@@ -285,7 +298,14 @@ public class BoardLogic implements IBoardLogic {
     public ArrayList<Vector2> getSpawnPoints(){
         ArrayList<Vector2> spawnPoints = new ArrayList<>();
         Integer index = tiledMap.getLayers().getIndex("spawns");
-        MapLayer spawnObject = tiledMap.getLayers().get(index);
+        MapLayer spawnObject;
+        try{
+            spawnObject = tiledMap.getLayers().get(index);
+        }catch(Exception e){
+            System.out.println(e);
+            return new ArrayList<>();
+        }
+
         for (int i = 1; i < 7; i++) {
             Float x = Float.parseFloat(spawnObject.getObjects().get("Spawn"+i).getProperties().get("x").toString());
             Float y = Float.parseFloat(spawnObject.getObjects().get("Spawn"+i).getProperties().get("y").toString());
@@ -296,8 +316,14 @@ public class BoardLogic implements IBoardLogic {
     @Override
     public ArrayList<Vector2> getObjects(String name){
         ArrayList<Vector2> objectList = new ArrayList<>();
-        Integer index = tiledMap.getLayers().getIndex(name);
-        MapLayer mapObject = tiledMap.getLayers().get(index);
+        int index = tiledMap.getLayers().getIndex(name);
+        MapLayer mapObject;
+        try{
+            mapObject = tiledMap.getLayers().get(index);
+        }catch(Exception e){
+            System.out.println(e);
+            return new ArrayList<>();
+        }
         for (int i = 0; i < mapObject.getObjects().getCount(); i++) {
             Float x = Float.parseFloat(mapObject.getObjects().get(i).getProperties().get("x").toString());
             Float y = Float.parseFloat(mapObject.getObjects().get(i).getProperties().get("y").toString());
@@ -399,10 +425,6 @@ public class BoardLogic implements IBoardLogic {
                 cards.get(i).action(playerToMove, this);
             }
 
-        }
-
-        if(checkWin()){
-            networkClient.sendWin();
         }
         try{
             Thread.sleep(500);
