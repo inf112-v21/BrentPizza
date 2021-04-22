@@ -29,6 +29,7 @@ public class HudStatsGenerators {
         table.setFillParent(true);
 
         font = new BitmapFont();
+        font.getData().setScale(2, 2);
         font.setColor(Color.BLACK);
 
         NinePatch patch = new NinePatch(new Texture(Gdx.files.internal("src/main/Resources/white.png")), 10, 10, 10, 10);
