@@ -18,9 +18,8 @@ To run the tests. Just press run on the test you wish to run. Then you have to p
 
 To test the functionality where you add cards to the program table you have to do it manually. This is done by starting the server with 1-4 players. It is recommended to move to the center of the board to make sure you don't walk off when running the programmed cards. This is done by turning the robot around with spacebar and moving with arrow up. When in the center you can add a card from the players hand (in the bottom center of the screen) to the program cards (right of the screen) by clicking them in the order you want them to be excecuted. After you have added 1-5 cards and have the desired movement you want press "READY" to excecute the current program.
 
+To test everything else it is recommended to move with SPACE to turn the robot 90 degrees each time it is pressed and arrow up to move forward. This is just here for debuging and testing and makes it easier to test. If you use this method to walk over things their respective function will not activate. Example if you walk over a hole using this debugging tool you will not fall. But if you walk close to it, and use the cards (just a simple move 1 card will do) then you can activate it's functionality and test it's functionallity
+
 ## Known bugs
 - For the game to work properly the generated window can't be altered. Otherwise when you choose cards you will not get the intended card. This is due to the way we set resoulution in the program, this needs to be a global setting instead of the local solution we are using now
-- For the player to be able to watch the game being won, there has been installed a delay. This will not be a part of the final product, however it is here
-due to its information value. This enbales however the player enable the win condition several times before the applictions shuts down.
-- If the robot walks over the win flag in the middle of the programmed sequence he does not win when he should
-- At the moment you cannot win the game. This is due to the turn system taking a lot of time and effort to implement. This will be fixed in the next iteration
+- Some walls allow you to walk through them when you walk backwards. 
