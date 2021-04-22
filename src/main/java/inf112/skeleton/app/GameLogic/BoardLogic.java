@@ -163,6 +163,7 @@ public class BoardLogic implements IBoardLogic {
                 setGameOver(true);
             }
             else {
+                player.setRoation(-90);
                 player.setLocation(player.getLastSavePoint()); //ellers endre posisjonen til siste savepoint
                 networkClient.sendPlayer(myPlayer);
             }

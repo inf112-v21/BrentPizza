@@ -6,7 +6,9 @@ public class MoveBackCard extends Card{
 
     public void action(IPlayer player, IBoardLogic boardLogic) {
         player.rotatePlayer(180);
+        if(boardLogic.checkMove(player)){
         player.moveForward();
+        }
         player.rotatePlayer(180);
         boardLogic.checkMovement(player);
 
