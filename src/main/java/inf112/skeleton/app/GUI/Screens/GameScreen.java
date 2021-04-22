@@ -31,7 +31,7 @@ public class GameScreen {
     private RoboRallyGUI rgb;
 
 
-    public GameScreen(RoboRallyGUI rgb){
+    public GameScreen(RoboRallyGUI rgb, String ip){
         this.rgb = rgb;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
@@ -43,7 +43,7 @@ public class GameScreen {
         sb = new SpriteBatch();
 
         try {
-            boardLogic = new BoardLogic(tiledMap);
+            boardLogic = new BoardLogic(tiledMap, ip);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

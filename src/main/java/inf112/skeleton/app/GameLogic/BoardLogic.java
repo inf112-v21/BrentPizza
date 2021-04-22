@@ -42,13 +42,13 @@ public class BoardLogic implements IBoardLogic {
 
     private boolean readyForProgram = true;
 
-    public BoardLogic(TiledMap tiledMap) throws InterruptedException {
+    public BoardLogic(TiledMap tiledMap, String ip) throws InterruptedException {
         laserTexture = new Texture(Gdx.files.internal("src/main/Resources/Laser.png"));
         lasers = new ArrayList<>();
         this.tiledMap = tiledMap;
 
         try{
-            this.networkClient = new NetworkClient(this);
+            this.networkClient = new NetworkClient(this, ip);
         }catch (Exception e){
             System.out.println(e);
         }
@@ -67,7 +67,7 @@ public class BoardLogic implements IBoardLogic {
         if(spawnpoints.size() >= players.size()){
             for (IPlayer player : players) {
                 player.setLocation(new Vector2(spawnpoints.get(player.getID()-1).x, spawnpoints.get(player.getID()-1).y));
-                player.setRoation(90);
+                player.setRoation(-90);
             }
         }
 

@@ -17,12 +17,12 @@ import java.util.ArrayList;
 public class NetworkClient implements INetworkClient {
     static Client client;
     static int udpPort = 7979, tcpPort = 7878;
-    static String ip = "localhost";
+    static String ip;
     public int id;
 
     private CardTranslator cardTranslator;
 
-    public NetworkClient(IBoardLogic boardLogic) throws Exception{
+    public NetworkClient(IBoardLogic boardLogic, String ip) throws Exception{
         client = new Client();
         cardTranslator = new CardTranslator();
         //register classes

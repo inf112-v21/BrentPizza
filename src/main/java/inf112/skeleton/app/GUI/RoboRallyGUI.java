@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
+import inf112.skeleton.app.GUI.Screens.ConnectScreen;
 import inf112.skeleton.app.GUI.Screens.EndScreen;
 import inf112.skeleton.app.GUI.Screens.GameScreen;
 import inf112.skeleton.app.GUI.Screens.StartScreen;
@@ -14,9 +15,11 @@ public class RoboRallyGUI extends Game {
     GameScreen gameScreen;
     StartScreen startScreen;
     EndScreen endScreen;
+    ConnectScreen connectScreen;
     boolean startScreenIsVisible = true;
     boolean gameScreenIsVisible = false;
     boolean endScreenIsVisible = false;
+    boolean connectScreenIsVisible = false;
     private InputMultiplexer inputMultiplexer;
 
     @Override
@@ -42,6 +45,8 @@ public class RoboRallyGUI extends Game {
             gameScreen.stageRefresh();
         } else if(endScreenIsVisible){
             endScreen.getStage().draw();
+        } else if(connectScreenIsVisible){
+            connectScreen.getStage().draw();
         }
 
     }
@@ -49,19 +54,32 @@ public class RoboRallyGUI extends Game {
         startScreenIsVisible = true;
         gameScreenIsVisible = false;
         endScreenIsVisible = false;
+        connectScreenIsVisible = false;
+
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(startScreen.getStage());
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
-    public void setGameScreenVisible(){
+    public void setConnectScreenVisible(){
+        connectScreen = new ConnectScreen(this);
+        startScreenIsVisible = false;
+        gameScreenIsVisible = false;
+        endScreenIsVisible = false;
+        connectScreenIsVisible = true;
+        inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(connectScreen.getStage());
+        Gdx.input.setInputProcessor(inputMultiplexer);
+    }
+    public void setGameScreenVisible(String ip){
         try {
-            gameScreen = new GameScreen(this);
+            gameScreen = new GameScreen(this, ip);
         } catch (Exception e) {
             e.printStackTrace();
         }
         startScreenIsVisible = false;
         gameScreenIsVisible = true;
         endScreenIsVisible = false;
+        connectScreenIsVisible = false;
 
         inputMultiplexer = new InputMultiplexer();
 
@@ -74,6 +92,7 @@ public class RoboRallyGUI extends Game {
         startScreenIsVisible = false;
         gameScreenIsVisible = false;
         endScreenIsVisible = true;
+        connectScreenIsVisible = false;
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(endScreen.getStage());
         Gdx.input.setInputProcessor(inputMultiplexer);
