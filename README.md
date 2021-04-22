@@ -9,7 +9,8 @@ The program is built using Maven. To run the game, run  serverStart.java in the 
 
 Recommended screen resolution: 1920x1080
 
-To play **Multiplayer:** 
+To play **Multiplayer on different computers:** 
+Start the server on one computer. Then start the application on both computers. Then press play. After that press connect and input the server IP in the console on both computers (you can use localhost for the hosting computer if you want). Then just press enter and they should both be connected to the same server. The ports used are 7979 and 7878. So these need to be opened in the servers network if you want to play across the global internet. 
 
 To play multiplayer run the **serverStart.java**, **main1.java** and **main.java**. Then press ready on both applications. 
 
