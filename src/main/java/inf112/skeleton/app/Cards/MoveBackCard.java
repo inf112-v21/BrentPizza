@@ -9,5 +9,6 @@ public class MoveBackCard extends Card{
         player.moveForward();
         player.rotatePlayer(180);
         boardLogic.checkMovement(player);
+
     }
 }

@@ -174,6 +174,7 @@ public class BoardLogic implements IBoardLogic {
     }
 
 
+    //this contains a lot of bugs and needs fixing
     @Override
     public boolean checkMove(IPlayer player){
         if(walls.get(player.getLocation()) == "wallNorth"  && Math.abs(player.getSprite().getRotation() % 360) == 180){
