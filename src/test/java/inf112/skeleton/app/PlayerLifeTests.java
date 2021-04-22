@@ -25,6 +25,9 @@ public class PlayerLifeTests {
     private IPlayer myPlayer;
     private GameScreen gameScreen;
 
+    Integer three = 3;
+    Integer two = 2;
+
     @Before
     public void setUp(){
 
@@ -54,7 +57,7 @@ public class PlayerLifeTests {
     @Test
     public void testIfRobotHasThreeLives(){
 
-        assertEquals(3, myPlayer.getLifeTokens());
+        assertEquals(three, myPlayer.getLifeTokens());
     }
     /**
      * Test if the player loses one life if he falls in a hole.
@@ -62,14 +65,14 @@ public class PlayerLifeTests {
     @Test
     public void testFallsInHole(){
 
-        myPlayer.rotatePlayer(-180);
-        myPlayer.moveForward();
-        myPlayer.rotatePlayer(-90);
-        for(int i = 0; i < 5; i++){
-            board.robotFallHole();
+        myPlayer.getSprite().setX(3450);
+        myPlayer.getSprite().setY(1350);
+
+        for(int i = 0; i < 2; i++){
+            //board.robotFallHole();
             myPlayer.moveForward();
         }
-        assertEquals(2, myPlayer.getLifeTokens());
+        assertEquals(two, myPlayer.getLifeTokens());
     }
     /**
      * Test if the player loses one life if he falls of the map.
@@ -77,9 +80,11 @@ public class PlayerLifeTests {
     @Test
     public void testFallsOutsideMap(){
 
+        myPlayer.rotatePlayer(-180);
         myPlayer.moveForward();
-        board.robotFallOutsideMap();
+        myPlayer.moveForward();
+        //board.robotFallOutsideMap();
 
-        assertEquals(2, myPlayer.getLifeTokens());
+        assertEquals(two, myPlayer.getLifeTokens());
     }
 }

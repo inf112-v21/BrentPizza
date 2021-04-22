@@ -16,6 +16,7 @@ public class Hud {
     ProgramTableGenerator programCardsTable;
     HandTableGenerator handCardsTable;
     IHudLogic hudLogic;
+    HudStatsGenerators hudGen;
 
     public Hud(SpriteBatch sb, IBoardLogic boardLogic){
         viewport = new FitViewport(1920, 1080, new OrthographicCamera());
@@ -26,20 +27,22 @@ public class Hud {
 
         programCardsTable = new ProgramTableGenerator();
         handCardsTable = new HandTableGenerator();
+        hudGen = new HudStatsGenerators();
 
-        stage.addActor(programCardsTable.createCardTable(hudLogic.getProgramImageList(), hudLogic.getReadyButton()));
-        stage.addActor(handCardsTable.createHandTable(hudLogic.getHandButtonList()));
+        stage.addActor(programCardsTable.createCardTable(hudLogic.getProgramImageList(), hudLogic.getReadyButton(), hudLogic.getHealButton()));
+        stage.addActor(handCardsTable.createHandTable(hudLogic.getHandButtonList(), hudLogic.getHandPriority()));
+        stage.addActor(hudGen.HudStatsGenerators(boardLogic));
     }
 
     public Stage getStage(){
         return this.stage;
     }
 
-    public void updateStage(){
+    public void updateStage(IBoardLogic boardLogic){
         stage.clear();
-        stage.addActor(programCardsTable.createCardTable(hudLogic.getProgramImageList(), hudLogic.getReadyButton()));
-        stage.addActor(handCardsTable.createHandTable(hudLogic.getHandButtonList()));
+        stage.addActor(hudGen.HudStatsGenerators(boardLogic));
+        stage.addActor(programCardsTable.createCardTable(hudLogic.getProgramImageList(), hudLogic.getReadyButton(), hudLogic.getHealButton()));
+        stage.addActor(handCardsTable.createHandTable(hudLogic.getHandButtonList(), hudLogic.getHandPriority()));
     }
-
 
 }

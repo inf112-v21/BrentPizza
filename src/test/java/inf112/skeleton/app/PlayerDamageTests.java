@@ -94,9 +94,11 @@ public class PlayerDamageTests {
     @Test
     public void testRobotFullDamage(){
 
-        myPlayer.changeDamageTokens(10);
-        board.robotFullDamage();
+        Integer two = 2;
 
-        assertEquals(2, myPlayer.getLifeTokens());
+        myPlayer.changeDamageTokens(10);
+        board.robotFullDamage(myPlayer);
+
+        assertEquals(two, myPlayer.getLifeTokens());
     }
 }

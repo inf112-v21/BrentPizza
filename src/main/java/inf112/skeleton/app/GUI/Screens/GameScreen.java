@@ -1,6 +1,8 @@
 package inf112.skeleton.app.GUI.Screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -13,6 +15,8 @@ import inf112.skeleton.app.GUI.HUD.Hud;
 import inf112.skeleton.app.GUI.RoboRallyGUI;
 import inf112.skeleton.app.GameLogic.*;
 import org.lwjgl.system.CallbackI;
+
+import java.util.ArrayList;
 
 public class GameScreen {
 
@@ -27,19 +31,19 @@ public class GameScreen {
     private RoboRallyGUI rgb;
 
 
-    public GameScreen(RoboRallyGUI rgb){
+    public GameScreen(RoboRallyGUI rgb, String ip){
         this.rgb = rgb;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
 
         camera.update();
 
-        tiledMap = new TmxMapLoader().load("src/main/Resources/roboRallyMap.tmx");
+        tiledMap = new TmxMapLoader().load("src/main/Resources/map/roboRallyMap.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         sb = new SpriteBatch();
 
         try {
-            boardLogic = new BoardLogic(tiledMap);
+            boardLogic = new BoardLogic(tiledMap, ip);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -51,6 +55,11 @@ public class GameScreen {
                 e.printStackTrace();
             }
         }
+
+
+
+
+
         IInputProcess = new InputProcess(camera, boardLogic.getMyPlayer(), boardLogic);
         sbHud = new SpriteBatch();
         hud = new Hud(sbHud, boardLogic);
@@ -58,16 +67,26 @@ public class GameScreen {
     }
 
     public void stageRefresh(){
+
         camera.update();
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
 
         sb.setProjectionMatrix(camera.combined);
+
         sb.begin();
+
         //draw players
         for (IPlayer player : boardLogic.getPlayers()) {
             player.getSprite().draw(sb);
         }
+
+        for (Sprite lazer: boardLogic.getLaser()) {
+            lazer.draw(sb);
+        }
+
+
+
         sb.end();
         sbHud.setProjectionMatrix(hud.getStage().getCamera().combined);
         hud.getStage().draw();

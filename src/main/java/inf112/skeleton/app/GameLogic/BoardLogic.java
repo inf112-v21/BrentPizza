@@ -1,5 +1,6 @@
 package inf112.skeleton.app.GameLogic;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -7,11 +8,14 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Timer;
 import inf112.skeleton.app.Cards.*;
 import inf112.skeleton.app.Network.NetworkClient;
 import inf112.skeleton.app.Packets.TurnPacket;
 
+import javax.lang.model.element.VariableElement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BoardLogic implements IBoardLogic {
 
@@ -27,23 +31,24 @@ public class BoardLogic implements IBoardLogic {
     ArrayList<Vector2> repairsites2;
     ArrayList<Vector2> flagList;
     ArrayList<Vector2> holes;
+    ArrayList<Vector2> spawnpoints;
+    private ArrayList<Sprite> lasers;
+    private Texture laserTexture;
+    ArrayList<Vector2> rotateClockwise;
+    ArrayList<Vector2> rotateCounterClockwise;
+
+    HashMap<Vector2, String> conveyorBelts;
+    HashMap<Vector2, String> walls;
 
     private boolean readyForProgram = true;
 
-    //These will be used in the next iteration and is not just "unused" code.
-    ArrayList<Vector2> spawnLocation;
-    Vector2 spawnpoint;
-
-
-
-
-
-    public BoardLogic(TiledMap tiledMap) throws InterruptedException {
-
+    public BoardLogic(TiledMap tiledMap, String ip) throws InterruptedException {
+        laserTexture = new Texture(Gdx.files.internal("src/main/Resources/Laser.png"));
+        lasers = new ArrayList<>();
         this.tiledMap = tiledMap;
 
         try{
-            this.networkClient = new NetworkClient(this);
+            this.networkClient = new NetworkClient(this, ip);
         }catch (Exception e){
             System.out.println(e);
         }
@@ -53,21 +58,35 @@ public class BoardLogic implements IBoardLogic {
         }
         players = new ArrayList<>();
         for (int i = 1; i <= nrOfPlayers; i++) {
-            IPlayer playerToAdd = new Player(i, new Sprite(new Texture(Gdx.files.internal("src/main/Resources/robot" + i + ".png"))));
+            IPlayer playerToAdd = new Player(i, new Sprite(new Texture(Gdx.files.internal("src/main/Resources/robot/robot" + i + ".png"))));
             this.players.add(playerToAdd);
         }
         myPlayer = players.get(networkClient.getId()-1);
 
+        spawnpoints = getSpawnPoints();
+        if(spawnpoints.size() >= players.size()){
+            for (IPlayer player : players) {
+                player.setLocation(new Vector2(spawnpoints.get(player.getID()-1).x, spawnpoints.get(player.getID()-1).y));
+                player.setRoation(-90);
+            }
+        }
+
+
+        //networkClient.sendPlayer(myPlayer);
+
         //setter første spawn point som lastSavePoint
         myPlayer.setLastSavePoint(myPlayer.getLocation());
 
-        repairsites = getRepairSites();
-        repairsites2 = getRepairSites2();
-        holes = getHoles();
+        repairsites = getObjects("fix1");
+        repairsites2 = getObjects("fix2");
+        holes = getObjects("hole");
         flagList = getFlags();
+        walls = getWalls();
+        rotateClockwise = getObjects("rotateClockwise");
+        rotateCounterClockwise = getObjects("rotateCounterClockwise");
 
+        conveyorBelts = getConveyorBelts();
     }
-
 
     /**
      * Checks if player is inside map.
@@ -76,8 +95,7 @@ public class BoardLogic implements IBoardLogic {
      * Returns false if player is outside map.
      */
     @Override
-    public boolean checkOutOfBounds() {
-
+    public boolean checkOutOfBounds(IPlayer player) {
         MapProperties prop = tiledMap.getProperties();
 
         // Get tiledMap width and height.
@@ -90,78 +108,165 @@ public class BoardLogic implements IBoardLogic {
         int mapPixelWidth = (mapWidth * tilePixelWidth)-150;
         int mapPixelHeight = (mapHeight * tilePixelHeight)-150;
 
-        Vector2 playerLoc = myPlayer.getLocation();
+        Vector2 playerLoc = player.getLocation();
 
         if(playerLoc.x > mapPixelWidth || playerLoc.y > mapPixelHeight) {
             return false;
         }
+
         else return !(playerLoc.x < 0) && !(playerLoc.y < 0);
     }
 
     @Override
-    public boolean checkWin(){
-         return collectedFlags() == 4;
+    public boolean checkWin(IPlayer player){
+        if(collectedFlags(player) == 4){
+            networkClient.sendWin();
+        }
+         return collectedFlags(player) == 4;
     }
 
-    public Integer collectedFlags() {
-        Vector2 playerLoc = myPlayer.getLocation();
+    @Override
+    public Integer collectedFlags(IPlayer player) {
+        Vector2 playerLoc = player.getLocation();
         if(collectFlags.size()==0 && playerLoc.equals(flagList.get(0))){
                 collectFlags.add("Flag 1 collected");
-                myPlayer.setLastSavePoint(flagList.get(0));
+                player.setLastSavePoint(flagList.get(0));
         }
         if(collectFlags.size()==1 && playerLoc.equals(flagList.get(1))){
                 collectFlags.add("Flag 2 collected");
-                myPlayer.setLastSavePoint(flagList.get(1));
+                player.setLastSavePoint(flagList.get(1));
         }
         if(collectFlags.size()==2 && playerLoc.equals(flagList.get(2))){
                 collectFlags.add("Flag 3 collected");
-                myPlayer.setLastSavePoint(flagList.get(2));
+                player.setLastSavePoint(flagList.get(2));
         }
         if(collectFlags.size()==3 && playerLoc.equals(flagList.get(3))){
                 collectFlags.add("Flag 4 collected");
         } return collectFlags.size();
     }
 
-    public void robotFallHole() {
+    @Override
+    public ArrayList<Sprite> getLaser() {
+        return lasers;
+    }
+
+
+    @Override
+    public boolean checkMovement(IPlayer player) {
+        robotFallHole(player);
+        rotatePlayer();
+        if(!checkOutOfBounds(player)){
+            System.out.println("Player fell and died");
+            player.changeLifeTokens(-1); //endre HP til spilleren
+
+            if (myPlayer.getLifeTokens() <= 0){ //hvis han ikke har HP igjen avslutt spillet
+                setGameOver(true);
+            }
+            else {
+                player.setLocation(player.getLastSavePoint()); //ellers endre posisjonen til siste savepoint
+                networkClient.sendPlayer(myPlayer);
+            }
+
+        }
+        robotFullDamage(player);
+        checkWin(player);
+        return false;
+    }
+
+
+    //this contains a lot of bugs and needs fixing
+    @Override
+    public boolean checkMove(IPlayer player){
+        if(walls.get(player.getLocation()) == "wallNorth"  && Math.abs(player.getSprite().getRotation() % 360) == 180){
+            return false;
+        }
+        if(walls.get(player.getLocation()) == "wallSouth" && Math.abs(player.getSprite().getRotation() % 360) == 0){
+            return false;
+        }
+        if(walls.get(player.getLocation()) == "wallWest" && Math.abs(player.getSprite().getRotation() % 360) == 90){
+            return false;
+        }
+        if(walls.get(player.getLocation()) == "wallEast" && Math.abs(player.getSprite().getRotation() % 360) == 270){
+            return false;
+        }
+        return true;
+    }
+    public void rotatePlayer(){
+        for (IPlayer player : players) {
+            for(Vector2 loc : rotateClockwise) {
+                if(player.getLocation().equals(loc)){
+                    player.rotatePlayer(90);
+                }
+            }
+            for(Vector2 loc : rotateCounterClockwise) {
+                if(player.getLocation().equals(loc)){
+                    player.rotatePlayer(-90);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void robotFallHole(IPlayer player) {
         for (Vector2 loc : holes) {
-            if (myPlayer.getLocation().equals(loc)) {
-                myPlayer.changeLifeTokens(-1);
-                //respawn player here
+            if (player.getLocation().equals(loc)) {
+                player.changeLifeTokens(-1);
+                player.setLocation(myPlayer.getLastSavePoint());
             }
         }
-    }
 
-    public void robotFallOutsideMap() {
-            if (!checkOutOfBounds()) {
-                myPlayer.changeLifeTokens(-1);
-                //respawn player here
-            }
     }
-
-    public void robotFullDamage() {
-        if (myPlayer.getDamageTokens()>= 9) {
-            myPlayer.changeLifeTokens(-1);
-            //respawn player
+    @Override
+    public void robotFullDamage(IPlayer player) {
+        if (player.getDamageTokens()>= 9) {
+            player.changeLifeTokens(-1);
+            player.setX(myPlayer.getLastSavePoint().x);
+            player.setY(myPlayer.getLastSavePoint().y);
         }
     }
-
-    public void repairRobot(){
+    @Override
+    public void repairRobot(IPlayer player){
         for (Vector2 loc : repairsites) {
-            if(myPlayer.getLocation().equals(loc)){
-                myPlayer.changeDamageTokens(-1);
+            if(player.getLocation().equals(loc)){
+                player.changeDamageTokens(-1);
             }
         }
         for (Vector2 loc : repairsites2) {
-            if(myPlayer.getLocation().equals(loc)){
-                myPlayer.changeDamageTokens(-2);
+            if(player.getLocation().equals(loc)){
+                player.changeDamageTokens(-2);
             }
         }
     }
-
+    @Override
+    public HashMap<Vector2, String> getWalls(){
+        HashMap<Vector2, String> walls = new HashMap<>();
+        ArrayList<String> wallNames = new ArrayList<>();
+        wallNames.add("wallNorth");
+        wallNames.add("wallSouth");
+        wallNames.add("wallWest");
+        wallNames.add("wallEast");
+        for (String elem : wallNames) {
+            Integer index = tiledMap.getLayers().getIndex(elem);
+            MapLayer wallObject = tiledMap.getLayers().get(index);
+            for (int i = 0; i < wallObject.getObjects().getCount(); i++) {
+                Float x = Float.parseFloat(wallObject.getObjects().get(i).getProperties().get("x").toString());
+                Float y = Float.parseFloat(wallObject.getObjects().get(i).getProperties().get("y").toString());
+                Vector2 wallLocation = new Vector2(x, y);
+                walls.put(wallLocation, elem);
+            }
+        } return walls;
+    }
+    @Override
     public ArrayList<Vector2> getFlags(){
         ArrayList<Vector2> flagList = new ArrayList<>();
         Integer index = tiledMap.getLayers().getIndex("flag");
-        MapLayer flagObject = tiledMap.getLayers().get(index);
+        MapLayer flagObject;
+        try{
+            flagObject = tiledMap.getLayers().get(index);
+        }catch(Exception e){
+            System.out.println(e);
+            return new ArrayList<>();
+        }
         for (int i = 1; i <= 4; i++) {
             Float x = Float.parseFloat(flagObject.getObjects().get("Flag"+i).getProperties().get("x").toString());
             Float y = Float.parseFloat(flagObject.getObjects().get("Flag"+i).getProperties().get("y").toString());
@@ -169,43 +274,88 @@ public class BoardLogic implements IBoardLogic {
             flagList.add(flagLocation);
         } return flagList;
     }
-
-    public ArrayList<Vector2> getRepairSites(){
-        ArrayList<Vector2> repairsites = new ArrayList<>();
-        Integer index = tiledMap.getLayers().getIndex("fix1");
-        MapLayer repairObject = tiledMap.getLayers().get(index);
-        for (int i = 0; i < repairObject.getObjects().getCount(); i++) {
-            Float x = Float.parseFloat(repairObject.getObjects().get(i).getProperties().get("x").toString());
-            Float y = Float.parseFloat(repairObject.getObjects().get(i).getProperties().get("y").toString());
-            Vector2 repairLocation = new Vector2(x,y);
-            repairsites.add(repairLocation);
-        } return repairsites;
+    @Override
+    public HashMap<Vector2, String> getConveyorBelts() {
+        HashMap<Vector2, String> conveyorBelts = new HashMap<>();
+        ArrayList<String> names = new ArrayList<>();
+        names.add("twoArrowSouth");
+        names.add("twoArrowWest");
+        names.add("oneArrowNorth");
+        names.add("oneArrowSouth");
+        names.add("oneArrowWest");
+        names.add("oneArrowEast");
+        for (String elem : names) {
+            Integer index = tiledMap.getLayers().getIndex(elem);
+            MapLayer conveyorObject = tiledMap.getLayers().get(index);
+            for (int i = 0; i < conveyorObject.getObjects().getCount(); i++) {
+                Float x = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("x").toString());
+                Float y = Float.parseFloat(conveyorObject.getObjects().get(i).getProperties().get("y").toString());
+                Vector2 conveyorLocation = new Vector2(x, y);
+                conveyorBelts.put(conveyorLocation, elem);
+            }
+        } return conveyorBelts;
     }
+    @Override
+    public ArrayList<Vector2> getSpawnPoints(){
+        ArrayList<Vector2> spawnPoints = new ArrayList<>();
+        Integer index = tiledMap.getLayers().getIndex("spawns");
+        MapLayer spawnObject;
+        try{
+            spawnObject = tiledMap.getLayers().get(index);
+        }catch(Exception e){
+            System.out.println(e);
+            return new ArrayList<>();
+        }
 
-    public ArrayList<Vector2> getRepairSites2(){
-        ArrayList<Vector2> repairsites2 = new ArrayList<>();
-        Integer index = tiledMap.getLayers().getIndex("fix2");
-        MapLayer repairObject = tiledMap.getLayers().get(index);
-        for (int i = 0; i < repairObject.getObjects().getCount(); i++) {
-            Float x = Float.parseFloat(repairObject.getObjects().get(i).getProperties().get("x").toString());
-            Float y = Float.parseFloat(repairObject.getObjects().get(i).getProperties().get("y").toString());
-            Vector2 repairLocation = new Vector2(x,y);
-            repairsites2.add(repairLocation);
-        } return repairsites2;
+        for (int i = 1; i < 7; i++) {
+            Float x = Float.parseFloat(spawnObject.getObjects().get("Spawn"+i).getProperties().get("x").toString());
+            Float y = Float.parseFloat(spawnObject.getObjects().get("Spawn"+i).getProperties().get("y").toString());
+            Vector2 spawnLocation = new Vector2(x,y);
+            spawnPoints.add(spawnLocation);
+        } return spawnPoints;
     }
-
-    public ArrayList<Vector2> getHoles(){
-        ArrayList<Vector2> holes = new ArrayList<>();
-        Integer index = tiledMap.getLayers().getIndex("hole");
-        MapLayer holeObject = tiledMap.getLayers().get(index);
-        for (int i = 0; i < holeObject.getObjects().getCount(); i++) {
-            Float x = Float.parseFloat(holeObject.getObjects().get(i).getProperties().get("x").toString());
-            Float y = Float.parseFloat(holeObject.getObjects().get(i).getProperties().get("y").toString());
-            Vector2 holeLocation = new Vector2(x,y);
-            holes.add(holeLocation);
-        } return holes;
+    @Override
+    public ArrayList<Vector2> getObjects(String name){
+        ArrayList<Vector2> objectList = new ArrayList<>();
+        int index = tiledMap.getLayers().getIndex(name);
+        MapLayer mapObject;
+        try{
+            mapObject = tiledMap.getLayers().get(index);
+        }catch(Exception e){
+            System.out.println(e);
+            return new ArrayList<>();
+        }
+        for (int i = 0; i < mapObject.getObjects().getCount(); i++) {
+            Float x = Float.parseFloat(mapObject.getObjects().get(i).getProperties().get("x").toString());
+            Float y = Float.parseFloat(mapObject.getObjects().get(i).getProperties().get("y").toString());
+            Vector2 objectLocation = new Vector2(x,y);
+            objectList.add(objectLocation);
+        } return objectList;
     }
+    @Override
+    public void convey() {
+        for (IPlayer player: players) {
+            if (conveyorBelts.get(player.getLocation()) == "oneArrowNorth") {
+                player.getSprite().translate(0, 150);
+            }
+            else if (conveyorBelts.get(player.getLocation()) == "oneArrowSouth") {
+                player.getSprite().translate(0, -150);
+            }
+            else if (conveyorBelts.get(player.getLocation()) == "oneArrowWest") {
+                player.getSprite().translate(-150, 0);
+            }
+            else if (conveyorBelts.get(player.getLocation()) == "oneArrowEast") {
+                player.getSprite().translate(150, 0);
+            }
+            else if (conveyorBelts.get(player.getLocation()) == "twoArrowSouth") {
+                player.getSprite().translate(0, -300);
+            }
+            else if (conveyorBelts.get(player.getLocation()) == "twoArrowWest") {
+                player.getSprite().translate(-300, 0);
+            }
+        }
 
+    }
     //to be removed in future iteration. This is just used for moving manually for testing
     @Override
     public void changePlayer(float x, float y, int id, float rotation){
@@ -254,19 +404,12 @@ public class BoardLogic implements IBoardLogic {
     }
 
     @Override
-    public void setLocation(Vector2 location){
-        myPlayer.getSprite().setX(location.x);
-        myPlayer.getSprite().setY(location.y);
-
-    }
-
-    @Override
     public void sendProgramList(ArrayList<Card> cardArrayList){
         readyForProgram = false;
         networkClient.sendProgramCards(cardArrayList);
     }
 
-
+    @Override
     public void doTurn(TurnPacket turnPacket){
         ArrayList<Card> cards = new ArrayList<>();
         CardTranslator cardGenerator = new CardTranslator();
@@ -278,23 +421,11 @@ public class BoardLogic implements IBoardLogic {
         for (int i = 0; i < cards.size(); i++) {
             System.out.println(turnPacket.ID.get(i));
             IPlayer playerToMove = players.get(turnPacket.ID.get(i)-1);
-            if(!checkOutOfBounds()){
-                System.out.println("Player fell and died");
-                myPlayer.changeLifeTokens(-1); //endre HP til spilleren
 
-                if (myPlayer.getLifeTokens() <= 0){ //hvis han ikke har HP igjen avslutt spillet
-                    setGameOver(true);
-                }
-                else {
-                    setLocation(myPlayer.getLastSavePoint()); //ellers endre posisjonen til siste savepoint
-                    networkClient.sendPlayer(myPlayer);
-                }
+            if(checkMove(playerToMove)){
+                cards.get(i).action(playerToMove, this);
             }
-            cards.get(i).action(playerToMove);
-        }
 
-        if(checkWin()){
-            networkClient.sendWin();
         }
         try{
             Thread.sleep(500);
@@ -307,7 +438,22 @@ public class BoardLogic implements IBoardLogic {
 
     @Override
     public void nextRound() {
+        convey();
+        rotatePlayer();
+        for (IPlayer pl: players) {
+            repairRobot(pl);
+        }
+        Laser laser = new Laser(this, laserTexture);
+        lasers = laser.createLasers(tiledMap);
         readyForProgram = true;
+
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                lasers = new ArrayList<>();
+            }
+        }, 2);
     }
 
     @Override
@@ -319,4 +465,5 @@ public class BoardLogic implements IBoardLogic {
     public TiledMap getTiledMap() {
         return this.tiledMap;
     }
+
 }

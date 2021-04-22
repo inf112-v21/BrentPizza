@@ -1,4 +1,9 @@
 package inf112.skeleton.app.GameLogic;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
+
+
+
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -62,7 +67,7 @@ public interface IPlayer {
      *
      * @return Players health points
      */
-    int getLifeTokens();
+    Integer getLifeTokens();
 
     /**
      * Makes changes to the players life tokens
@@ -72,23 +77,31 @@ public interface IPlayer {
 
     /**
      * Returns the players last save point
-     * @return
+     * @return Vector 2 with players location
      */
     Vector2 getLastSavePoint();
 
     /**
-     * returns the players last save point
-     * @param location
+     * Sets current players location as last save point
+     * @param location - vector2 position you want as players last save point
      */
     void setLastSavePoint(Vector2 location);
 
     /**
-     *Returns players dmg tokens
+     * Retrieves players damage tokens
+     * @return Integer which represents players damage token
      */
     Integer getDamageTokens();
 
     /**
-     * Edits dmg tokens
+     * changes the players damage token
+     * @param change - amount you want to change players damage token
      */
     void changeDamageTokens(Integer change);
+
+    /**
+     * Change players position to the given location
+     * @param location - Vector2 position you want the player to be at
+     */
+    void setLocation(Vector2 location);
 }

@@ -2,11 +2,8 @@ package inf112.skeleton.app;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import inf112.skeleton.app.Cards.*;
 import inf112.skeleton.app.GUI.HUD.Hud;
 import inf112.skeleton.app.GUI.RoboRallyGUI;
@@ -111,9 +108,9 @@ public class CardTests {
     @Test
     public void testIfCardMovePlayerOne(){
         Card one = new MoveOneCard();
-        one.action(myPlayer);
+        one.action(myPlayer, board);
 
-        Vector2 movement = new Vector2(500, 350);
+        Vector2 movement = new Vector2(350, 500);
 
         assertEquals(myPlayer.getLocation(), movement);
     }
@@ -123,9 +120,9 @@ public class CardTests {
     @Test
     public void testIfCardMovePlayerTwo(){
         Card two = new MoveTwoCard();
-        two.action(myPlayer);
+        two.action(myPlayer, board);
 
-        Vector2 movement = new Vector2(500, 200);
+        Vector2 movement = new Vector2(200, 500);
 
         assertEquals(myPlayer.getLocation(), movement);
     }
@@ -135,39 +132,39 @@ public class CardTests {
     @Test
     public void testIfCardMovePlayerThree(){
         Card three = new MoveThreeCard();
-        three.action(myPlayer);
+        three.action(myPlayer, board);
 
-        Vector2 movement = new Vector2(500, 50);
+        Vector2 movement = new Vector2(50, 500);
 
         assertEquals(myPlayer.getLocation(), movement);
     }
     /**
-     * Test if TurnLeftCard turn player one left.
+     * Test if TurnLeftCard turn player one right.
      */
     @Test
     public void testIfCardTurnPlayerRight(){
         Card move = new MoveOneCard();
         Card right = new TurnRightCard();
 
-        move.action(myPlayer);
-        right.action(myPlayer);
+        move.action(myPlayer, board);
+        right.action(myPlayer, board);
 
-        Vector2 movement = new Vector2(500, 350);
+        Vector2 movement = new Vector2(350, 500);
 
         assertEquals(myPlayer.getLocation(), movement);
     }
     /**
-     * Test if TurnRightCard turn player one right.
+     * Test if TurnRightCard turn player one left.
      */
     @Test
     public void testIfCardTurnPlayerLeft(){
         Card move = new MoveOneCard();
         Card left = new TurnLeftCard();
 
-        left.action(myPlayer);
-        move.action(myPlayer);
+        left.action(myPlayer, board);
+        move.action(myPlayer, board);
 
-        Vector2 movement = new Vector2(350, 500);
+        Vector2 movement = new Vector2(500, 350);
 
         assertEquals(myPlayer.getLocation(), movement);
     }

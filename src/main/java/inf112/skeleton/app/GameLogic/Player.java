@@ -8,10 +8,10 @@ public class Player implements IPlayer {
     private Sprite playerSprite;
     //To be used in the future
     private int collectedFlags;
-    private int lifeTokens;
+    private Integer lifeTokens;
     private Vector2 lastSavePoint;
 
-    private int damageTokens;
+    private Integer damageTokens;
 
     public Player(int id, Sprite sprite) {
         this.id = id;
@@ -38,8 +38,8 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public int getLifeTokens(){
-        return lifeTokens;
+    public Integer getLifeTokens(){
+        return this.lifeTokens;
     }
 
     @Override
@@ -70,24 +70,36 @@ public class Player implements IPlayer {
 
     @Override
     public void moveForward() {
-        if (Math.abs(playerSprite.getRotation()%360) == 180) {
+        if ((playerSprite.getRotation()%360) == -180) {
             playerSprite.translate(0, 150);
         }
-        if (Math.abs(playerSprite.getRotation()%360) == 270) {
+        else if ((playerSprite.getRotation()%360) == -270) {
             playerSprite.translate(150, 0);
         }
-        if (Math.abs(playerSprite.getRotation()%360) == 0) {
+        else if ((playerSprite.getRotation()%360) == 0) {
             playerSprite.translate(0, -150);
         }
-        if (Math.abs(playerSprite.getRotation()%360) == 90) {
+        else if ((playerSprite.getRotation()%360) == -90) {
             playerSprite.translate(-150, 0);
         }
+        else if ((playerSprite.getRotation()%360) == 180) {
+            playerSprite.translate(0, -150);
+        }
+        else if ((playerSprite.getRotation()%360) == 270) {
+            playerSprite.translate(-150, 0);
+        }
+        else if ((playerSprite.getRotation()%360) == 0) {
+            playerSprite.translate(0, 150);
+        }
+        else if ((playerSprite.getRotation()%360) == 90) {
+            playerSprite.translate(150, 0);
+        }
+
     }
 
     @Override
     public void rotatePlayer(float x){
         playerSprite.rotate(x);
-        System.out.println(playerSprite.getRotation());
     }
     @Override
     public void setRoation(float x){
@@ -104,6 +116,11 @@ public class Player implements IPlayer {
     @Override
     public void setY(float y){
         playerSprite.setY(y);
+    }
+    @Override
+    public void setLocation(Vector2 location){
+        this.getSprite().setX(location.x);
+        this.getSprite().setY(location.y);
     }
 
 }

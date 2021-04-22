@@ -1,11 +1,13 @@
 package inf112.skeleton.app.GameLogic;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import inf112.skeleton.app.Cards.Card;
 import inf112.skeleton.app.Packets.TurnPacket;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface IBoardLogic {
 
@@ -14,13 +16,13 @@ public interface IBoardLogic {
      *
      * @return true if player is inside the map, false otherwise
      */
-    boolean checkOutOfBounds();
+    boolean checkOutOfBounds(IPlayer player);
 
     /**
      * Checks if the player has won by walking on a flag,
      * @return true if myPlayer has won the game
      */
-    boolean checkWin();
+    boolean checkWin(IPlayer player);
 
     /**
      * Changes a given player in the list of players position based on the id
@@ -86,11 +88,6 @@ public interface IBoardLogic {
      */
     void sendProgramList(ArrayList<Card> cardArrayList);
 
-    /**
-     * Endre posisjonen til en player til en gitt posisjon
-     * @param location - du vil endre til
-     */
-    void setLocation(Vector2 location);
 
     /**
      * Moves all the players based on sorted recieved cards from the server
@@ -115,23 +112,14 @@ public interface IBoardLogic {
      */
     public TiledMap getTiledMap();
 
-    /**
-     * Returns a list of all holes
-     * @return
-     */
-    public ArrayList<Vector2> getHoles();
 
-    /**
-     * Builds a list of all repair sites that repair 2 hp
-     * @return
-     */
-    public ArrayList<Vector2> getRepairSites2();
+    public boolean checkMove(IPlayer player);
 
-    /**
-     * Builds a list of all repair sites that repair 1 hp
-     * @return
-     */
-    public ArrayList<Vector2> getRepairSites();
+    public void convey();
+    public ArrayList<Vector2> getObjects(String name);
+    public ArrayList<Vector2> getSpawnPoints();
+    public HashMap<Vector2, String> getConveyorBelts();
+    public HashMap<Vector2, String> getWalls();
 
     /**
      * Gives list of the location of all flags
@@ -139,29 +127,34 @@ public interface IBoardLogic {
      */
     public ArrayList<Vector2> getFlags();
 
+
     /**
      * Repairs this players robot
      */
-    public void repairRobot();
+    public void repairRobot(IPlayer player);
 
-    /**
-     * Checks if player has taken so much dmg that a life token is removed
-     */
-    public void robotFullDamage();
 
     /**
      * When robot falls outside of map this is to be run
      */
-    public void robotFallOutsideMap();
+    public void robotFullDamage(IPlayer player);
 
     /**
      * checks if robot falls in hole
      */
-    public void robotFallHole();
+    public void robotFallHole(IPlayer player);
 
     /**
      * Gives how many flags the player has collected
      * @return Nr of flags collected
      */
-    public Integer collectedFlags();
+    public Integer collectedFlags(IPlayer player);
+
+    public ArrayList<Sprite> getLaser();
+
+
+    public boolean checkMovement(IPlayer player);
+
+
+
 }

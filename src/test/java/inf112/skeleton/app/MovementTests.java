@@ -60,7 +60,7 @@ public class MovementTests {
     public void testIfPlayerMovesForward(){
 
         myPlayer.moveForward();
-        Vector2 move = new Vector2(500, 350);
+        Vector2 move = new Vector2(350, 500);
 
         assertEquals(myPlayer.getLocation(), move);
     }
@@ -72,7 +72,7 @@ public class MovementTests {
 
         myPlayer.rotatePlayer(-90);
         myPlayer.moveForward();
-        Vector2 move = new Vector2(350, 500);
+        Vector2 move = new Vector2(500, 650);
 
         assertEquals(myPlayer.getLocation(), move);
     }

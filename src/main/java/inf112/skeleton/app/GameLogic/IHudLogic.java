@@ -61,4 +61,14 @@ public interface IHudLogic {
      * Adds the listeners to the buttons in the handButton list
      */
     void addClickListenersHand();
+
+    /**
+     * Retrieves the priority numbers of the cards in hand
+     * @return list of hand cards priority number
+     */
+
+    ArrayList<Integer> getHandPriority();
+
+    Button getHealButton();
+
 }

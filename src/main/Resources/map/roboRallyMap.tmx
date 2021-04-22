@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="28" height="12" tilewidth="150" tileheight="150" infinite="0" nextlayerid="30" nextobjectid="328">
+ <tileset firstgid="1" source="tileset.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="28" height="12">
+  <data encoding="csv">
+67,3221225491,2684354585,34,2684354585,3221225491,19,2684354585,13,2684354585,13,13,13,38,2684354585,2684354622,2684354585,59,2684354622,3221225494,1610612797,3221225494,11,119,86,86,3221225522,86,
+1610612755,2147483662,34,33,34,3221225491,19,25,13,13,2684354574,2684354562,59,25,59,2684354622,59,1610612797,2684354622,37,1610612797,118,118,118,86,86,86,86,
+32,34,47,34,1610612758,3221225491,19,26,38,13,2,3221225497,59,59,59,2684354622,59,1610612797,2684354622,33,1610612797,118,107,118,1610612786,86,3221225522,2684354610,
+34,2684354611,2684354599,1610612787,34,3221225491,19,13,39,13,2,59,3221225534,3221225534,3221225534,0,59,1610612797,2684354622,37,0,3221225533,3221225533,3221225533,86,86,86,86,
+32,110,110,35,2684354574,2147483662,19,2684354595,51,13,2,1610612771,59,59,59,59,35,1610612797,2684354622,2684354595,37,37,37,37,1610612786,86,3221225522,2684354610,
+1610612755,1610612755,1610612755,1610612755,2147483662,3221225540,3758096398,1610612755,1610612755,1610612755,2147483662,1610612755,3221225546,3221225546,3221225546,3221225546,3221225546,33,59,61,61,61,61,61,86,86,86,86,
+1610612738,1073741838,1610612738,536870926,2684354628,56,1610612804,1073741838,2684354579,2684354579,2684354579,2684354579,37,3221225533,3221225534,3221225534,3221225534,59,59,3221225533,3221225533,3221225533,3221225533,3221225533,86,86,86,86,
+3758096435,7,1610612787,14,536870926,68,1073741838,1610612750,33,34,34,3221225504,46,46,46,46,1610612771,2684354634,2684354622,3221225507,37,37,37,2684354610,1610612786,86,50,2684354610,
+37,3221225474,37,3221225501,14,536870926,19,34,3221225523,20,20,20,1610612747,1610612747,1610612747,0,59,2684354634,2684354622,37,130,130,130,130,86,86,86,86,
+25,3221225474,37,26,77,2,19,20,51,2684354585,38,3221225504,46,46,46,11,59,2684354634,2684354622,37,1610612806,1073741875,118,118,1610612786,86,50,2684354610,
+81,1610612750,37,1610612771,3221225549,2,19,20,20,20,1073741838,2684354603,536870914,23,536870934,11,59,2684354634,2684354622,37,1610612806,39,122,3221225533,86,86,86,86,
+80,37,29,34,29,2,19,35,59,3221225591,43,38,67,1073741835,22,11,22,2684354634,2684354622,3758096433,1610612806,51,2684354621,118,86,86,50,86
+</data>
+ </layer>
+ <objectgroup id="2" name="hole" visible="0">
+  <object id="2" x="300" y="300" width="150" height="150"/>
+  <object id="3" x="1200" y="300" width="150" height="150"/>
+  <object id="4" x="1950" y="0" width="150" height="150"/>
+  <object id="5" x="600" y="1350" width="150" height="300"/>
+  <object id="6" x="1650" y="1650" width="150" height="150"/>
+  <object id="7" x="1500" y="1350" width="150" height="150"/>
+  <object id="8" x="3300" y="300" width="150" height="150"/>
+  <object id="9" x="600" y="900" width="450" height="150"/>
+  <object id="10" x="750" y="750" width="150" height="450"/>
+ </objectgroup>
+ <objectgroup id="3" name="rotateClockwise" visible="0">
+  <object id="11" x="1950" y="1500" width="150" height="150"/>
+  <object id="12" x="3300" y="1500" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="7" name="rotateCounterClockwise" visible="0">
+  <object id="84" x="2250" y="1200" width="150" height="150"/>
+  <object id="85" x="2250" y="450" width="150" height="150"/>
+  <object id="86" x="3000" y="450" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="8" name="lazers" visible="0">
+  <object id="23" x="300" y="1050" width="150" height="150">
+   <properties>
+    <property name="direction" value="west"/>
+   </properties>
+  </object>
+  <object id="24" x="1200" y="1200" width="150" height="150">
+   <properties>
+    <property name="direction" value="south"/>
+   </properties>
+  </object>
+  <object id="25" x="1200" y="600" width="150" height="150">
+   <properties>
+    <property name="direction" value="north"/>
+   </properties>
+  </object>
+  <object id="26" x="150" y="450" width="150" height="150">
+   <properties>
+    <property name="direction" value="east"/>
+   </properties>
+  </object>
+  <object id="27" x="3150" y="1350" width="150" height="150">
+   <properties>
+    <property name="direction" value="south"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="flag" visible="0">
+  <object id="13" name="Flag1" x="2550" y="750" width="150" height="150"/>
+  <object id="14" name="Flag2" x="2850" y="300" width="150" height="150"/>
+  <object id="15" name="Flag3" x="1200" y="1050" width="150" height="150"/>
+  <object id="16" name="Flag4" x="450" y="150" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="5" name="fix1" visible="0">
+  <object id="17" x="0" y="0" width="150" height="150"/>
+  <object id="18" x="1350" y="1650" width="150" height="150"/>
+  <object id="19" x="1800" y="1650" width="150" height="150"/>
+  <object id="20" x="3450" y="0" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="6" name="fix2" visible="0">
+  <object id="21" x="1050" y="300" width="150" height="150"/>
+  <object id="22" x="450" y="1350" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="17" name="spawns" visible="0">
+  <object id="78" name="Spawn1" x="3900" y="900" width="150" height="150"/>
+  <object id="79" name="Spawn2" x="3900" y="750" width="150" height="150"/>
+  <object id="80" name="Spawn3" x="3900" y="1200" width="150" height="150"/>
+  <object id="81" name="Spawn4" x="3900" y="450" width="150" height="150"/>
+  <object id="82" name="Spawn5" x="3900" y="1500" width="150" height="150"/>
+  <object id="83" name="Spawn6" x="3900" y="150" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="10" name="oneArrowNorth" visible="0">
+  <object id="28" x="900" y="750" width="150" height="150"/>
+  <object id="34" x="1050" y="1050" width="150" height="150"/>
+  <object id="36" x="1500" y="1650" width="150" height="150"/>
+  <object id="37" x="3300" y="1650" width="150" height="150"/>
+  <object id="38" x="3300" y="0" width="150" height="150"/>
+  <object id="87" x="900" y="600" width="150" height="150"/>
+  <object id="88" x="900" y="450" width="150" height="150"/>
+  <object id="89" x="900" y="300" width="150" height="150"/>
+  <object id="90" x="900" y="150" width="150" height="150"/>
+  <object id="91" x="900" y="0" width="150" height="150"/>
+  <object id="92" x="300" y="1050"/>
+  <object id="93" x="150" y="1050" width="150" height="150"/>
+  <object id="94" x="150" y="1200" width="150" height="150"/>
+  <object id="95" x="150" y="1350" width="150" height="150"/>
+  <object id="96" x="150" y="1500" width="150" height="150"/>
+  <object id="100" x="900" y="1200" width="150" height="150"/>
+  <object id="101" x="900" y="1350" width="150" height="150"/>
+  <object id="102" x="900" y="1500" width="150" height="150"/>
+  <object id="104" x="900" y="1650" width="150" height="150"/>
+  <object id="105" x="2250" y="1350" width="150" height="150"/>
+  <object id="106" x="2400" y="1500"/>
+  <object id="107" x="2250" y="1500" width="150" height="150"/>
+  <object id="108" x="2250" y="1650" width="150" height="150"/>
+  <object id="109" x="2250" y="0" width="150" height="150"/>
+  <object id="110" x="2250" y="150" width="150" height="150"/>
+  <object id="111" x="2250" y="300" width="150" height="150"/>
+  <object id="112" x="2700" y="1050" width="150" height="150"/>
+  <object id="113" x="2700" y="1200" width="150" height="150"/>
+  <object id="114" x="2700" y="1350" width="150" height="150"/>
+  <object id="115" x="2700" y="1500" width="150" height="150"/>
+  <object id="116" x="2700" y="1650" width="150" height="150"/>
+  <object id="117" x="2700" y="0" width="150" height="150"/>
+  <object id="118" x="2700" y="150" width="150" height="150"/>
+  <object id="119" x="2700" y="300" width="150" height="150"/>
+  <object id="120" x="2700" y="450" width="150" height="150"/>
+  <object id="121" x="2700" y="600" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="14" name="oneArrowEast" visible="0">
+  <object id="58" x="0" y="1500" width="150" height="150"/>
+  <object id="59" x="450" y="1050" width="150" height="150"/>
+  <object id="60" x="600" y="1200" width="150" height="150"/>
+  <object id="61" x="900" y="1050" width="150" height="150"/>
+  <object id="65" x="3450" y="1500" width="150" height="150"/>
+  <object id="122" x="0" y="900" width="150" height="150"/>
+  <object id="123" x="150" y="900" width="150" height="150"/>
+  <object id="124" x="300" y="900" width="150" height="150"/>
+  <object id="125" x="1050" y="900" width="150" height="150"/>
+  <object id="126" x="1200" y="900" width="150" height="150"/>
+  <object id="127" x="1350" y="900" width="150" height="150"/>
+  <object id="128" x="1500" y="900" height="150"/>
+  <object id="129" x="1500" y="900" width="150" height="150"/>
+  <object id="130" x="1650" y="900" width="150" height="150"/>
+  <object id="131" x="1500" y="1500" width="150" height="150"/>
+  <object id="132" x="1650" y="1500" width="150" height="150"/>
+  <object id="133" x="1800" y="1500" width="150" height="150"/>
+  <object id="134" x="1800" y="450" width="150" height="150"/>
+  <object id="135" x="1950" y="450" width="150" height="150"/>
+  <object id="136" x="2100" y="450" width="150" height="150"/>
+  <object id="137" x="1950" y="900" width="150" height="150"/>
+  <object id="138" x="2100" y="900" width="150" height="150"/>
+  <object id="139" x="2250" y="900" width="150" height="150"/>
+  <object id="140" x="2400" y="900" width="150" height="150"/>
+  <object id="141" x="2850" y="900" width="150" height="150"/>
+  <object id="142" x="3000" y="900" width="150" height="150"/>
+  <object id="143" x="3150" y="900" width="150" height="150"/>
+  <object id="144" x="3300" y="900" width="150" height="150"/>
+  <object id="145" x="3450" y="900" width="150" height="150"/>
+  <object id="146" x="3150" y="450" width="150" height="150"/>
+  <object id="147" x="3300" y="450" width="150" height="150"/>
+  <object id="148" x="3450" y="450" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="12" name="oneArrowSouth" visible="0">
+  <object id="40" x="600" y="600" width="150" height="150"/>
+  <object id="41" x="450" y="900" width="150" height="150"/>
+  <object id="42" x="600" y="1050" width="150" height="150"/>
+  <object id="44" x="1950" y="1650" width="150" height="150"/>
+  <object id="45" x="150" y="0" width="150" height="150"/>
+  <object id="149" x="750" y="1200" width="150" height="150"/>
+  <object id="150" x="750" y="1350" width="150" height="150"/>
+  <object id="151" x="750" y="1500" width="150" height="150"/>
+  <object id="152" x="750" y="1650" width="150" height="150"/>
+  <object id="153" x="750" y="0" width="150" height="150"/>
+  <object id="154" x="750" y="150" width="150" height="150"/>
+  <object id="155" x="750" y="300" width="150" height="150"/>
+  <object id="156" x="750" y="450" width="150" height="150"/>
+  <object id="157" x="1500" y="150" width="150" height="150"/>
+  <object id="158" x="1500" y="300" width="150" height="150"/>
+  <object id="159" x="1500" y="450" width="150" height="150"/>
+  <object id="160" x="1500" y="600" width="150" height="150"/>
+  <object id="161" x="2550" y="150" width="150" height="150"/>
+  <object id="162" x="2550" y="300" width="150" height="150"/>
+  <object id="163" x="2550" y="450" width="150" height="150"/>
+  <object id="164" x="2550" y="600" width="150" height="150"/>
+  <object id="165" x="3000" y="0" width="150" height="150"/>
+  <object id="168" x="3000" y="150" width="150" height="150"/>
+  <object id="169" x="3000" y="300" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="13" name="oneArrowWest" visible="0">
+  <object id="52" x="1650" y="150" width="150" height="150"/>
+  <object id="53" x="750" y="600" width="150" height="150"/>
+  <object id="170" x="150" y="150" width="150" height="150"/>
+  <object id="171" x="0" y="150" width="150" height="150"/>
+  <object id="172" x="0" y="750" width="150" height="150"/>
+  <object id="173" x="150" y="750" width="150" height="150"/>
+  <object id="174" x="300" y="750" width="150" height="150"/>
+  <object id="175" x="450" y="750" width="150" height="150"/>
+  <object id="176" x="600" y="750" width="150" height="150"/>
+  <object id="177" x="1050" y="750" width="150" height="150"/>
+  <object id="178" x="1200" y="750" width="150" height="150"/>
+  <object id="179" x="1350" y="750" width="150" height="150"/>
+  <object id="180" x="1500" y="750" width="150" height="150"/>
+  <object id="181" x="1650" y="750" width="150" height="150"/>
+  <object id="182" x="1800" y="1200" width="150" height="150"/>
+  <object id="183" x="1950" y="1200" width="150" height="150"/>
+  <object id="184" x="2100" y="1200" width="150" height="150"/>
+  <object id="185" x="2850" y="750" width="150" height="150"/>
+  <object id="186" x="3000" y="750" width="150" height="150"/>
+  <object id="187" x="3150" y="750" width="150" height="150"/>
+  <object id="188" x="3300" y="750" width="150" height="150"/>
+  <object id="189" x="3450" y="750" width="150" height="150"/>
+  <object id="190" x="3000" y="1200" width="150" height="150"/>
+  <object id="191" x="3150" y="1200" width="150" height="150"/>
+  <object id="192" x="3300" y="1200" width="150" height="150"/>
+  <object id="193" x="3450" y="1200" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="15" name="twoArrowWest" visible="0">
+  <object id="194" x="1800" y="750" width="150" height="150"/>
+  <object id="195" x="1950" y="750" width="150" height="150"/>
+  <object id="196" x="2100" y="750" width="150" height="150"/>
+  <object id="197" x="2250" y="750" height="150"/>
+  <object id="198" x="2250" y="750" width="150" height="150"/>
+  <object id="199" x="2400" y="750" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="16" name="twoArrowSouth" visible="0">
+  <object id="200" x="2550" y="1050" width="150" height="150"/>
+  <object id="201" x="2550" y="1200" width="150" height="150"/>
+  <object id="202" x="2550" y="1350" width="150" height="150"/>
+  <object id="203" x="2550" y="1500" width="150" height="150"/>
+  <object id="204" x="2550" y="1650" width="150" height="150"/>
+  <object id="205" x="3000" y="1350" width="150" height="150"/>
+  <object id="206" x="3000" y="1500" width="150" height="150"/>
+  <object id="207" x="3000" y="1650" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="25" name="wallWest">
+  <object id="208" x="0" y="300" width="150" height="150"/>
+  <object id="209" x="0" y="600" width="150" height="150"/>
+  <object id="210" x="0" y="1050" width="150" height="150"/>
+  <object id="211" x="0" y="1350" width="150" height="150"/>
+  <object id="212" x="150" y="450" width="150" height="150"/>
+  <object id="213" x="1050" y="150" width="150" height="150"/>
+  <object id="214" x="1050" y="600" width="150" height="150"/>
+  <object id="215" x="1950" y="150" width="150" height="150"/>
+  <object id="216" x="2850" y="1050" width="150" height="150"/>
+  <object id="217" x="2850" y="600" width="150" height="150"/>
+  <object id="218" x="3600" y="300" width="150" height="150"/>
+  <object id="219" x="3600" y="600" width="150" height="150"/>
+  <object id="220" x="3600" y="1050" width="150" height="150"/>
+  <object id="221" x="3600" y="1350" width="150" height="150"/>
+  <object id="311" x="2550" y="600" width="150" height="150"/>
+  <object id="312" x="1800" y="600" width="150" height="150"/>
+  <object id="313" x="1800" y="300" width="150" height="150"/>
+  <object id="314" x="750" y="300" width="150" height="150"/>
+  <object id="316" x="600" y="450" width="150" height="150"/>
+  <object id="317" x="600" y="600" width="150" height="150"/>
+  <object id="318" x="450" y="1050" width="150" height="150"/>
+  <object id="319" x="600" y="1500" width="150" height="150"/>
+  <object id="320" x="1200" y="1650" width="150" height="150"/>
+  <object id="321" x="1800" y="1350" width="150" height="150"/>
+  <object id="322" x="1800" y="1050" width="150" height="150"/>
+  <object id="323" x="2550" y="1050" width="150" height="150"/>
+  <object id="324" x="2250" y="1500" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="26" name="wallNorth">
+  <object id="222" x="300" y="0" width="150" height="150"/>
+  <object id="223" x="600" y="0" width="150" height="150"/>
+  <object id="224" x="1050" y="0" width="150" height="150"/>
+  <object id="225" x="1350" y="0" width="150" height="150"/>
+  <object id="226" x="2100" y="0" width="150" height="150"/>
+  <object id="227" x="2400" y="0" width="150" height="150"/>
+  <object id="228" x="450" y="1200" width="150" height="150"/>
+  <object id="229" x="450" y="1500" width="150" height="150"/>
+  <object id="230" x="1200" y="1200" width="150" height="150"/>
+  <object id="231" x="1350" y="1350" width="150" height="150"/>
+  <object id="233" x="1650" y="600" width="150" height="150"/>
+  <object id="234" x="2400" y="1050" width="150" height="150"/>
+  <object id="235" x="2850" y="0" width="150" height="150"/>
+  <object id="236" x="3150" y="0" width="150" height="150"/>
+  <object id="237" x="3300" y="150"/>
+  <object id="238" x="3450" y="0" width="150" height="150"/>
+  <object id="240" x="3150" y="1350" width="150" height="150"/>
+  <object id="241" x="3900" y="1650" width="150" height="150"/>
+  <object id="242" x="3900" y="1350" width="150" height="150"/>
+  <object id="243" x="3900" y="1050" width="150" height="150"/>
+  <object id="298" x="450" y="750" width="150" height="150"/>
+  <object id="300" x="1200" y="1500" width="150" height="150"/>
+  <object id="301" x="1201.33" y="600.667" width="150" height="150"/>
+  <object id="302" x="1050" y="750" width="150" height="150"/>
+  <object id="303" x="2400" y="750" width="150" height="150"/>
+  <object id="304" x="2850" y="750" width="150" height="150"/>
+  <object id="305" x="2850" y="1050" width="150" height="150"/>
+  <object id="306" x="3900" y="750" width="150" height="150"/>
+  <object id="307" x="3900" y="450" width="150" height="150"/>
+  <object id="308" x="3900" y="150" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="27" name="wallSouth">
+  <object id="244" x="3900" y="0" width="150" height="150"/>
+  <object id="245" x="3900" y="300" width="150" height="150"/>
+  <object id="246" x="3900" y="600" width="150" height="150"/>
+  <object id="247" x="2850" y="600" width="150" height="150"/>
+  <object id="248" x="3150" y="1650" width="150" height="150"/>
+  <object id="249" x="2850" y="1650" width="150" height="150"/>
+  <object id="250" x="2400" y="1650" width="150" height="150"/>
+  <object id="251" x="2100" y="1650" width="150" height="150"/>
+  <object id="252" x="2400" y="600" width="150" height="150"/>
+  <object id="253" x="1200" y="1350" width="150" height="150"/>
+  <object id="254" x="1050" y="1650" width="150" height="150"/>
+  <object id="255" x="1350" y="1650" width="150" height="150"/>
+  <object id="256" x="1200" y="600" width="150" height="150"/>
+  <object id="257" x="1050" y="600" width="150" height="150"/>
+  <object id="258" x="600" y="1650" width="150" height="150"/>
+  <object id="259" x="300" y="1650" width="150" height="150"/>
+  <object id="260" x="450" y="600" width="150" height="150"/>
+  <object id="288" x="450" y="1050" width="150" height="150"/>
+  <object id="291" x="450" y="1350" width="150" height="150"/>
+  <object id="292" x="1350" y="1200" width="150" height="150"/>
+  <object id="293" x="1200" y="1050" width="150" height="150"/>
+  <object id="294" x="1650" y="450" width="150" height="150"/>
+  <object id="295" x="2400" y="900" width="150" height="150"/>
+  <object id="296" x="2850" y="900" width="150" height="150"/>
+  <object id="297" x="3150" y="1200" width="150" height="150"/>
+  <object id="325" x="3900" y="900" width="150" height="150"/>
+  <object id="326" x="3900" y="1200" width="150" height="150"/>
+  <object id="327" x="3900" y="1500" width="150" height="150"/>
+ </objectgroup>
+ <objectgroup id="28" name="wallEast">
+  <object id="261" x="450" y="600" width="150" height="150"/>
+  <object id="262" x="450" y="450" width="150" height="150"/>
+  <object id="263" x="600" y="300" width="150" height="150"/>
+  <object id="264" x="300" y="1050" width="150" height="150"/>
+  <object id="265" x="450" y="1500" width="150" height="150"/>
+  <object id="266" x="1050" y="1650" width="150" height="150"/>
+  <object id="267" x="1650" y="1350" width="150" height="150"/>
+  <object id="268" x="1650" y="1050" width="150" height="150"/>
+  <object id="269" x="1650" y="600" width="150" height="150"/>
+  <object id="270" x="1650" y="300" width="150" height="150"/>
+  <object id="271" x="2400" y="600" width="150" height="150"/>
+  <object id="272" x="2400" y="1050" width="150" height="150"/>
+  <object id="273" x="2100" y="1500" width="150" height="150"/>
+  <object id="274" x="3450" y="1050" width="150" height="150"/>
+  <object id="275" x="4050" y="1350" width="150" height="150"/>
+  <object id="276" x="4050" y="1050" width="150" height="150"/>
+  <object id="277" x="4050" y="600" width="150" height="150"/>
+  <object id="278" x="4050" y="300" width="150" height="150"/>
+  <object id="279" x="0" y="450" width="150" height="150"/>
+  <object id="280" x="900" y="600" width="150" height="150"/>
+  <object id="281" x="900" y="150" width="150" height="150"/>
+  <object id="282" x="1800" y="150" width="150" height="150"/>
+  <object id="283" x="3450" y="300" width="150" height="150"/>
+  <object id="284" x="3450" y="600" width="150" height="150"/>
+  <object id="285" x="2700" y="600" width="150" height="150"/>
+  <object id="286" x="2700" y="1050" width="150" height="150"/>
+  <object id="287" x="3450" y="1350" width="150" height="150"/>
+ </objectgroup>
+</map>
