@@ -16,7 +16,7 @@ We also clearly see that the communication is less formal and more friendly now 
 The communication is flowing with greater ease now than before. We have experienced issues; however, they have mostly been of a technical nature rather then a 
 systematic group issue. We did however achieve a better communication rhythm and assignment diversification, therefore if we wanted to restart, 
 we would change our work rhythm earlier. We would also have been able to make some better structural choices for our assignment since we experienced that we had 
-to make some major changes due to the solution being too short sighted in the start. 
+to make some major changes due to the solution being too short sighted in the start. Furthermore, we would have to deep dive more in to libGdx library to understand its strength and limitations. Due to these issues we see that our code is quite monolithic and with a restart we would have taken measures to work against it. 
 
 ## Justification
 A critical part of this game that we have not been able to develop is the fact that a robot can not share a space with another robot. 
@@ -80,5 +80,40 @@ Insight on chosen demands for this iteration can be found both on the project bo
 **Demand:** Make map interactive and apply game rules (respawn).
 
 
+
+# Meeting summaries
+
+## Meeting summary 12-04 – Rolf missing.
+•	Recapped what needed to be done for last iteration.
+
+•	Rest of group did pair programming session. 
+
+•	Worked on respawn and conveyer belt.
+
+## Meeting summary 19-04 - All attended.
+
+•	Started pair programming session with entire group to fix bugs.
+
+•	Talked much about how to prioritize which tasks that needed to be done before last hand in.
+
+•	Agreed on distribution of work and set up pair programming sessions before next meeting.
+
+•	Planned next meeting to be for Wednesday 21.04.
+
+## Meeting summary 21.04 – All attended.
+
+•	Pair programming session with entire group to fix more bugs and add conveyer, repair sites and wall interaction to map. 
+
+•	Worked on improving GUI. 
+
+## Meeting summary 22.04 – All attended. 
+
+•	Worked on fixing more bugs.
+
+•	Pair programming sessions for each remaining assignment.
+
+•	Set the goal of finishing up all tasks within the day. 
+
+•	Talked about the retrospective and our assignment. 
 
 
