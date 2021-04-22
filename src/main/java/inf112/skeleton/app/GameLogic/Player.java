@@ -70,24 +70,36 @@ public class Player implements IPlayer {
 
     @Override
     public void moveForward() {
-        if (Math.abs(playerSprite.getRotation()%360) == 180) {
+        if ((playerSprite.getRotation()%360) == -180) {
             playerSprite.translate(0, 150);
         }
-        else if (Math.abs(playerSprite.getRotation()%360) == 270) {
+        else if ((playerSprite.getRotation()%360) == -270) {
             playerSprite.translate(150, 0);
         }
-        else if (Math.abs(playerSprite.getRotation()%360) == 0) {
+        else if ((playerSprite.getRotation()%360) == 0) {
             playerSprite.translate(0, -150);
         }
-        else if (Math.abs(playerSprite.getRotation()%360) == 90) {
+        else if ((playerSprite.getRotation()%360) == -90) {
             playerSprite.translate(-150, 0);
         }
+        else if ((playerSprite.getRotation()%360) == 180) {
+            playerSprite.translate(0, -150);
+        }
+        else if ((playerSprite.getRotation()%360) == 270) {
+            playerSprite.translate(-150, 0);
+        }
+        else if ((playerSprite.getRotation()%360) == 0) {
+            playerSprite.translate(0, 150);
+        }
+        else if ((playerSprite.getRotation()%360) == 90) {
+            playerSprite.translate(150, 0);
+        }
+
     }
 
     @Override
     public void rotatePlayer(float x){
         playerSprite.rotate(x);
-        System.out.println(playerSprite.getRotation());
     }
     @Override
     public void setRoation(float x){
@@ -109,7 +121,6 @@ public class Player implements IPlayer {
     public void setLocation(Vector2 location){
         this.getSprite().setX(location.x);
         this.getSprite().setY(location.y);
-
     }
 
 }

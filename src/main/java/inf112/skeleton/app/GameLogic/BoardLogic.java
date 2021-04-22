@@ -65,9 +65,8 @@ public class BoardLogic implements IBoardLogic {
 
         spawnpoints = getSpawnPoints();
         for (IPlayer player : players) {
-            player.setX(spawnpoints.get(player.getID()-1).x);
-            player.setY(spawnpoints.get(player.getID()-1).y);
-            player.setRoation(270);
+            player.setLocation(new Vector2(spawnpoints.get(player.getID()-1).x, spawnpoints.get(player.getID()-1).y));
+            player.setRoation(90);
         }
 
         //networkClient.sendPlayer(myPlayer);
