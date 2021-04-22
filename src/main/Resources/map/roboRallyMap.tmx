@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="2021.01.13" orientation="orthogonal" renderorder="right-down" width="28" height="12" tilewidth="150" tileheight="150" infinite="0" nextlayerid="30" nextobjectid="328">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="28" height="12" tilewidth="150" tileheight="150" infinite="0" nextlayerid="30" nextobjectid="328">
  <tileset firstgid="1" source="tileset.tsx"/>
  <layer id="1" name="Tile Layer 1" width="28" height="12">
   <data encoding="csv">
@@ -38,27 +38,27 @@
   <object id="86" x="3000" y="450" width="150" height="150"/>
  </objectgroup>
  <objectgroup id="8" name="lazers" visible="0">
-  <object id="23" x="420" y="1050" width="30" height="150">
+  <object id="23" x="300" y="1050" width="150" height="150">
    <properties>
-    <property name="direction" value="east"/>
+    <property name="direction" value="west"/>
    </properties>
   </object>
-  <object id="24" x="1200" y="1200" width="150" height="22">
+  <object id="24" x="1200" y="1200" width="150" height="150">
    <properties>
     <property name="direction" value="south"/>
    </properties>
   </object>
-  <object id="25" x="1200" y="724" width="150" height="26">
+  <object id="25" x="1200" y="600" width="150" height="150">
    <properties>
     <property name="direction" value="north"/>
    </properties>
   </object>
-  <object id="26" x="150" y="450" width="28" height="150">
+  <object id="26" x="150" y="450" width="150" height="150">
    <properties>
     <property name="direction" value="east"/>
    </properties>
   </object>
-  <object id="27" x="3150" y="1350" width="150" height="26">
+  <object id="27" x="3150" y="1350" width="150" height="150">
    <properties>
     <property name="direction" value="south"/>
    </properties>
@@ -284,7 +284,7 @@
   <object id="243" x="3900" y="1050" width="150" height="150"/>
   <object id="298" x="450" y="750" width="150" height="150"/>
   <object id="300" x="1200" y="1500" width="150" height="150"/>
-  <object id="301" x="1200" y="750" width="150" height="150"/>
+  <object id="301" x="1201.33" y="600.667" width="150" height="150"/>
   <object id="302" x="1050" y="750" width="150" height="150"/>
   <object id="303" x="2400" y="750" width="150" height="150"/>
   <object id="304" x="2850" y="750" width="150" height="150"/>
