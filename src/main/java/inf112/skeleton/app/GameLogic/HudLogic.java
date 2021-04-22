@@ -151,7 +151,7 @@ public class HudLogic implements IHudLogic {
             button.addListener(new ClickListener(){
                 public void clicked(InputEvent event, float x, float y) {
                     addToProgramButtonList(button);
-                    hud.updateStage();
+                    hud.updateStage(boardLogic);
                 }
             });
         }
@@ -188,6 +188,6 @@ public class HudLogic implements IHudLogic {
         updateHand();
         updateHandButtonList();
         updateButtonToHandMap();
-        hud.updateStage();
+        hud.updateStage(boardLogic);
     }
 }

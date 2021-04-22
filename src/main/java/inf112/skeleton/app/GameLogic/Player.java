@@ -8,10 +8,10 @@ public class Player implements IPlayer {
     private Sprite playerSprite;
     //To be used in the future
     private int collectedFlags;
-    private int lifeTokens;
+    private Integer lifeTokens;
     private Vector2 lastSavePoint;
 
-    private int damageTokens;
+    private Integer damageTokens;
 
     public Player(int id, Sprite sprite) {
         this.id = id;
@@ -38,7 +38,7 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public int getLifeTokens(){
+    public Integer getLifeTokens(){
         return this.lifeTokens;
     }
 

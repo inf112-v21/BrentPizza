@@ -62,7 +62,7 @@ public interface IPlayer {
      *
      * @return Players health points
      */
-    int getLifeTokens();
+    Integer getLifeTokens();
 
     /**
      * Makes changes to the players life tokens
