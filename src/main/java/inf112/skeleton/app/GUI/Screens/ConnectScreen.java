@@ -30,9 +30,8 @@ public class ConnectScreen {
     private Label.LabelStyle lStyle;
     private BitmapFont font;
     String ip = "localhost";
-    private boolean isTest = false;
 
-    public ConnectScreen(RoboRallyGUI rgb){
+    public ConnectScreen(RoboRallyGUI rgb, boolean isTest){
         sb = new SpriteBatch();
         viewport = new FitViewport(1920, 1080, new OrthographicCamera());
 
@@ -58,14 +57,13 @@ public class ConnectScreen {
         table.add(connectButton).expand(0,0).pad(10);
         stage.addActor(table);
 
-        if(isTest){
-            Scanner in = new Scanner(System.in);
-            ip = in.nextLine();
-        }
+
         connectButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
-
                 rgb.setGameScreenVisible(ip);
+                if(!isTest){
+                    setTest();
+                }
             }
         });
 
@@ -76,9 +74,10 @@ public class ConnectScreen {
         return this.stage;
     }
 
-    public void setTest(){
-        isTest = true;
+
+    public void setTest() {
+        Scanner in = new Scanner(System.in);
+        ip = in.nextLine();
+
     }
-
-
 }

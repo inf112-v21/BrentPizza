@@ -47,13 +47,6 @@ public class Laser {
             Float laserY = Float.parseFloat(laser.getProperties().get("y").toString()) + i*laserFactorY;
             laserrr.setX(laserX);
             laserrr.setY(laserY);
-            if(walls.get(new Vector2(laserX - laserFactorX, laserY)) == (wallToCheck) && i!=0 || laserY > 1650 || laserY < -26){
-                return laserSprites;
-            }
-            if(walls.get(new Vector2(laserX - laserFactorX, laserY)) == (wallToCheck1) ){
-                laserSprites.add(laserrr);
-                return laserSprites;
-            }
             for (IPlayer pl: boardLogic.getPlayers()) {
                 if(isInSameCell(pl.getLocation(), new Vector2(laserX, laserY))) {
                     System.out.println(pl.getDamageTokens());
@@ -62,6 +55,14 @@ public class Laser {
                     return laserSprites;
                 }
             }
+            if(walls.get(new Vector2(laserX - laserFactorX, laserY)) == (wallToCheck) && i!=0 || laserY > 1650 || laserY < -26){
+                return laserSprites;
+            }
+            if(walls.get(new Vector2(laserX - laserFactorX, laserY)) == (wallToCheck1) ){
+                laserSprites.add(laserrr);
+                return laserSprites;
+            }
+
 
             laserSprites.add(laserrr);
             i++;
@@ -81,13 +82,6 @@ public class Laser {
             Float laserY = initialY;
             laserrr.setX(laserX+laserFactorY);
             laserrr.setY(laserY);
-            if(walls.get(new Vector2(laserX, laserY)) == (wallToCheck) && i!=0 || laserX > 4200 || laserX < 0){
-                return laserSprites;
-            }
-            if(walls.get(new Vector2(laserX, laserY)) == (wallToCheck1)){
-                laserSprites.add(laserrr);
-                return laserSprites;
-            }
             for (IPlayer pl: boardLogic.getPlayers()) {
                 if(isInSameCell(pl.getLocation(), new Vector2(laserX, laserY))) {
                     System.out.println(pl.getDamageTokens());
@@ -96,6 +90,14 @@ public class Laser {
                     return laserSprites;
                 }
             }
+            if(walls.get(new Vector2(laserX, laserY)) == (wallToCheck) && i!=0 || laserX > 4200 || laserX < 0){
+                return laserSprites;
+            }
+            if(walls.get(new Vector2(laserX, laserY)) == (wallToCheck1)){
+                laserSprites.add(laserrr);
+                return laserSprites;
+            }
+
             laserSprites.add(laserrr);
             i++;
         }

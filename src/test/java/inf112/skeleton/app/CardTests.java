@@ -4,6 +4,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.utils.Timer;
 import inf112.skeleton.app.Cards.*;
 import inf112.skeleton.app.GUI.HUD.Hud;
 import inf112.skeleton.app.GUI.RoboRallyGUI;
@@ -44,10 +45,9 @@ public class CardTests {
         }
 
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
-        this.game = new RoboRallyGUI();
+        this.game = new RoboRallyGUI(true);
         cfg.setWindowedMode(1920, 1080);
         new Lwjgl3Application(this.game, cfg);
-
         this.gameScreen = this.game.getGameScreen();
 
         board = gameScreen.boardLogic;
@@ -57,6 +57,8 @@ public class CardTests {
 
         myPlayer.getSprite().setX(500);
         myPlayer.getSprite().setY(500);
+
+
 
         connection.stop();
     }

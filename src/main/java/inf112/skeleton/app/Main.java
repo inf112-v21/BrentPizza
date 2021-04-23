@@ -10,6 +10,7 @@ public class Main {
         cfg.setTitle("RoboRally");
         //needs fixing
         cfg.setWindowedMode(1920, 1080);
-        new Lwjgl3Application(new RoboRallyGUI(), cfg);
+        new Lwjgl3Application(new RoboRallyGUI(false
+        ), cfg);
     }
 }

@@ -21,6 +21,11 @@ public class RoboRallyGUI extends Game {
     boolean endScreenIsVisible = false;
     boolean connectScreenIsVisible = false;
     private InputMultiplexer inputMultiplexer;
+    private boolean isTest;
+
+    public RoboRallyGUI(boolean isTest){
+        this.isTest = isTest;
+    }
 
     @Override
     public void create() {
@@ -61,15 +66,16 @@ public class RoboRallyGUI extends Game {
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
     public void setConnectScreenVisible(){
-        connectScreen = new ConnectScreen(this);
-        connectScreen.setTest();
         startScreenIsVisible = false;
         gameScreenIsVisible = false;
         endScreenIsVisible = false;
         connectScreenIsVisible = true;
+        connectScreen = new ConnectScreen(this, isTest);
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(connectScreen.getStage());
         Gdx.input.setInputProcessor(inputMultiplexer);
+
+
     }
     public void setGameScreenVisible(String ip){
         try {

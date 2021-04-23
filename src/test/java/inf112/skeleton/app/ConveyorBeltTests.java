@@ -32,7 +32,7 @@ public class ConveyorBeltTests {
     @Before
     public void setUp(){
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
-        this.game = new RoboRallyGUI();
+        this.game = new RoboRallyGUI(true);
         cfg.setWindowedMode(1920, 1080);
         new Lwjgl3Application(this.game, cfg);
 

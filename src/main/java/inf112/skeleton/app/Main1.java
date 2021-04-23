@@ -9,6 +9,6 @@ public class Main1 {
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
         cfg.setTitle("RoboRally");
         cfg.setWindowedMode(1920, 1080);
-        new Lwjgl3Application(new RoboRallyGUI(), cfg);
+        new Lwjgl3Application(new RoboRallyGUI(false), cfg);
     }
 }
