@@ -5,7 +5,7 @@
 ## How to run the program
 
 The program is built using Maven. To run the game, run  serverStart.java in the master branch. The server will ask for amount of players in the console. 
-2 is recommended, however 11 is maximum. After that run either Main or Main1 ro start the game. To determine the robots action, choose 5 cards from the 9 options that are given and press the ready button. When the games is started, press the **Start**-button on the screen to start the game. If you are playing multi-player, the robots will not move until all players have chosen their cards and pressed ready. Keep eye on console to be properly updated on current game events. Proper GUI messages will be implemtned in the last iteration. 
+2 is recommended, however 6 is maximum. After that run either Main or Main1 to start the game. After you press the connect button you can press enter in terminal to connect to local host. Thn press enter on the screen. To determine the robots action, choose 5 cards from the 9 options that are given and press the ready button. When the games is started, press the **Play**-button on the screen to start the game. If you are playing multi-player, the robots will not move until all players have chosen their cards and pressed ready. Keep eye on console to be properly updated on current game events. Proper GUI messages will be implemtned in the last iteration. 
 
 Recommended screen resolution: 1920x1080
 
@@ -17,11 +17,13 @@ To play multiplayer run the **serverStart.java**, **main1.java** and **main.java
 # How to do testing
 To run the tests. Just press run on the test you wish to run. Then press connect and play. If the test is automatic you just have to close the application and then the test 
 will be done. There are however, two manual tests, in map test where you have to perform the tests manually. It is important that you use the cards to move when performing 
-these tests. 
+these tests. testFallOutsideMap test is in player life tests. 
 
 For the laser test you have to move within the proxcimity of the laser to recieve damage using the cards. 
 
 To perform whether the player respawn you have to move the player outside of the map using the cards. 
+
+To perform wether the player life adjusts you have to move the player outside of the map using the cards.
 
 ## Known bugs
 - For the game to work properly the generated window can't be altered. Otherwise when you choose cards you will not get the intended card. This is due to the way we set resoulution in the program, this needs to be a global setting instead of the local solution we are using now
