@@ -29,7 +29,8 @@ public class ConnectScreen {
     private SpriteBatch sb;
     private Label.LabelStyle lStyle;
     private BitmapFont font;
-    String ip;
+    String ip = "localhost";
+    private boolean isTest = false;
 
     public ConnectScreen(RoboRallyGUI rgb){
         sb = new SpriteBatch();
@@ -50,20 +51,20 @@ public class ConnectScreen {
         lStyle = new Label.LabelStyle(font,font.getColor());
         lStyle.background = npd;
 
-        Label label = new Label("Please input server IP in console after pressing connect, type localhost to connect to localhost", new Label.LabelStyle(lStyle));
+        Label label = new Label("Please input server IP in console before pressing connect, type localhost to connect to localhost", new Label.LabelStyle(lStyle));
 
         Button connectButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("src/main/Resources/buttons/connect.png"))));
         table.add(label);
         table.add(connectButton).expand(0,0).pad(10);
         stage.addActor(table);
 
+        if(isTest){
+            Scanner in = new Scanner(System.in);
+            ip = in.nextLine();
+        }
         connectButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
-                Scanner in = new Scanner(System.in);
-                ip = in.nextLine();
-                if(ip.equals("")){
-                    ip = "localhost";
-                }
+
                 rgb.setGameScreenVisible(ip);
             }
         });
@@ -74,5 +75,10 @@ public class ConnectScreen {
     public Stage getStage(){
         return this.stage;
     }
+
+    public void setTest(){
+        isTest = true;
+    }
+
 
 }

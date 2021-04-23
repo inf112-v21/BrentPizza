@@ -62,6 +62,7 @@ public class RoboRallyGUI extends Game {
     }
     public void setConnectScreenVisible(){
         connectScreen = new ConnectScreen(this);
+        connectScreen.setTest();
         startScreenIsVisible = false;
         gameScreenIsVisible = false;
         endScreenIsVisible = false;
@@ -100,6 +101,10 @@ public class RoboRallyGUI extends Game {
 
     public GameScreen getGameScreen() {
         return gameScreen;
+    }
+
+    public ConnectScreen getConnectScreen(){
+        return this.connectScreen;
     }
 }
 

@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import inf112.skeleton.app.Cards.*;
 import inf112.skeleton.app.GUI.HUD.Hud;
 import inf112.skeleton.app.GUI.RoboRallyGUI;
+import inf112.skeleton.app.GUI.Screens.ConnectScreen;
 import inf112.skeleton.app.GUI.Screens.GameScreen;
 import inf112.skeleton.app.GameLogic.HudLogic;
 import inf112.skeleton.app.GameLogic.IBoardLogic;
@@ -30,13 +31,14 @@ public class CardTests {
     private IPlayer myPlayer;
     private HudLogic hudLog;
     private GameScreen gameScreen;
+    private ConnectScreen connectScreen;
     Hud hud;
 
     @Before
     public void setUp(){
         ServerConnect connection = new ServerConnect();
         try{
-            connection.start(11, 7979, 7878);
+            connection.start(4, 7979, 7878);
         }catch (Exception e){
             System.out.println(e);
         }
