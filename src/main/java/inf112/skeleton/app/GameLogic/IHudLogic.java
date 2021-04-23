@@ -69,6 +69,10 @@ public interface IHudLogic {
 
     ArrayList<Integer> getHandPriority();
 
+    /**
+     * Retrieves heal button
+     * @return
+     */
     Button getHealButton();
 
 }

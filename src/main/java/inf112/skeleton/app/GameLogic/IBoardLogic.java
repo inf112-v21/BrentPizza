@@ -93,68 +93,104 @@ public interface IBoardLogic {
      * Moves all the players based on sorted recieved cards from the server
      * @param turnPacket List of cards to be played this turn and their respective player id
      */
-    public void doTurn(TurnPacket turnPacket);
+    void doTurn(TurnPacket turnPacket);
 
     /**
      * Set's the ready boolean of this class to true. This enables players to excecute the next program
      */
-    public void nextRound();
+    void nextRound();
 
     /**
      * Checks if the current turn is over
      * @return
      */
-    public boolean isReadyForNextRound();
+    boolean isReadyForNextRound();
 
     /**
      *
      * @return Current tiledMap
      */
-    public TiledMap getTiledMap();
+    TiledMap getTiledMap();
 
 
-    public boolean checkMove(IPlayer player);
+    /**
+     * Checks if players movement is allowed due to walls
+     * @param player
+     * @return False if movement is not allowed
+     */
+    boolean checkMove(IPlayer player);
 
-    public void convey();
-    public ArrayList<Vector2> getObjects(String name);
-    public ArrayList<Vector2> getSpawnPoints();
-    public HashMap<Vector2, String> getConveyorBelts();
-    public HashMap<Vector2, String> getWalls();
+    /**
+     * Checks if players movement is allowed
+     * @param player
+     * @return
+     */
+    boolean checkMovement(IPlayer player);
+
+    /**
+     * Moves players if their robot is on conveyer belt
+     */
+    void convey();
+
+    /**
+     * Retrieves list of objects position based on objects name in tmx file.
+     * @param name
+     * @return list of Vector2 positions
+     */
+    ArrayList<Vector2> getObjects(String name);
+
+    /**
+     * Retrieves list of positions for the spawn points
+     * @return list of Vector2 positions for spawn points
+     */
+    ArrayList<Vector2> getSpawnPoints();
+
+    /**
+     * Retrieves hashmap of the position of conveyer belts on map
+     * @return Hashmap with position as key and conveyer type as value
+     */
+    HashMap<Vector2, String> getConveyorBelts();
+
+    /**
+     * Retrieves hashmap of the position of walls on map
+     * @return Hashmap with position as key
+     */
+    HashMap<Vector2, String> getWalls();
 
     /**
      * Gives list of the location of all flags
      * @return
      */
-    public ArrayList<Vector2> getFlags();
+    ArrayList<Vector2> getFlags();
 
 
     /**
      * Repairs this players robot
      */
-    public void repairRobot(IPlayer player);
+    void repairRobot(IPlayer player);
 
 
     /**
      * When robot falls outside of map this is to be run
      */
-    public void robotFullDamage(IPlayer player);
+    void robotFullDamage(IPlayer player);
 
     /**
      * checks if robot falls in hole
      */
-    public void robotFallHole(IPlayer player);
+    void robotFallHole(IPlayer player);
 
     /**
      * Gives how many flags the player has collected
      * @return Nr of flags collected
      */
-    public Integer collectedFlags(IPlayer player);
+    Integer collectedFlags(IPlayer player);
 
-    public ArrayList<Sprite> getLaser();
-
-
-    public boolean checkMovement(IPlayer player);
-
+    /**
+     * Retrieves laser
+     * @return list of sprite
+     */
+    ArrayList<Sprite> getLaser();
 
 
 }
