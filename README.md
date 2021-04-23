@@ -19,5 +19,9 @@ To run the tests. Just press run on the test you wish to run. Then press connect
 will be done. There are however, two manual tests, in map test where you have to perform the tests manually. It is important that you use the cards to move when performing 
 these tests. 
 
+For the laser test you have to move within the proxcimity of the laser to recieve damage using the cards. 
+
+To perform whether the player respawn you have to move the player outside of the map using the cards. 
+
 ## Known bugs
 - For the game to work properly the generated window can't be altered. Otherwise when you choose cards you will not get the intended card. This is due to the way we set resoulution in the program, this needs to be a global setting instead of the local solution we are using now
