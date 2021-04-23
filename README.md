@@ -14,12 +14,14 @@ Start the server on one computer. Then start the application on both computers. 
 
 To play multiplayer run the **serverStart.java**, **main1.java** and **main.java**. Then press ready on both applications. 
 
-# How to do manual testing
-To run the tests. Just press run on the test you wish to run. Then you have to press ready in the application. Wait for the game to load. Then you have to close the application. We will move to a headless version of the application on the next iteration. 
+# How to do testing
+To run the tests. Just press run on the test you wish to run. Then press connect and play. If the test is automatic you just have to close the application and then the test 
+will be done. There are however, two manual tests, in map test where you have to perform the tests manually. It is important that you use the cards to move when performing 
+these tests. 
 
-To test the functionality where you add cards to the program table you have to do it manually. This is done by starting the server with 1-4 players. It is recommended to move to the center of the board to make sure you don't walk off when running the programmed cards. This is done by turning the robot around with spacebar and moving with arrow up. When in the center you can add a card from the players hand (in the bottom center of the screen) to the program cards (right of the screen) by clicking them in the order you want them to be excecuted. After you have added 1-5 cards and have the desired movement you want press "READY" to excecute the current program.
+For the laser test you have to move within the proxcimity of the laser to recieve damage using the cards. 
 
-To test everything else it is recommended to move with SPACE to turn the robot 90 degrees each time it is pressed and arrow up to move forward. This is just here for debuging and testing and makes it easier to test. If you use this method to walk over things their respective function will not activate. Example if you walk over a hole using this debugging tool you will not fall. But if you walk close to it, and use the cards (just a simple move 1 card will do) then you can activate it's functionality and test it's functionallity
+To perform whether the player respawn you have to move the player outside of the map using the cards. 
 
 ## Known bugs
 - For the game to work properly the generated window can't be altered. Otherwise when you choose cards you will not get the intended card. This is due to the way we set resoulution in the program, this needs to be a global setting instead of the local solution we are using now
