@@ -23,4 +23,3 @@ To test everything else it is recommended to move with SPACE to turn the robot 9
 
 ## Known bugs
 - For the game to work properly the generated window can't be altered. Otherwise when you choose cards you will not get the intended card. This is due to the way we set resoulution in the program, this needs to be a global setting instead of the local solution we are using now
-- Some walls allow you to walk through them when you walk backwards. 
