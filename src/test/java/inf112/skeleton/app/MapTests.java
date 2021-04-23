@@ -32,7 +32,7 @@ public class MapTests {
     public void setUp() {
         ServerConnect connection = new ServerConnect();
         try{
-            connection.start(11, 7979, 7878);
+            connection.start(4, 7979, 7878);
         }catch (Exception e){
             System.out.println(e);
         }

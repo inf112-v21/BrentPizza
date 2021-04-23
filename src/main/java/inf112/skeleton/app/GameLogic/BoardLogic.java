@@ -227,15 +227,19 @@ public class BoardLogic implements IBoardLogic {
     }
     @Override
     public void repairRobot(IPlayer player){
+
         for (Vector2 loc : repairsites) {
-            if(player.getLocation().equals(loc)){
+            if(player.getLocation().equals(loc) && player.getDamageTokens()>0){
                 player.changeDamageTokens(-1);
             }
         }
         for (Vector2 loc : repairsites2) {
-            if(player.getLocation().equals(loc)){
+            if(player.getLocation().equals(loc) && player.getDamageTokens()>=2){
                 player.changeDamageTokens(-2);
             }
+            else if(player.getLocation().equals(loc) && player.getDamageTokens()==1){
+                player.changeDamageTokens(-1);
+        }
         }
     }
     @Override
