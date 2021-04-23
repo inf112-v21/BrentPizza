@@ -48,8 +48,8 @@ public class MovementTests {
 
         myPlayer = board.getMyPlayer();
 
-        myPlayer.getSprite().setX(500);
-        myPlayer.getSprite().setY(500);
+        myPlayer.getSprite().setX(3900);
+        myPlayer.getSprite().setY(750);
 
         connection.stop();
     }
@@ -60,7 +60,7 @@ public class MovementTests {
     public void testIfPlayerMovesForward(){
 
         myPlayer.moveForward();
-        Vector2 move = new Vector2(350, 500);
+        Vector2 move = new Vector2(3750, 750);
 
         assertEquals(myPlayer.getLocation(), move);
     }
@@ -72,7 +72,7 @@ public class MovementTests {
 
         myPlayer.rotatePlayer(-90);
         myPlayer.moveForward();
-        Vector2 move = new Vector2(500, 650);
+        Vector2 move = new Vector2(3900, 900);
 
         assertEquals(myPlayer.getLocation(), move);
     }

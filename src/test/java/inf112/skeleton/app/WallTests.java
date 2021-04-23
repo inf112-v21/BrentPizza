@@ -9,6 +9,7 @@ import inf112.skeleton.app.GUI.RoboRallyGUI;
 import inf112.skeleton.app.GUI.Screens.GameScreen;
 import inf112.skeleton.app.GameLogic.IBoardLogic;
 import inf112.skeleton.app.GameLogic.IPlayer;
+import inf112.skeleton.app.Server.ServerConnect;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,7 +23,14 @@ public class WallTests {
     private GameScreen gameScreen;
 
     @Before
-    public void setUp() {
+    public void setUp(){
+
+        ServerConnect connection = new ServerConnect();
+        try{
+            connection.start(4, 7979, 7878);
+        }catch (Exception e){
+            System.out.println(e);
+        }
 
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
         this.game = new RoboRallyGUI(true);
@@ -34,6 +42,11 @@ public class WallTests {
         board = gameScreen.boardLogic;
 
         myPlayer = board.getMyPlayer();
+
+        myPlayer.getSprite().setX(3900);
+        myPlayer.getSprite().setY(750);
+
+        connection.stop();
     }
     /**
      * Test if player tries to go in wall direction.

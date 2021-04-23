@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import inf112.skeleton.app.GameLogic.IBoardLogic;
 import inf112.skeleton.app.GameLogic.IPlayer;
-import inf112.skeleton.app.GameLogic.Player;
 
 public class HudStatsGenerators {
 

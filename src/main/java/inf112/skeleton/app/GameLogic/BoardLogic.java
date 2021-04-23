@@ -1,6 +1,5 @@
 package inf112.skeleton.app.GameLogic;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -13,7 +12,6 @@ import inf112.skeleton.app.Cards.*;
 import inf112.skeleton.app.Network.NetworkClient;
 import inf112.skeleton.app.Packets.TurnPacket;
 
-import javax.lang.model.element.VariableElement;
 import java.util.ArrayList;
 import java.util.HashMap;
 

@@ -69,21 +69,19 @@ public class PlayerLifeTests {
         myPlayer.getSprite().setY(1350);
 
         for(int i = 0; i < 2; i++){
-            //board.robotFallHole();
+            board.robotFallHole(myPlayer);
             myPlayer.moveForward();
         }
         assertEquals(two, myPlayer.getLifeTokens());
     }
     /**
      * Test if the player loses one life if he falls of the map.
+     *
+     * Manuel test
+     * When the map is loaded choose some cards that will send the player outside the map.
      */
     @Test
     public void testFallsOutsideMap(){
-
-        myPlayer.rotatePlayer(-180);
-        myPlayer.moveForward();
-        myPlayer.moveForward();
-        //board.robotFallOutsideMap();
 
         assertEquals(two, myPlayer.getLifeTokens());
     }

@@ -3,10 +3,13 @@ package inf112.skeleton.app;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.math.Vector2;
+import inf112.skeleton.app.GUI.HUD.Hud;
 import inf112.skeleton.app.GUI.RoboRallyGUI;
 import inf112.skeleton.app.GUI.Screens.GameScreen;
+import inf112.skeleton.app.GameLogic.HudLogic;
 import inf112.skeleton.app.GameLogic.IBoardLogic;
 import inf112.skeleton.app.GameLogic.IPlayer;
+import inf112.skeleton.app.Server.ServerConnect;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -28,20 +31,35 @@ public class ConveyorBeltTests {
     private IBoardLogic board;
     private IPlayer myPlayer;
     private GameScreen gameScreen;
+    private HudLogic hudLog;
+    Hud hud;
 
     @Before
     public void setUp(){
+        ServerConnect connection = new ServerConnect();
+        try{
+            connection.start(4, 7979, 7878);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
         this.game = new RoboRallyGUI(true);
         cfg.setWindowedMode(1920, 1080);
         new Lwjgl3Application(this.game, cfg);
-
         this.gameScreen = this.game.getGameScreen();
 
         board = gameScreen.boardLogic;
 
+        hudLog = new HudLogic(board, hud);
         myPlayer = board.getMyPlayer();
 
+        myPlayer.getSprite().setX(500);
+        myPlayer.getSprite().setY(500);
+
+
+
+        connection.stop();
     }
     /**
      * Test if oneArrowWest conveyor-belt moves the player correctly.

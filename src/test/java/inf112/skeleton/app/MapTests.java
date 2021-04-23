@@ -27,7 +27,7 @@ public class MapTests {
     private IBoardLogic board;
     private IPlayer myPlayer;
     private GameScreen gameScreen;
-
+    Integer one = 1;
     @Before
     public void setUp() {
         ServerConnect connection = new ServerConnect();
@@ -62,7 +62,7 @@ public class MapTests {
      */
     @Test
     public void testIfPlayerIsInsideMap(){
-        //assertTrue(board.checkOutOfBounds());
+        assertTrue(board.checkOutOfBounds(myPlayer));
     }
     /**
      * Test If player touched a flag.
@@ -123,5 +123,16 @@ public class MapTests {
     public void testIfPlayerRespawns(){
 
         assertEquals(myPlayer.getLocation(), myPlayer.getLastSavePoint());
+    }
+    /**
+     * Test if the player takes one damage from laser.
+     *
+     * Manuel test
+     * When the map is loaded choose some cards that will send the player in front of a laser and close the window.
+     */
+    @Test
+    public void testRobotLaserDamage(){
+
+        assertEquals(one, myPlayer.getDamageTokens());
     }
 }

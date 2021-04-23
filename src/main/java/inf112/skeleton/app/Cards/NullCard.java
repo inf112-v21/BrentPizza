@@ -3,8 +3,6 @@ package inf112.skeleton.app.Cards;
 import inf112.skeleton.app.GameLogic.IBoardLogic;
 import inf112.skeleton.app.GameLogic.IPlayer;
 
-import java.util.Random;
-
 public class NullCard extends Card {
 
     public NullCard(){
